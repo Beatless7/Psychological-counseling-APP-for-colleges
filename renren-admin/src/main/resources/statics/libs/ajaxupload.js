@@ -546,7 +546,7 @@
          */
         _getResponse : function(iframe, file){            
             // getting response
-            var toDeleteFlag = false, self = this, settings = this._settings;   
+            var toDeleteFlag = false, reloadFlag = false, self = this, settings = this._settings;   
                
             addEvent(iframe, 'load', function(){                
                 
@@ -604,6 +604,13 @@
                         // Note that IE6 only understands text/html
                         if (doc.body.firstChild && doc.body.firstChild.nodeName.toUpperCase() == 'PRE') {
                             response = doc.body.firstChild.firstChild.nodeValue;
+                        }
+
+                        // For Chrome 83  
+                        // Chrome 83 
+                        if(!response && !reloadFlag){
+                            reloadFlag = true;
+                            return;
                         }
                         
                         if (response) {
