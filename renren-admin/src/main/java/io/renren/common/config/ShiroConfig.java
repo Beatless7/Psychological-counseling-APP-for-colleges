@@ -9,6 +9,7 @@
 package io.renren.common.config;
 
 import io.renren.modules.sys.shiro.UserRealm;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -60,6 +61,7 @@ public class ShiroConfig {
     @Bean("securityManager")
     public SecurityManager securityManager(UserRealm userRealm, SessionManager sessionManager) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setCacheManager(new EhCacheManager());
         securityManager.setRealm(userRealm);
         securityManager.setSessionManager(sessionManager);
         securityManager.setRememberMeManager(null);
