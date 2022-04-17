@@ -18,6 +18,9 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
       enabled: true
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
   redis:
     database: 0
     host: localhost
