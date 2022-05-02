@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,15 +8,15 @@
 
 package io.renren.common.xss;
 
-import io.renren.common.exception.RRException;
-import org.apache.commons.lang.StringUtils;
+import io.renren.common.exception.ErrorCode;
+import io.renren.common.exception.RenException;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * SQL过滤
- *
  * @author Mark sunlightcs@gmail.com
  */
-public class SQLFilter {
+public class SqlFilter {
 
     /**
      * SQL注入过滤
@@ -41,7 +41,7 @@ public class SQLFilter {
         //判断是否包含非法字符
         for(String keyword : keywords){
             if(str.indexOf(keyword) != -1){
-                throw new RRException("包含非法字符");
+                throw new RenException(ErrorCode.INVALID_SYMBOL);
             }
         }
 

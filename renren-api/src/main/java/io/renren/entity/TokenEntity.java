@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,7 +8,6 @@
 
 package io.renren.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -16,11 +15,9 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
-
-
 /**
  * 用户Token
- *
+ * 
  * @author Mark sunlightcs@gmail.com
  */
 @Data
@@ -28,19 +25,23 @@ import java.util.Date;
 public class TokenEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@TableId
+	private Long id;
 	/**
 	 * 用户ID
 	 */
-	@TableId(type= IdType.INPUT)
 	private Long userId;
+	/**
+	 * 用户token
+	 */
 	private String token;
 	/**
 	 * 过期时间
 	 */
-	private Date expireTime;
+	private Date expireDate;
 	/**
 	 * 更新时间
 	 */
-	private Date updateTime;
+	private Date updateDate;
 
 }

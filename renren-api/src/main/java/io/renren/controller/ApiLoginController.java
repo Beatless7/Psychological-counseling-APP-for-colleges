@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -10,9 +10,9 @@ package io.renren.controller;
 
 
 import io.renren.annotation.Login;
-import io.renren.common.utils.R;
+import io.renren.common.utils.Result;
 import io.renren.common.validator.ValidatorUtils;
-import io.renren.form.LoginForm;
+import io.renren.dto.LoginDTO;
 import io.renren.service.TokenService;
 import io.renren.service.UserService;
 import io.swagger.annotations.Api;
@@ -40,22 +40,22 @@ public class ApiLoginController {
 
     @PostMapping("login")
     @ApiOperation("登录")
-    public R login(@RequestBody LoginForm form){
+    public Result<Map<String, Object>> login(@RequestBody LoginDTO dto){
         //表单校验
-        ValidatorUtils.validateEntity(form);
+        ValidatorUtils.validateEntity(dto);
 
         //用户登录
-        Map<String, Object> map = userService.login(form);
+        Map<String, Object> map = userService.login(dto);
 
-        return R.ok(map);
+        return new Result().ok(map);
     }
 
     @Login
     @PostMapping("logout")
     @ApiOperation("退出")
-    public R logout(@ApiIgnore @RequestAttribute("userId") long userId){
+    public Result logout(@ApiIgnore @RequestAttribute("userId") Long userId){
         tokenService.expireToken(userId);
-        return R.ok();
+        return new Result();
     }
 
 }

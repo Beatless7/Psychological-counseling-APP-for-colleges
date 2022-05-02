@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
  * @author Mark sunlightcs@gmail.com
  */
 @Component("testTask")
-public class TestTask implements ITask {
+public class TestTask implements ITask{
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override

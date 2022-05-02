@@ -5,9 +5,9 @@
 	
 	<!-- 批量更新状态 -->
 	<update id="updateBatch"> 
-		update schedule_job set status = #{status} where job_id in 
-		<foreach item="jobId" collection="list"  open="(" separator="," close=")">
-			#{jobId}
+		update schedule_job set status = #{status} where id in
+		<foreach item="id" collection="ids"  open="(" separator="," close=")">
+			#{id}
 		</foreach>
 	</update>
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -13,7 +13,7 @@ import java.util.Map;
 
 /**
  * 返回数据
- *
+ * 
  * @author Mark sunlightcs@gmail.com
  */
 public class R extends HashMap<String, Object> {
@@ -54,6 +54,7 @@ public class R extends HashMap<String, Object> {
 		return new R();
 	}
 
+	@Override
 	public R put(String key, Object value) {
 		super.put(key, value);
 		return this;

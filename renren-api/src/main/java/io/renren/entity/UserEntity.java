@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,20 +8,17 @@
 
 package io.renren.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
-
-
 /**
  * 用户
- *
+ * 
  * @author Mark sunlightcs@gmail.com
  */
 @Data
@@ -33,7 +30,7 @@ public class UserEntity implements Serializable {
 	 * 用户ID
 	 */
 	@TableId
-	private Long userId;
+	private Long id;
 	/**
 	 * 用户名
 	 */
@@ -45,12 +42,11 @@ public class UserEntity implements Serializable {
 	/**
 	 * 密码
 	 */
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@JSONField(serialize=false)
 	private String password;
 	/**
 	 * 创建时间
 	 */
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	private Date createTime;
+	private Date createDate;
 
 }

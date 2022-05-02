@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -9,26 +9,32 @@
 package io.renren.modules.sys.service;
 
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import io.renren.common.utils.PageUtils;
+import io.renren.common.page.PageData;
+import io.renren.common.service.BaseService;
+import io.renren.modules.sys.dto.SysRoleDTO;
 import io.renren.modules.sys.entity.SysRoleEntity;
 
+import java.util.List;
 import java.util.Map;
 
 
 /**
  * 角色
- *
+ * 
  * @author Mark sunlightcs@gmail.com
  */
-public interface SysRoleService extends IService<SysRoleEntity> {
+public interface SysRoleService extends BaseService<SysRoleEntity> {
 
-	PageUtils queryPage(Map<String, Object> params);
+	PageData<SysRoleDTO> page(Map<String, Object> params);
 
-	void saveRole(SysRoleEntity role);
+	List<SysRoleDTO> list(Map<String, Object> params);
 
-	void update(SysRoleEntity role);
-	
-	void deleteBatch(Long[] roleIds);
+	SysRoleDTO get(Long id);
+
+	void save(SysRoleDTO dto);
+
+	void update(SysRoleDTO dto);
+
+	void delete(Long[] ids);
 
 }

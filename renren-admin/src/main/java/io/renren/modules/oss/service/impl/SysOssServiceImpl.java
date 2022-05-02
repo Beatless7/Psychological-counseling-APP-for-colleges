@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,10 +8,11 @@
 
 package io.renren.modules.oss.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import io.renren.common.utils.PageUtils;
-import io.renren.common.utils.Query;
+import io.renren.common.constant.Constant;
+import io.renren.common.page.PageData;
+import io.renren.common.service.impl.BaseServiceImpl;
 import io.renren.modules.oss.dao.SysOssDao;
 import io.renren.modules.oss.entity.SysOssEntity;
 import io.renren.modules.oss.service.SysOssService;
@@ -20,16 +21,15 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 
-@Service("sysOssService")
-public class SysOssServiceImpl extends ServiceImpl<SysOssDao, SysOssEntity> implements SysOssService {
+@Service
+public class SysOssServiceImpl extends BaseServiceImpl<SysOssDao, SysOssEntity> implements SysOssService {
 
 	@Override
-	public PageUtils queryPage(Map<String, Object> params) {
-		IPage<SysOssEntity> page = this.page(
-			new Query<SysOssEntity>().getPage(params)
+	public PageData<SysOssEntity> page(Map<String, Object> params) {
+		IPage<SysOssEntity> page = baseDao.selectPage(
+			getPage(params, Constant.CREATE_DATE, false),
+			new QueryWrapper<>()
 		);
-
-		return new PageUtils(page);
+		return getPageData(page, SysOssEntity.class);
 	}
-	
 }

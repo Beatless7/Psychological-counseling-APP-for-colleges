@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,12 +8,13 @@
 
 package io.renren.modules.oss.cloud;
 
-import com.qiniu.common.Zone;
 import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
+import com.qiniu.storage.Region;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
-import io.renren.common.exception.RRException;
+import io.renren.common.exception.ErrorCode;
+import io.renren.common.exception.RenException;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -24,7 +25,7 @@ import java.io.InputStream;
  *
  * @author Mark sunlightcs@gmail.com
  */
-public class QiniuCloudStorageService extends CloudStorageService {
+public class QiniuCloudStorageService extends AbstractCloudStorageService {
     private UploadManager uploadManager;
     private String token;
 
@@ -36,9 +37,10 @@ public class QiniuCloudStorageService extends CloudStorageService {
     }
 
     private void init(){
-        uploadManager = new UploadManager(new Configuration(Zone.autoZone()));
+        uploadManager = new UploadManager(new Configuration(Region.autoRegion()));
         token = Auth.create(config.getQiniuAccessKey(), config.getQiniuSecretKey()).
                 uploadToken(config.getQiniuBucketName());
+
     }
 
     @Override
@@ -46,10 +48,10 @@ public class QiniuCloudStorageService extends CloudStorageService {
         try {
             Response res = uploadManager.put(data, path, token);
             if (!res.isOK()) {
-                throw new RuntimeException("上传七牛出错：" + res.toString());
+                throw new RenException(ErrorCode.OSS_UPLOAD_FILE_ERROR, res.toString());
             }
         } catch (Exception e) {
-            throw new RRException("上传文件失败，请核对七牛配置信息", e);
+            throw new RenException(ErrorCode.OSS_UPLOAD_FILE_ERROR, e, "");
         }
 
         return config.getQiniuDomain() + "/" + path;
@@ -61,7 +63,7 @@ public class QiniuCloudStorageService extends CloudStorageService {
             byte[] data = IOUtils.toByteArray(inputStream);
             return this.upload(data, path);
         } catch (IOException e) {
-            throw new RRException("上传文件失败", e);
+            throw new RenException(ErrorCode.OSS_UPLOAD_FILE_ERROR, e, "");
         }
     }
 

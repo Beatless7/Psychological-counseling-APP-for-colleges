@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -11,7 +11,7 @@ package io.renren.common.annotation;
 import java.lang.annotation.*;
 
 /**
- * 数据过滤
+ * 数据过滤注解
  *
  * @author Mark sunlightcs@gmail.com
  */
@@ -19,19 +19,19 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface DataFilter {
-    /**  表的别名 */
+    /**
+     * 表的别名
+     */
     String tableAlias() default "";
 
-    /**  true：没有本部门数据权限，也能查询本人数据 */
-    boolean user() default true;
+    /**
+     * 用户ID
+     */
+    String userId() default "creator";
 
-    /**  true：拥有子部门数据权限 */
-    boolean subDept() default false;
-
-    /**  部门ID */
+    /**
+     * 部门ID
+     */
     String deptId() default "dept_id";
 
-    /**  用户ID */
-    String userId() default "user_id";
 }
-

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -9,7 +9,7 @@
 package io.renren.config;
 
 import io.renren.dao.*;
-import io.renren.utils.RRException;
+import io.renren.utils.RenException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -46,7 +46,7 @@ public class DbConfig {
         }else if("postgresql".equalsIgnoreCase(database)){
             return postgreSQLGeneratorDao;
         }else {
-            throw new RRException("不支持当前数据库：" + database);
+            throw new RenException("不支持当前数据库：" + database);
         }
     }
 }

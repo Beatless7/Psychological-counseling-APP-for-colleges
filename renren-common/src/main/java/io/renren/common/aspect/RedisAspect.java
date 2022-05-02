@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,7 +8,8 @@
 
 package io.renren.common.aspect;
 
-import io.renren.common.exception.RRException;
+import io.renren.common.exception.ErrorCode;
+import io.renren.common.exception.RenException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -32,7 +33,7 @@ public class RedisAspect {
     @Value("${renren.redis.open: false}")
     private boolean open;
 
-    @Around("execution(* io.renren.common.utils.RedisUtils.*(..))")
+    @Around("execution(* io.renren.common.redis.RedisUtils.*(..))")
     public Object around(ProceedingJoinPoint point) throws Throwable {
         Object result = null;
         if(open){
@@ -40,7 +41,7 @@ public class RedisAspect {
                 result = point.proceed();
             }catch (Exception e){
                 logger.error("redis error", e);
-                throw new RRException("Redis服务异常");
+                throw new RenException(ErrorCode.REDIS_ERROR);
             }
         }
         return result;

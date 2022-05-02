@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,8 +8,7 @@
 
 package io.renren.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.renren.common.service.impl.BaseServiceImpl;
 import io.renren.dao.TokenDao;
 import io.renren.entity.TokenEntity;
 import io.renren.service.TokenService;
@@ -19,48 +18,72 @@ import java.util.Date;
 import java.util.UUID;
 
 
-@Service("tokenService")
-public class TokenServiceImpl extends ServiceImpl<TokenDao, TokenEntity> implements TokenService {
+@Service
+public class TokenServiceImpl extends BaseServiceImpl<TokenDao, TokenEntity> implements TokenService {
 	/**
 	 * 12小时后过期
 	 */
 	private final static int EXPIRE = 3600 * 12;
 
 	@Override
-	public TokenEntity queryByToken(String token) {
-		return this.getOne(new QueryWrapper<TokenEntity>().eq("token", token));
+	public TokenEntity getByToken(String token) {
+		return baseDao.getByToken(token);
 	}
 
 	@Override
-	public TokenEntity createToken(long userId) {
+	public TokenEntity createToken(Long userId) {
 		//当前时间
 		Date now = new Date();
 		//过期时间
 		Date expireTime = new Date(now.getTime() + EXPIRE * 1000);
 
-		//生成token
-		String token = generateToken();
+		//用户token
+		String token;
 
-		//保存或更新用户token
-		TokenEntity tokenEntity = new TokenEntity();
-		tokenEntity.setUserId(userId);
-		tokenEntity.setToken(token);
-		tokenEntity.setUpdateTime(now);
-		tokenEntity.setExpireTime(expireTime);
-		this.saveOrUpdate(tokenEntity);
+		//判断是否生成过token
+		TokenEntity tokenEntity = baseDao.getByUserId(userId);
+		if(tokenEntity == null){
+			//生成一个token
+			token = generateToken();
+
+			tokenEntity = new TokenEntity();
+			tokenEntity.setUserId(userId);
+			tokenEntity.setToken(token);
+			tokenEntity.setUpdateDate(now);
+			tokenEntity.setExpireDate(expireTime);
+
+			//保存token
+			this.insert(tokenEntity);
+		}else{
+			//判断token是否过期
+			if(tokenEntity.getExpireDate().getTime() < System.currentTimeMillis()){
+				//token过期，重新生成token
+				token = generateToken();
+			}else {
+				token = tokenEntity.getToken();
+			}
+
+			tokenEntity.setToken(token);
+			tokenEntity.setUpdateDate(now);
+			tokenEntity.setExpireDate(expireTime);
+
+			//更新token
+			this.updateById(tokenEntity);
+		}
 
 		return tokenEntity;
 	}
 
 	@Override
-	public void expireToken(long userId){
+	public void expireToken(Long userId){
 		Date now = new Date();
 
 		TokenEntity tokenEntity = new TokenEntity();
 		tokenEntity.setUserId(userId);
-		tokenEntity.setUpdateTime(now);
-		tokenEntity.setExpireTime(now);
-		this.saveOrUpdate(tokenEntity);
+		tokenEntity.setUpdateDate(now);
+		tokenEntity.setExpireDate(now);
+
+		this.updateById(tokenEntity);
 	}
 
 	private String generateToken(){

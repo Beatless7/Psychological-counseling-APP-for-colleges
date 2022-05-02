@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -11,6 +11,11 @@ package io.renren;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * renren-generator
+ *
+ * @author Mark sunlightcs@gmail.com
+ */
 @SpringBootApplication
 public class GeneratorApplication {
 

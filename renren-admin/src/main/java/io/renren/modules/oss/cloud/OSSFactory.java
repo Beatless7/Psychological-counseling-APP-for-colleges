@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,27 +8,24 @@
 
 package io.renren.modules.oss.cloud;
 
-
-import io.renren.common.utils.ConfigConstant;
-import io.renren.common.utils.Constant;
+import io.renren.common.constant.Constant;
 import io.renren.common.utils.SpringContextUtils;
-import io.renren.modules.sys.service.SysConfigService;
+import io.renren.modules.sys.service.SysParamsService;
 
 /**
  * 文件上传Factory
- *
  * @author Mark sunlightcs@gmail.com
  */
 public final class OSSFactory {
-    private static SysConfigService sysConfigService;
+    private static SysParamsService sysParamsService;
 
     static {
-        OSSFactory.sysConfigService = (SysConfigService) SpringContextUtils.getBean("sysConfigService");
+        OSSFactory.sysParamsService = SpringContextUtils.getBean(SysParamsService.class);
     }
 
-    public static CloudStorageService build(){
+    public static AbstractCloudStorageService build(){
         //获取云存储配置信息
-        CloudStorageConfig config = sysConfigService.getConfigObject(ConfigConstant.CLOUD_STORAGE_CONFIG_KEY, CloudStorageConfig.class);
+        CloudStorageConfig config = sysParamsService.getValueObject(Constant.CLOUD_STORAGE_CONFIG_KEY, CloudStorageConfig.class);
 
         if(config.getType() == Constant.CloudService.QINIU.getValue()){
             return new QiniuCloudStorageService(config);

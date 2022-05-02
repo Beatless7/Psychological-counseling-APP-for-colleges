@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,52 +8,54 @@
 
 package io.renren.modules.sys.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+import io.renren.common.entity.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
-import java.util.List;
-
+import java.util.Date;
 
 /**
  * 部门管理
- *
+ * 
  * @author Mark sunlightcs@gmail.com
  */
 @Data
+@EqualsAndHashCode(callSuper=false)
 @TableName("sys_dept")
-public class SysDeptEntity implements Serializable {
+public class SysDeptEntity extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 部门ID
+	 * 上级ID
 	 */
-	@TableId
-	private Long deptId;
+	private Long pid;
 	/**
-	 * 上级部门ID，一级部门为0
+	 * 所有上级ID，用逗号分开
 	 */
-	private Long parentId;
+	private String pids;
 	/**
 	 * 部门名称
 	 */
 	private String name;
 	/**
+	 * 排序
+	 */
+	private Integer sort;
+	/**
+	 * 更新者
+	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private Long updater;
+	/**
+	 * 更新时间
+	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private Date updateDate;
+	/**
 	 * 上级部门名称
 	 */
-	@TableField(exist=false)
+	@TableField(exist = false)
 	private String parentName;
-	private Integer orderNum;
-	@TableLogic
-	private Integer delFlag;
-	/**
-	 * ztree属性
-	 */
-	@TableField(exist=false)
-	private Boolean open;
-	@TableField(exist=false)
-	private List<?> list;
+
 }

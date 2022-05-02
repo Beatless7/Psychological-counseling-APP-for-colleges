@@ -1,229 +1,355 @@
--- 菜单
-CREATE TABLE sys_menu (
-  menu_id bigint NOT NULL IDENTITY(1,1),
-  parent_id bigint,
-  name varchar(50),
-  url varchar(200),
-  perms varchar(500),
-  type int,
-  icon varchar(50),
-  order_num int,
-  PRIMARY KEY (menu_id)
-);
-
--- 部门
-CREATE TABLE sys_dept (
-  dept_id bigint NOT NULL IDENTITY(1,1),
-  parent_id bigint,
-  name varchar(50),
-  order_num int,
-  del_flag tinyint DEFAULT 0,
-PRIMARY KEY (dept_id)
-);
-
--- 系统用户
 CREATE TABLE sys_user (
-  user_id bigint NOT NULL IDENTITY(1,1),
+  id bigint NOT NULL,
   username varchar(50) NOT NULL,
   password varchar(100),
-  salt varchar(20),
+  real_name varchar(50),
+  head_url varchar(200),
+  gender  int,
   email varchar(100),
   mobile varchar(100),
-  status tinyint,
   dept_id bigint,
-  create_time datetime,
-  PRIMARY KEY (user_id),
-  UNIQUE (username)
-);
-
--- 角色
-CREATE TABLE sys_role (
-  role_id bigint NOT NULL IDENTITY(1,1),
-  role_name varchar(100),
-  remark varchar(100),
-  dept_id bigint,
-  create_time datetime,
-PRIMARY KEY (role_id)
-);
-
--- 用户与角色对应关系
-CREATE TABLE sys_user_role (
-  id bigint NOT NULL IDENTITY(1,1),
-  user_id bigint,
-  role_id bigint,
-PRIMARY KEY (id)
-);
-
--- 角色与菜单对应关系
-CREATE TABLE sys_role_menu (
-  id bigint NOT NULL IDENTITY(1,1),
-  role_id bigint,
-  menu_id bigint,
-PRIMARY KEY (id)
-);
-
--- 角色与部门对应关系
-CREATE TABLE sys_role_dept (
-  id bigint NOT NULL IDENTITY(1,1),
-  role_id bigint,
-  dept_id bigint,
-PRIMARY KEY (id)
-);
-
--- 系统配置信息
-CREATE TABLE sys_config (
-  id bigint NOT NULL IDENTITY(1,1),
-  param_key varchar(50),
-  param_value varchar(2000),
-  status tinyint DEFAULT 1,
-  remark varchar(500),
-  PRIMARY KEY (id),
-  UNIQUE (param_key)
-);
-
--- 数据字典
-CREATE TABLE sys_dict (
-  id bigint NOT NULL IDENTITY(1,1),
-  name varchar(100) NOT NULL,
-  type varchar(100) NOT NULL,
-  code varchar(100) NOT NULL,
-  value varchar(1000) NOT NULL,
-  order_num int DEFAULT 0,
-  remark varchar(255),
-  del_flag tinyint DEFAULT 0,
-  PRIMARY KEY (id),
-  UNIQUE (type,code)
-);
-
--- 系统日志
-CREATE TABLE sys_log (
-  id bigint NOT NULL IDENTITY(1,1),
-  username varchar(50),
-  operation varchar(50),
-  method varchar(200),
-  params varchar(5000),
-  time bigint NOT NULL,
-  ip varchar(64),
+  super_admin  int,
+  status  int,
+  creator bigint,
   create_date datetime,
-PRIMARY KEY (id)
+  updater bigint,
+  update_date datetime,
+  primary key (id)
 );
 
+CREATE UNIQUE INDEX uk_sys_user_username on sys_user(username);
+CREATE INDEX idx_sys_user_create_date on sys_user(create_date);
 
 
--- 初始数据
-SET IDENTITY_INSERT sys_user ON;
-INSERT INTO sys_user (user_id, username, password, salt, email, mobile, status, dept_id, create_time) VALUES ('1', 'admin', 'e1153123d7d180ceeb820d577ff119876678732a68eef4e6ffc0b1f06a01f91b', 'YzcmCZNvbXocrsz9dm8e', 'root@renren.io', '13612345678', '1', '1', '2016-11-11 11:11:11');
-SET IDENTITY_INSERT sys_user OFF;
-
-SET IDENTITY_INSERT sys_menu ON;
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('1', '0', '系统管理', NULL, NULL, '0', 'fa fa-cog', '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('2', '1', '管理员管理', 'modules/sys/user.html', NULL, '1', 'fa fa-user', '1');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('3', '1', '角色管理', 'modules/sys/role.html', NULL, '1', 'fa fa-user-secret', '2');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('4', '1', '菜单管理', 'modules/sys/menu.html', NULL, '1', 'fa fa-th-list', '3');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('5', '1', 'SQL监控', 'druid/sql.html', NULL, '1', 'fa fa-bug', '4');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('15', '2', '查看', NULL, 'sys:user:list,sys:user:info', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('16', '2', '新增', NULL, 'sys:user:save,sys:role:select', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('17', '2', '修改', NULL, 'sys:user:update,sys:role:select', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('18', '2', '删除', NULL, 'sys:user:delete', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('19', '3', '查看', NULL, 'sys:role:list,sys:role:info', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('20', '3', '新增', NULL, 'sys:role:save,sys:menu:perms', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('21', '3', '修改', NULL, 'sys:role:update,sys:menu:perms', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('22', '3', '删除', NULL, 'sys:role:delete', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('23', '4', '查看', NULL, 'sys:menu:list,sys:menu:info', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('24', '4', '新增', NULL, 'sys:menu:save,sys:menu:select', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('25', '4', '修改', NULL, 'sys:menu:update,sys:menu:select', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('26', '4', '删除', NULL, 'sys:menu:delete', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('27', '1', '参数管理', 'modules/sys/config.html', 'sys:config:list,sys:config:info,sys:config:save,sys:config:update,sys:config:delete', '1', 'fa fa-sun-o', '6');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('29', '1', '系统日志', 'modules/sys/log.html', 'sys:log:list', '1', 'fa fa-file-text-o', '7');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('31', '1', '部门管理', 'modules/sys/dept.html', NULL, '1', 'fa fa-file-code-o', '1');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('32', '31', '查看', NULL, 'sys:dept:list,sys:dept:info', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('33', '31', '新增', NULL, 'sys:dept:save,sys:dept:select', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('34', '31', '修改', NULL, 'sys:dept:update,sys:dept:select', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('35', '31', '删除', NULL, 'sys:dept:delete', '2', NULL, '0');
-INSERT INTO sys_menu(menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES (36, 1, '字典管理', 'modules/sys/dict.html', NULL, 1, 'fa fa-bookmark-o', 6);
-INSERT INTO sys_menu(menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES (37, 36, '查看', NULL, 'sys:dict:list,sys:dict:info', 2, NULL, 6);
-INSERT INTO sys_menu(menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES (38, 36, '新增', NULL, 'sys:dict:save', 2, NULL, 6);
-INSERT INTO sys_menu(menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES (39, 36, '修改', NULL, 'sys:dict:update', 2, NULL, 6);
-INSERT INTO sys_menu(menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES (40, 36, '删除', NULL, 'sys:dict:delete', 2, NULL, 6);
-SET IDENTITY_INSERT sys_menu OFF;
-
-SET IDENTITY_INSERT sys_dept ON;
-INSERT INTO sys_dept (dept_id, parent_id, name, order_num, del_flag) VALUES ('1', '0', '人人开源集团', '0', '0');
-INSERT INTO sys_dept (dept_id, parent_id, name, order_num, del_flag) VALUES ('2', '1', '长沙分公司', '1', '0');
-INSERT INTO sys_dept (dept_id, parent_id, name, order_num, del_flag) VALUES ('3', '1', '上海分公司', '2', '0');
-INSERT INTO sys_dept (dept_id, parent_id, name, order_num, del_flag) VALUES ('4', '3', '技术部', '0', '0');
-INSERT INTO sys_dept (dept_id, parent_id, name, order_num, del_flag) VALUES ('5', '3', '销售部', '1', '0');
-SET IDENTITY_INSERT sys_dept OFF;
-
-SET IDENTITY_INSERT sys_dict ON;
-INSERT INTO sys_dict(id, name, type, code, value, order_num, remark, del_flag) VALUES (1, '性别', 'sex', '0', '女', 0, NULL, 0);
-INSERT INTO sys_dict(id, name, type, code, value, order_num, remark, del_flag) VALUES (2, '性别', 'sex', '1', '男', 1, NULL, 0);
-INSERT INTO sys_dict(id, name, type, code, value, order_num, remark, del_flag) VALUES (3, '性别', 'sex', '2', '未知', 3, NULL, 0);
-SET IDENTITY_INSERT sys_dict OFF;
+CREATE TABLE sys_dept (
+  id bigint NOT NULL,
+  pid bigint,
+  pids varchar(500),
+  name varchar(50),
+  sort  int,
+  creator bigint,
+  create_date datetime,
+  updater bigint,
+  update_date datetime,
+  primary key (id)
+);
+CREATE INDEX idx_sys_dept_pid on sys_dept(pid);
+CREATE INDEX idx_sys_dept_idx_sort on sys_dept(sort);
 
 
--- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- 云存储服务相关SQL，如果不使用该功能，则不用执行下面SQL -------------------------------------------------------------------------------------------------------------
--- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+create table sys_role
+(
+  id                   bigint NOT NULL,
+  name                 varchar(50),
+  remark               varchar(100),
+  dept_id              bigint,
+  creator              bigint,
+  create_date          datetime,
+  updater              bigint,
+  update_date          datetime,
+  primary key (id)
+);
 
--- 文件上传
+CREATE INDEX idx_sys_role_dept_id on sys_role(dept_id);
+
+
+create table sys_menu
+(
+  id                   bigint NOT NULL,
+  pid                  bigint,
+  name                 varchar(200),
+  url                  varchar(200),
+  permissions          varchar(500),
+  type                  int,
+  icon                 varchar(50),
+  sort                  int,
+  creator              bigint,
+  create_date          datetime,
+  updater              bigint,
+  update_date          datetime,
+  primary key (id)
+);
+
+CREATE INDEX idx_sys_menu_pid on sys_menu(pid);
+CREATE INDEX idx_sys_menu_sort on sys_menu(sort);
+
+
+create table sys_role_user
+(
+  id                   bigint NOT NULL,
+  role_id              bigint,
+  user_id              bigint,
+  creator              bigint,
+  create_date          datetime,
+  primary key (id)
+);
+
+CREATE INDEX idx_sys_role_user_role_id on sys_role_user(role_id);
+CREATE INDEX idx_sys_role_user_user_id on sys_role_user(user_id);
+
+
+create table sys_role_menu
+(
+  id                   bigint NOT NULL,
+  role_id              bigint,
+  menu_id              bigint,
+  creator              bigint,
+  create_date          datetime,
+  primary key (id)
+);
+
+CREATE INDEX idx_sys_role_menu_role_id on sys_role_menu(role_id);
+CREATE INDEX idx_sys_role_menu_menu_id on sys_role_menu(menu_id);
+
+
+create table sys_role_data_scope
+(
+  id                   bigint NOT NULL,
+  role_id              bigint,
+  dept_id              bigint,
+  creator              bigint,
+  create_date          datetime,
+  primary key (id)
+);
+CREATE INDEX idx_data_scope_role_id on sys_role_data_scope(role_id);
+
+
+create table sys_params
+(
+  id                   bigint NOT NULL,
+  param_code           varchar(32),
+  param_value          varchar(2000),
+  param_type            int DEFAULT 1 NOT NULL,
+  remark               varchar(200),
+  creator              bigint,
+  create_date          datetime,
+  updater              bigint,
+  update_date          datetime,
+  primary key (id)
+);
+CREATE UNIQUE INDEX uk_sys_params_param_code on sys_params(param_code);
+CREATE INDEX idx_sys_params_create_date on sys_params(create_date);
+
+
+create table sys_dict_type
+(
+    id                   bigint NOT NULL,
+    dict_type            varchar(100),
+    dict_name            varchar(255),
+    remark               varchar(255),
+    sort                 int,
+    creator              bigint,
+    create_date          datetime,
+    updater              bigint,
+    update_date          datetime,
+    primary key (id)
+);
+CREATE UNIQUE INDEX uk_sys_dict_type_dict_type on sys_dict_type(dict_type);
+
+
+create table sys_dict_data
+(
+    id                   bigint NOT NULL,
+    dict_type_id         bigint NOT NULL,
+    dict_label           varchar(255),
+    dict_value           varchar(255),
+    remark               varchar(255),
+    sort                 int,
+    creator              bigint,
+    create_date          datetime,
+    updater              bigint,
+    update_date          datetime,
+    primary key (id)
+);
+CREATE INDEX idx_sys_dict_data_sort on sys_dict_data(sort);
+CREATE UNIQUE INDEX uk_dict_type_value on sys_dict_data(dict_type_id, dict_value);
+
+
+create table sys_log_login
+(
+  id                   bigint NOT NULL,
+  operation            int,
+  status               int,
+  user_agent           varchar(500),
+  ip                   varchar(32),
+  creator_name         varchar(50),
+  creator              bigint,
+  create_date          datetime,
+  primary key (id)
+);
+CREATE INDEX idx_login_status on sys_log_login(status);
+CREATE INDEX idx_login_create_date on sys_log_login(create_date);
+
+
+create table sys_log_operation
+(
+  id                   bigint NOT NULL,
+  operation            varchar(50),
+  request_uri          varchar(200),
+  request_method       varchar(20),
+  request_params       text,
+  request_time          int,
+  user_agent           varchar(500),
+  ip                   varchar(32),
+  status                int,
+  creator_name         varchar(50),
+  creator              bigint,
+  create_date          datetime,
+  primary key (id)
+);
+CREATE INDEX idx_operation_create_date on sys_log_operation(create_date);
+
+
+create table sys_log_error
+(
+  id                   bigint NOT NULL,
+  request_uri          varchar(200),
+  request_method       varchar(20),
+  request_params       text,
+  user_agent           varchar(500),
+  ip                   varchar(32),
+  error_info           text,
+  creator              bigint,
+  create_date          datetime,
+  primary key (id)
+);
+CREATE INDEX idx_error_create_date on sys_log_error(create_date);
+
+
 CREATE TABLE sys_oss (
-  id bigint NOT NULL IDENTITY(1,1),
+  id bigint NOT NULL,
   url varchar(200),
+  creator bigint,
+  create_date datetime,
+  PRIMARY KEY (id)
+);
+CREATE INDEX idx_sys_oss_create_date on sys_oss(create_date);
+
+
+CREATE TABLE schedule_job (
+  id bigint NOT NULL,
+  bean_name varchar(200),
+  params varchar(2000),
+  cron_expression varchar(100),
+  status  int,
+  remark varchar(255),
+  creator bigint,
+  create_date datetime,
+  updater bigint,
+  update_date datetime,
+  PRIMARY KEY (id)
+);
+
+CREATE INDEX idx_schedule_job_create_date on schedule_job(create_date);
+
+
+CREATE TABLE schedule_job_log (
+  id bigint NOT NULL,
+  job_id bigint NOT NULL,
+  bean_name varchar(200),
+  params varchar(2000),
+  status  int,
+  error varchar(2000),
+  times  int,
   create_date datetime,
   PRIMARY KEY (id)
 );
 
-INSERT INTO sys_config (param_key, param_value, status, remark) VALUES ('CLOUD_STORAGE_CONFIG_KEY',  '{"aliyunAccessKeyId":"","aliyunAccessKeySecret":"","aliyunBucketName":"","aliyunDomain":"","aliyunEndPoint":"","aliyunPrefix":"","qcloudBucketName":"","qcloudDomain":"","qcloudPrefix":"","qcloudSecretId":"","qcloudSecretKey":"","qiniuAccessKey":"NrgMfABZxWLo5B-YYSjoE8-AZ1EISdi1Z3ubLOeZ","qiniuBucketName":"ios-app","qiniuDomain":"http://7xlij2.com1.z0.glb.clouddn.com","qiniuPrefix":"upload","qiniuSecretKey":"uIwJHevMRWU0VLxFvgy0tAcOdGqasdtVlJkdy6vV","type":1}', '0', '云存储配置信息');
-SET IDENTITY_INSERT sys_menu ON;
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('30', '1', '文件上传', 'modules/oss/oss.html', 'sys:oss:all', '1', 'fa fa-file-image-o', '6');
-SET IDENTITY_INSERT sys_menu OFF;
+CREATE INDEX idx_job_log_job_id on schedule_job_log(job_id);
+CREATE INDEX idx_job_log_create_date on schedule_job_log(create_date);
 
--- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- 定时任务相关表结构，如果不使用job模块，则不用执行下面SQL -------------------------------------------------------------------------------------------------------------
--- ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
--- 初始化菜单数据
-SET IDENTITY_INSERT sys_menu ON;
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('6', '1', '定时任务', 'modules/job/schedule.html', NULL, '1', 'fa fa-tasks', '5');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('7', '6', '查看', NULL, 'sys:schedule:list,sys:schedule:info', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('8', '6', '新增', NULL, 'sys:schedule:save', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('9', '6', '修改', NULL, 'sys:schedule:update', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('10', '6', '删除', NULL, 'sys:schedule:delete', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('11', '6', '暂停', NULL, 'sys:schedule:pause', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('12', '6', '恢复', NULL, 'sys:schedule:resume', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('13', '6', '立即执行', NULL, 'sys:schedule:run', '2', NULL, '0');
-INSERT INTO sys_menu (menu_id, parent_id, name, url, perms, type, icon, order_num) VALUES ('14', '6', '日志列表', NULL, 'sys:schedule:log', '2', NULL, '0');
-SET IDENTITY_INSERT sys_menu OFF;
-
--- 定时任务
-CREATE TABLE schedule_job (
-  job_id bigint NOT NULL IDENTITY(1,1),
-  bean_name varchar(200),
-  params varchar(2000),
-  cron_expression varchar(100),
-  status tinyint,
-  remark varchar(255),
-  create_time datetime,
-  PRIMARY KEY (job_id)
+CREATE TABLE sys_user_token (
+  id bigint NOT NULL,
+  user_id bigint,
+  token varchar(100),
+  expire_date datetime,
+  update_date datetime,
+  create_date datetime,
+  PRIMARY KEY (id)
 );
 
--- 定时任务日志
-CREATE TABLE schedule_job_log (
-  log_id bigint NOT NULL IDENTITY(1,1),
-  job_id bigint NOT NULL,
-  bean_name varchar(200),
-  params varchar(2000),
-  status tinyint NOT NULL,
-  error varchar(2000),
-  times int NOT NULL,
-  create_time datetime,
-  PRIMARY KEY (log_id),
-  INDEX job_id (job_id)
-);
+CREATE UNIQUE INDEX uk_sys_user_token_user_id on sys_user_token(user_id);
+CREATE UNIQUE INDEX uk_sys_user_token on sys_user_token(token);
 
-INSERT INTO schedule_job (bean_name, params, cron_expression, status, remark, create_time) VALUES ('testTask', 'renren', '0 0/30 * * * ?', '0', '参数测试', '2016-12-01 23:16:46');
 
+
+-- 初始数据
+INSERT INTO sys_user(id, username, password, real_name, gender, email, mobile, status, dept_id, super_admin, creator, create_date, updater, update_date) VALUES (1067246875800000001, 'admin', '$2a$10$012Kx2ba5jzqr9gLlG4MX.bnQJTD9UWqF57XDo2N3.fPtLne02u/m', '管理员', 0, 'root@renren.io', '13612345678', 1, null, 1, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000002, 0, '权限管理', NULL, NULL, 0, 'icon-safetycertificate', 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000003, 1067246875800000055, '新增', NULL, 'sys:user:save,sys:dept:list,sys:role:list', 1, NULL, 1, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000004, 1067246875800000055, '修改', NULL, 'sys:user:update,sys:dept:list,sys:role:list', 1, NULL, 2, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000005, 1067246875800000055, '删除', NULL, 'sys:user:delete', 1, NULL, 3, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000006, 1067246875800000055, '导出', NULL, 'sys:user:export', 1, NULL, 4, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000007, 1067246875800000002, '角色管理', 'sys/role', NULL, 0, 'icon-team', 2, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000008, 1067246875800000007, '查看', NULL, 'sys:role:page,sys:role:info', 1, NULL, 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000009, 1067246875800000007, '新增', NULL, 'sys:role:save,sys:menu:select,sys:dept:list', 1, NULL, 1, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000010, 1067246875800000007, '修改', NULL, 'sys:role:update,sys:menu:select,sys:dept:list', 1, NULL, 2, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000011, 1067246875800000007, '删除', NULL, 'sys:role:delete', 1, NULL, 3, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000012, 1067246875800000002, '部门管理', 'sys/dept', NULL, 0, 'icon-apartment', 1, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000014, 1067246875800000012, '查看', NULL, 'sys:dept:list,sys:dept:info', 1, NULL, 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000015, 1067246875800000012, '新增', NULL, 'sys:dept:save', 1, NULL, 1, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000016, 1067246875800000012, '修改', NULL, 'sys:dept:update', 1, NULL, 2, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000017, 1067246875800000012, '删除', NULL, 'sys:dept:delete', 1, NULL, 3, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000025, 1067246875800000035, '菜单管理', 'sys/menu', NULL, 0, 'icon-unorderedlist', 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000026, 1067246875800000025, '查看', NULL, 'sys:menu:list,sys:menu:info', 1, NULL, 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000027, 1067246875800000025, '新增', NULL, 'sys:menu:save', 1, NULL, 1, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000028, 1067246875800000025, '修改', NULL, 'sys:menu:update', 1, NULL, 2, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000029, 1067246875800000025, '删除', NULL, 'sys:menu:delete', 1, NULL, 3, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000030, 1067246875800000035, '定时任务', 'job/schedule', NULL, 0, 'icon-dashboard', 3, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000031, 1067246875800000030, '查看', NULL, 'sys:schedule:page,sys:schedule:info', 1, NULL, 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000032, 1067246875800000030, '新增', NULL, 'sys:schedule:save', 1, NULL, 1, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000033, 1067246875800000030, '修改', NULL, 'sys:schedule:update', 1, NULL, 2, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000034, 1067246875800000030, '删除', NULL, 'sys:schedule:delete', 1, NULL, 3, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000035, 0, '系统设置', NULL, NULL, 0, 'icon-setting', 1, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000036, 1067246875800000030, '暂停', NULL, 'sys:schedule:pause', 1, NULL, 4, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000037, 1067246875800000030, '恢复', NULL, 'sys:schedule:resume', 1, NULL, 5, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000038, 1067246875800000030, '立即执行', NULL, 'sys:schedule:run', 1, NULL, 6, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000039, 1067246875800000030, '日志列表', NULL, 'sys:schedule:log', 1, NULL, 7, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000040, 1067246875800000035, '参数管理', 'sys/params', '', 0, 'icon-fileprotect', 1, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000041, 1067246875800000035, '字典管理', 'sys/dict-type', NULL, 0, 'icon-golden-fill', 2, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000042, 1067246875800000041, '查看', NULL, 'sys:dict:page,sys:dict:info', 1, NULL, 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000043, 1067246875800000041, '新增', NULL, 'sys:dict:save', 1, NULL, 1, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000044, 1067246875800000041, '修改', NULL, 'sys:dict:update', 1, NULL, 2, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000045, 1067246875800000041, '删除', NULL, 'sys:dict:delete', 1, NULL, 3, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000046, 0, '日志管理', NULL, NULL, 0, 'icon-container', 2, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000047, 1067246875800000035, '文件上传', 'oss/oss', 'sys:oss:all', 0, 'icon-upload', 4, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000048, 1067246875800000046, '登录日志', 'sys/log-login', 'sys:log:login', 0, 'icon-filedone', 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000049, 1067246875800000046, '操作日志', 'sys/log-operation', 'sys:log:operation', 0, 'icon-solution', 1, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000050, 1067246875800000046, '异常日志', 'sys/log-error', 'sys:log:error', 0, 'icon-file-exception', 2, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000051, 1067246875800000053, 'SQL监控', '{{ window.SITE_CONFIG[\"apiURL\"] }}/druid/sql.html', NULL, 0, 'icon-database', 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000053, 0, '系统监控', NULL, NULL, 0, 'icon-desktop', 3, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000055, 1067246875800000002, '用户管理', 'sys/user', NULL, 0, 'icon-user', 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000056, 1067246875800000055, '查看', NULL, 'sys:user:page,sys:user:info', 1, NULL, 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000057, 1067246875800000040, '新增', NULL, 'sys:params:save', 1, NULL, 1, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000058, 1067246875800000040, '导出', NULL, 'sys:params:export', 1, NULL, 4, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000059, 1067246875800000040, '查看', '', 'sys:params:page,sys:params:info', 1, NULL, 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000060, 1067246875800000040, '修改', NULL, 'sys:params:update', 1, NULL, 2, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000061, 1067246875800000040, '删除', '', 'sys:params:delete', 1, '', 3, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1156748733921165314, 1067246875800000053, '接口文档', '{{ window.SITE_CONFIG[\"apiURL\"] }}/doc.html', '', 0, 'icon-file-word', 1, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+
+
+INSERT INTO sys_dept(id, pid, pids, name, sort, creator, create_date, updater, update_date) VALUES (1067246875800000062, 1067246875800000063, '1067246875800000066,1067246875800000063', '技术部', 2, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_dept(id, pid, pids, name, sort, creator, create_date, updater, update_date) VALUES (1067246875800000063, 1067246875800000066, '1067246875800000066', '长沙分公司', 1, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_dept(id, pid, pids, name, sort, creator, create_date, updater, update_date) VALUES (1067246875800000064, 1067246875800000066, '1067246875800000066', '上海分公司', 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_dept(id, pid, pids, name, sort, creator, create_date, updater, update_date) VALUES (1067246875800000065, 1067246875800000064, '1067246875800000066,1067246875800000064', '市场部', 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_dept(id, pid, pids, name, sort, creator, create_date, updater, update_date) VALUES (1067246875800000066, 0, '0', '人人开源集团', 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_dept(id, pid, pids, name, sort, creator, create_date, updater, update_date) VALUES (1067246875800000067, 1067246875800000064, '1067246875800000066,1067246875800000064', '销售部', 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_dept(id, pid, pids, name, sort, creator, create_date, updater, update_date) VALUES (1067246875800000068, 1067246875800000063, '1067246875800000066,1067246875800000063', '产品部', 1, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+
+INSERT INTO sys_dict_type(id, dict_type, dict_name, remark, sort, creator, create_date, updater, update_date) VALUES (1160061077912858625, 'gender', '性别', '', 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_dict_data(id, dict_type_id, dict_label, dict_value, remark, sort, creator, create_date, updater, update_date) VALUES (1160061112075464705, 1160061077912858625, '男', '0', '', 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_dict_data(id, dict_type_id, dict_label, dict_value, remark, sort, creator, create_date, updater, update_date) VALUES (1160061146967879681, 1160061077912858625, '女', '1', '', 1, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_dict_data(id, dict_type_id, dict_label, dict_value, remark, sort, creator, create_date, updater, update_date) VALUES (1160061190127267841, 1160061077912858625, '保密', '2', '', 2, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_dict_type(id, dict_type, dict_name, remark, sort, creator, create_date, updater, update_date) VALUES (1225813644059140097, 'notice_type', '站内通知-类型', '', 1, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_dict_data(id, dict_type_id, dict_label, dict_value, remark, sort, creator, create_date, updater, update_date) VALUES (1225814069634195457, 1225813644059140097, '公告', '0', '', 0, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_dict_data(id, dict_type_id, dict_label, dict_value, remark, sort, creator, create_date, updater, update_date) VALUES (1225814107559092225, 1225813644059140097, '会议', '1', '', 1, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+INSERT INTO sys_dict_data(id, dict_type_id, dict_label, dict_value, remark, sort, creator, create_date, updater, update_date) VALUES (1225814271879340034, 1225813644059140097, '其他', '2', '', 2, 1067246875800000001, getdate(), 1067246875800000001, getdate());
+
+INSERT INTO sys_params(id, param_code, param_value, param_type, remark, creator, create_date, updater, update_date) VALUES (1067246875800000073, 'CLOUD_STORAGE_CONFIG_KEY', '{"type":1,"qiniuDomain":"http://test.oss.renren.io","qiniuPrefix":"upload","qiniuAccessKey":"NrgMfABZxWLo5B-YYSjoE8-AZ1EISdi1Z3ubLOeZ","qiniuSecretKey":"uIwJHevMRWU0VLxFvgy0tAcOdGqasdtVlJkdy6vV","qiniuBucketName":"renren-oss","aliyunDomain":"","aliyunPrefix":"","aliyunEndPoint":"","aliyunAccessKeyId":"","aliyunAccessKeySecret":"","aliyunBucketName":"","qcloudDomain":"","qcloudPrefix":"","qcloudSecretId":"","qcloudSecretKey":"","qcloudBucketName":""}', '0', '云存储配置信息', 1067246875800000001, getdate(), 1067246875800000001, getdate());
+
+INSERT INTO schedule_job (id, bean_name, params, cron_expression, status, remark, creator, create_date, updater, update_date) VALUES (1067246875800000076, 'testTask', 'renren', '0 0/30 * * * ?', 0, '有参测试，多个参数使用json', 1067246875800000001, getdate(), 1067246875800000001, getdate());
 
 
 --  quartz自带表结构
@@ -546,4 +672,3 @@ ALTER TABLE [dbo].[QRTZ_TRIGGERS] ADD
     [JOB_GROUP]
   )
 GO
-

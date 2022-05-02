@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,8 +8,9 @@
 
 package io.renren.modules.job.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import io.renren.common.utils.PageUtils;
+import io.renren.common.page.PageData;
+import io.renren.common.service.BaseService;
+import io.renren.modules.job.dto.ScheduleJobLogDTO;
 import io.renren.modules.job.entity.ScheduleJobLogEntity;
 
 import java.util.Map;
@@ -19,8 +20,9 @@ import java.util.Map;
  *
  * @author Mark sunlightcs@gmail.com
  */
-public interface ScheduleJobLogService extends IService<ScheduleJobLogEntity> {
+public interface ScheduleJobLogService extends BaseService<ScheduleJobLogEntity> {
 
-	PageUtils queryPage(Map<String, Object> params);
-	
+	PageData<ScheduleJobLogDTO> page(Map<String, Object> params);
+
+	ScheduleJobLogDTO get(Long id);
 }

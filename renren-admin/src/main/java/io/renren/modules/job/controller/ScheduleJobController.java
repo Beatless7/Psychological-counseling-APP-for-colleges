@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,15 +8,24 @@
 
 package io.renren.modules.job.controller;
 
-import io.renren.common.annotation.SysLog;
-import io.renren.common.utils.PageUtils;
-import io.renren.common.utils.R;
+import io.renren.common.annotation.LogOperation;
+import io.renren.common.constant.Constant;
+import io.renren.common.page.PageData;
+import io.renren.common.utils.Result;
 import io.renren.common.validator.ValidatorUtils;
-import io.renren.modules.job.entity.ScheduleJobEntity;
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.DefaultGroup;
+import io.renren.common.validator.group.UpdateGroup;
+import io.renren.modules.job.dto.ScheduleJobDTO;
 import io.renren.modules.job.service.ScheduleJobService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Map;
 
@@ -27,106 +36,98 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/sys/schedule")
+@Api(tags="定时任务")
 public class ScheduleJobController {
 	@Autowired
 	private ScheduleJobService scheduleJobService;
-	
-	/**
-	 * 定时任务列表
-	 */
-	@RequestMapping("/list")
-	@RequiresPermissions("sys:schedule:list")
-	public R list(@RequestParam Map<String, Object> params){
-		PageUtils page = scheduleJobService.queryPage(params);
 
-		return R.ok().put("page", page);
+	@GetMapping("page")
+	@ApiOperation("分页")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = Constant.PAGE, value = "当前页码，从1开始", paramType = "query", required = true, dataType="int") ,
+		@ApiImplicitParam(name = Constant.LIMIT, value = "每页显示记录数", paramType = "query",required = true, dataType="int") ,
+		@ApiImplicitParam(name = Constant.ORDER_FIELD, value = "排序字段", paramType = "query", dataType="String") ,
+		@ApiImplicitParam(name = Constant.ORDER, value = "排序方式，可选值(asc、desc)", paramType = "query", dataType="String") ,
+		@ApiImplicitParam(name = "beanName", value = "beanName", paramType = "query", dataType="String")
+	})
+	@RequiresPermissions("sys:schedule:page")
+	public Result<PageData<ScheduleJobDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
+		PageData<ScheduleJobDTO> page = scheduleJobService.page(params);
+
+		return new Result<PageData<ScheduleJobDTO>>().ok(page);
 	}
-	
-	/**
-	 * 定时任务信息
-	 */
-	@RequestMapping("/info/{jobId}")
+
+	@GetMapping("{id}")
+	@ApiOperation("信息")
 	@RequiresPermissions("sys:schedule:info")
-	public R info(@PathVariable("jobId") Long jobId){
-		ScheduleJobEntity schedule = scheduleJobService.getById(jobId);
+	public Result<ScheduleJobDTO> info(@PathVariable("id") Long id){
+		ScheduleJobDTO schedule = scheduleJobService.get(id);
 		
-		return R.ok().put("schedule", schedule);
+		return new Result<ScheduleJobDTO>().ok(schedule);
 	}
-	
-	/**
-	 * 保存定时任务
-	 */
-	@SysLog("保存定时任务")
-	@RequestMapping("/save")
+
+	@PostMapping
+	@ApiOperation("保存")
+	@LogOperation("保存")
 	@RequiresPermissions("sys:schedule:save")
-	public R save(@RequestBody ScheduleJobEntity scheduleJob){
-		ValidatorUtils.validateEntity(scheduleJob);
+	public Result save(@RequestBody ScheduleJobDTO dto){
+		ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
 		
-		scheduleJobService.saveJob(scheduleJob);
+		scheduleJobService.save(dto);
 		
-		return R.ok();
+		return new Result();
 	}
-	
-	/**
-	 * 修改定时任务
-	 */
-	@SysLog("修改定时任务")
-	@RequestMapping("/update")
+
+	@PutMapping
+	@ApiOperation("修改")
+	@LogOperation("修改")
 	@RequiresPermissions("sys:schedule:update")
-	public R update(@RequestBody ScheduleJobEntity scheduleJob){
-		ValidatorUtils.validateEntity(scheduleJob);
+	public Result update(@RequestBody ScheduleJobDTO dto){
+		ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
 				
-		scheduleJobService.update(scheduleJob);
+		scheduleJobService.update(dto);
 		
-		return R.ok();
+		return new Result();
 	}
-	
-	/**
-	 * 删除定时任务
-	 */
-	@SysLog("删除定时任务")
-	@RequestMapping("/delete")
+
+	@DeleteMapping
+	@ApiOperation("删除")
+	@LogOperation("删除")
 	@RequiresPermissions("sys:schedule:delete")
-	public R delete(@RequestBody Long[] jobIds){
-		scheduleJobService.deleteBatch(jobIds);
+	public Result delete(@RequestBody Long[] ids){
+		scheduleJobService.deleteBatch(ids);
 		
-		return R.ok();
+		return new Result();
 	}
-	
-	/**
-	 * 立即执行任务
-	 */
-	@SysLog("立即执行任务")
-	@RequestMapping("/run")
+
+	@PutMapping("/run")
+	@ApiOperation("立即执行")
+	@LogOperation("立即执行")
 	@RequiresPermissions("sys:schedule:run")
-	public R run(@RequestBody Long[] jobIds){
-		scheduleJobService.run(jobIds);
+	public Result run(@RequestBody Long[] ids){
+		scheduleJobService.run(ids);
 		
-		return R.ok();
+		return new Result();
 	}
-	
-	/**
-	 * 暂停定时任务
-	 */
-	@SysLog("暂停定时任务")
-	@RequestMapping("/pause")
+
+	@PutMapping("/pause")
+	@ApiOperation("暂停")
+	@LogOperation("暂停")
 	@RequiresPermissions("sys:schedule:pause")
-	public R pause(@RequestBody Long[] jobIds){
-		scheduleJobService.pause(jobIds);
+	public Result pause(@RequestBody Long[] ids){
+		scheduleJobService.pause(ids);
 		
-		return R.ok();
+		return new Result();
 	}
-	
-	/**
-	 * 恢复定时任务
-	 */
-	@SysLog("恢复定时任务")
-	@RequestMapping("/resume")
+
+	@PutMapping("/resume")
+	@ApiOperation("恢复")
+	@LogOperation("恢复")
 	@RequiresPermissions("sys:schedule:resume")
-	public R resume(@RequestBody Long[] jobIds){
-		scheduleJobService.resume(jobIds);
+	public Result resume(@RequestBody Long[] ids){
+		scheduleJobService.resume(ids);
 		
-		return R.ok();
+		return new Result();
 	}
 
 }

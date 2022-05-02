@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,8 +8,8 @@
 
 package io.renren.modules.sys.service;
 
-
-import com.baomidou.mybatisplus.extension.service.IService;
+import io.renren.common.service.BaseService;
+import io.renren.modules.sys.dto.SysDeptDTO;
 import io.renren.modules.sys.entity.SysDeptEntity;
 
 import java.util.List;
@@ -17,22 +17,24 @@ import java.util.Map;
 
 /**
  * 部门管理
- *
+ * 
  * @author Mark sunlightcs@gmail.com
  */
-public interface SysDeptService extends IService<SysDeptEntity> {
+public interface SysDeptService extends BaseService<SysDeptEntity> {
 
-	List<SysDeptEntity> queryList(Map<String, Object> map);
+	List<SysDeptDTO> list(Map<String, Object> params);
+
+	SysDeptDTO get(Long id);
+
+	void save(SysDeptDTO dto);
+
+	void update(SysDeptDTO dto);
+
+	void delete(Long id);
 
 	/**
-	 * 查询子部门ID列表
-	 * @param parentId  上级部门ID
+	 * 根据部门ID，获取本部门及子部门ID列表
+	 * @param id   部门ID
 	 */
-	List<Long> queryDetpIdList(Long parentId);
-
-	/**
-	 * 获取子部门ID，用于数据过滤
-	 */
-	List<Long> getSubDeptIdList(Long deptId);
-
+	List<Long> getSubDeptIdList(Long id);
 }

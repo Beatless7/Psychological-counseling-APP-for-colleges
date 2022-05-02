@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -9,11 +9,11 @@
 package io.renren.modules.oss.controller;
 
 import com.google.gson.Gson;
-import io.renren.common.exception.RRException;
-import io.renren.common.utils.ConfigConstant;
-import io.renren.common.utils.Constant;
-import io.renren.common.utils.PageUtils;
-import io.renren.common.utils.R;
+import io.renren.common.annotation.LogOperation;
+import io.renren.common.constant.Constant;
+import io.renren.common.exception.ErrorCode;
+import io.renren.common.page.PageData;
+import io.renren.common.utils.*;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.common.validator.group.AliyunGroup;
 import io.renren.common.validator.group.QcloudGroup;
@@ -22,64 +22,60 @@ import io.renren.modules.oss.cloud.CloudStorageConfig;
 import io.renren.modules.oss.cloud.OSSFactory;
 import io.renren.modules.oss.entity.SysOssEntity;
 import io.renren.modules.oss.service.SysOssService;
-import io.renren.modules.sys.service.SysConfigService;
+import io.renren.modules.sys.service.SysParamsService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * 文件上传
- *
+ * 
  * @author Mark sunlightcs@gmail.com
  */
 @RestController
 @RequestMapping("sys/oss")
+@Api(tags="文件上传")
 public class SysOssController {
 	@Autowired
 	private SysOssService sysOssService;
     @Autowired
-    private SysConfigService sysConfigService;
+    private SysParamsService sysParamsService;
 
-    private final static String KEY = ConfigConstant.CLOUD_STORAGE_CONFIG_KEY;
-	
-	/**
-	 * 列表
-	 */
-	@RequestMapping("/list")
+    private final static String KEY = Constant.CLOUD_STORAGE_CONFIG_KEY;
+
+	@GetMapping("page")
+	@ApiOperation(value = "分页")
 	@RequiresPermissions("sys:oss:all")
-	public R list(@RequestParam Map<String, Object> params){
-		PageUtils page = sysOssService.queryPage(params);
+	public Result<PageData<SysOssEntity>> page(@ApiIgnore @RequestParam Map<String, Object> params){
+		PageData<SysOssEntity> page = sysOssService.page(params);
 
-		return R.ok().put("page", page);
+		return new Result<PageData<SysOssEntity>>().ok(page);
 	}
 
-
-    /**
-     * 云存储配置信息
-     */
-    @RequestMapping("/config")
+    @GetMapping("info")
+	@ApiOperation(value = "云存储配置信息")
     @RequiresPermissions("sys:oss:all")
-    public R config(){
-        CloudStorageConfig config = sysConfigService.getConfigObject(KEY, CloudStorageConfig.class);
+    public Result<CloudStorageConfig> info(){
+        CloudStorageConfig config = sysParamsService.getValueObject(KEY, CloudStorageConfig.class);
 
-        return R.ok().put("config", config);
+        return new Result<CloudStorageConfig>().ok(config);
     }
 
-
-	/**
-	 * 保存云存储配置信息
-	 */
-	@RequestMapping("/saveConfig")
+	@PostMapping
+	@ApiOperation(value = "保存云存储配置信息")
+	@LogOperation("保存云存储配置信息")
 	@RequiresPermissions("sys:oss:all")
-	public R saveConfig(@RequestBody CloudStorageConfig config){
+	public Result saveConfig(@RequestBody CloudStorageConfig config){
 		//校验类型
 		ValidatorUtils.validateEntity(config);
 
@@ -94,45 +90,43 @@ public class SysOssController {
 			ValidatorUtils.validateEntity(config, QcloudGroup.class);
 		}
 
-        sysConfigService.updateValueByKey(KEY, new Gson().toJson(config));
+		sysParamsService.updateValueByCode(KEY, new Gson().toJson(config));
 
-		return R.ok();
+		return new Result();
 	}
-	
 
-	/**
-	 * 上传文件
-	 */
-	@RequestMapping("/upload")
+	@PostMapping("upload")
+	@ApiOperation(value = "上传文件")
 	@RequiresPermissions("sys:oss:all")
-	public R upload(@RequestParam("file") MultipartFile file) throws Exception {
+	public Result<Map<String, Object>> upload(@RequestParam("file") MultipartFile file) throws Exception {
 		if (file.isEmpty()) {
-			throw new RRException("上传文件不能为空");
+			return new Result<Map<String, Object>>().error(ErrorCode.UPLOAD_FILE_EMPTY);
 		}
 
 		//上传文件
-		String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-		String url = OSSFactory.build().uploadSuffix(file.getBytes(), suffix);
+		String extension = FilenameUtils.getExtension(file.getOriginalFilename());
+		String url = OSSFactory.build().uploadSuffix(file.getBytes(), extension);
 
 		//保存文件信息
 		SysOssEntity ossEntity = new SysOssEntity();
 		ossEntity.setUrl(url);
 		ossEntity.setCreateDate(new Date());
-		sysOssService.save(ossEntity);
+		sysOssService.insert(ossEntity);
 
-		return R.ok().put("url", url);
+		Map<String, Object> data = new HashMap<>(1);
+		data.put("src", url);
+
+		return new Result<Map<String, Object>>().ok(data);
 	}
 
-
-	/**
-	 * 删除
-	 */
-	@RequestMapping("/delete")
+	@DeleteMapping
+	@ApiOperation(value = "删除")
+	@LogOperation("删除")
 	@RequiresPermissions("sys:oss:all")
-	public R delete(@RequestBody Long[] ids){
-		sysOssService.removeByIds(Arrays.asList(ids));
+	public Result delete(@RequestBody Long[] ids){
+		sysOssService.deleteBatchIds(Arrays.asList(ids));
 
-		return R.ok();
+		return new Result();
 	}
 
 }

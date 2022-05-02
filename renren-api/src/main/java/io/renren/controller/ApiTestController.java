@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -10,7 +10,7 @@ package io.renren.controller;
 
 import io.renren.annotation.Login;
 import io.renren.annotation.LoginUser;
-import io.renren.common.utils.R;
+import io.renren.common.utils.Result;
 import io.renren.entity.UserEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,21 +33,21 @@ public class ApiTestController {
     @Login
     @GetMapping("userInfo")
     @ApiOperation(value="获取用户信息", response=UserEntity.class)
-    public R userInfo(@ApiIgnore @LoginUser UserEntity user){
-        return R.ok().put("user", user);
+    public Result<UserEntity> userInfo(@ApiIgnore @LoginUser UserEntity user){
+        return new Result<UserEntity>().ok(user);
     }
 
     @Login
     @GetMapping("userId")
     @ApiOperation("获取用户ID")
-    public R userInfo(@ApiIgnore @RequestAttribute("userId") Integer userId){
-        return R.ok().put("userId", userId);
+    public Result<Long> userInfo(@ApiIgnore @RequestAttribute("userId") Long userId){
+        return new Result<Long>().ok(userId);
     }
 
     @GetMapping("notToken")
     @ApiOperation("忽略Token验证测试")
-    public R notToken(){
-        return R.ok().put("msg", "无需token也能访问。。。");
+    public Result<String> notToken(){
+        return new Result<String>().ok("无需token也能访问。。。");
     }
 
 }

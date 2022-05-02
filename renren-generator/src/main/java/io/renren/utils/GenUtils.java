@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -29,22 +29,27 @@ import java.util.zip.ZipOutputStream;
 
 /**
  * 代码生成器   工具类
- *
+ * 
  * @author Mark sunlightcs@gmail.com
  */
 public class GenUtils {
 
 	public static List<String> getTemplates(){
 		List<String> templates = new ArrayList<String>();
+		templates.add("template/DTO.java.vm");
 		templates.add("template/Entity.java.vm");
 		templates.add("template/Dao.java.vm");
 		templates.add("template/Dao.xml.vm");
 		templates.add("template/Service.java.vm");
 		templates.add("template/ServiceImpl.java.vm");
 		templates.add("template/Controller.java.vm");
-		templates.add("template/list.html.vm");
-		templates.add("template/list.js.vm");
-		templates.add("template/menu.sql.vm");
+		templates.add("template/Excel.java.vm");
+		templates.add("template/index.vue.vm");
+		templates.add("template/add-or-update.vue.vm");
+		templates.add("template/mysql.vm");
+		templates.add("template/sqlserver.vm");
+		templates.add("template/oracle.vm");
+		templates.add("template/postgresql.vm");
 		return templates;
 	}
 	
@@ -103,9 +108,6 @@ public class GenUtils {
 		Properties prop = new Properties();  
 		prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");  
 		Velocity.init(prop);
-
-		String mainPath = config.getString("mainPath" );
-		mainPath = StringUtils.isBlank(mainPath) ? "io.renren" : mainPath;
 		
 		//封装模板数据
 		Map<String, Object> map = new HashMap<>();
@@ -117,12 +119,18 @@ public class GenUtils {
 		map.put("pathName", tableEntity.getClassname().toLowerCase());
 		map.put("columns", tableEntity.getColumns());
 		map.put("hasBigDecimal", hasBigDecimal);
-		map.put("mainPath", mainPath);
+		map.put("version", config.getString("version" ));
 		map.put("package", config.getString("package" ));
 		map.put("moduleName", config.getString("moduleName" ));
 		map.put("author", config.getString("author"));
 		map.put("email", config.getString("email"));
 		map.put("datetime", DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
+		map.put("date", DateUtils.format(new Date(), DateUtils.DATE_PATTERN));
+
+		for(int i=0; i<=10; i++){
+			map.put("id"+i, IdWorker.getId());
+		}
+
         VelocityContext context = new VelocityContext(map);
         
         //获取模板列表
@@ -140,7 +148,7 @@ public class GenUtils {
 				IOUtils.closeQuietly(sw);
 				zip.closeEntry();
 			} catch (IOException e) {
-				throw new RRException("渲染模板失败，表名：" + tableEntity.getTableName(), e);
+				throw new RenException("渲染模板失败，表名：" + tableEntity.getTableName(), e);
 			}
 		}
 	}
@@ -158,7 +166,7 @@ public class GenUtils {
 	 */
 	public static String tableToJava(String tableName, String tablePrefix) {
 		if(StringUtils.isNotBlank(tablePrefix)){
-			tableName = tableName.replace(tablePrefix, "");
+			tableName = tableName.replaceFirst(tablePrefix, "");
 		}
 		return columnToJava(tableName);
 	}
@@ -170,7 +178,7 @@ public class GenUtils {
 		try {
 			return new PropertiesConfiguration("generator.properties");
 		} catch (ConfigurationException e) {
-			throw new RRException("获取配置文件失败，", e);
+			throw new RenException("获取配置文件失败，", e);
 		}
 	}
 
@@ -180,11 +188,15 @@ public class GenUtils {
 	public static String getFileName(String template, String className, String packageName, String moduleName) {
 		String packagePath = "main" + File.separator + "java" + File.separator;
 		if (StringUtils.isNotBlank(packageName)) {
-			packagePath += packageName.replace(".", File.separator) + File.separator + moduleName + File.separator;
+			packagePath += packageName.replace(".", File.separator) + File.separator + "modules" + File.separator + moduleName + File.separator;
 		}
 
 		if (template.contains("Entity.java.vm" )) {
 			return packagePath + "entity" + File.separator + className + "Entity.java";
+		}
+
+		if (template.contains("Excel.java.vm" )) {
+			return packagePath + "excel" + File.separator + className + "Excel.java";
 		}
 
 		if (template.contains("Dao.java.vm" )) {
@@ -207,18 +219,34 @@ public class GenUtils {
 			return "main" + File.separator + "resources" + File.separator + "mapper" + File.separator + moduleName + File.separator + className + "Dao.xml";
 		}
 
-		if (template.contains("list.html.vm" )) {
-			return "main" + File.separator + "resources" + File.separator + "templates" + File.separator
-					+ "modules" + File.separator + moduleName + File.separator + className.toLowerCase() + ".html";
+		if (template.contains("DTO.java.vm" )) {
+			return packagePath + "dto" + File.separator + className + "DTO.java";
 		}
 
-		if (template.contains("list.js.vm" )) {
-			return "main" + File.separator + "resources" + File.separator + "statics" + File.separator + "js" + File.separator
-					+ "modules" + File.separator + moduleName + File.separator + className.toLowerCase() + ".js";
+		if (template.contains("index.vue.vm" )) {
+			return "vue" + File.separator + "views" + File.separator + "modules" +
+					File.separator + moduleName + File.separator + className.toLowerCase() + ".vue";
 		}
 
-		if (template.contains("menu.sql.vm" )) {
-			return className.toLowerCase() + "_menu.sql";
+		if (template.contains("add-or-update.vue.vm" )) {
+			return "vue" + File.separator + "views" + File.separator + "modules" +
+					File.separator + moduleName + File.separator + className.toLowerCase() + "-add-or-update.vue";
+		}
+
+		if (template.contains("mysql.vm" )) {
+			return className.toLowerCase() + ".mysql.sql";
+		}
+
+		if (template.contains("oracle.vm" )) {
+			return className.toLowerCase() + ".oracle.sql";
+		}
+
+		if (template.contains("sqlserver.vm" )) {
+			return className.toLowerCase() + ".sqlserver.sql";
+		}
+
+		if (template.contains("postgresql.vm" )) {
+			return className.toLowerCase() + ".postgresql.sql";
 		}
 
 		return null;

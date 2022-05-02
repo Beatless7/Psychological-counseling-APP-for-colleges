@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,7 +8,7 @@
 
 package io.renren.modules.sys.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.renren.common.dao.BaseDao;
 import io.renren.modules.sys.entity.SysDeptEntity;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -17,18 +17,25 @@ import java.util.Map;
 
 /**
  * 部门管理
- *
+ * 
  * @author Mark sunlightcs@gmail.com
  */
 @Mapper
-public interface SysDeptDao extends BaseMapper<SysDeptEntity> {
+public interface SysDeptDao extends BaseDao<SysDeptEntity> {
 
-    List<SysDeptEntity> queryList(Map<String, Object> params);
+    List<SysDeptEntity> getList(Map<String, Object> params);
+
+    SysDeptEntity getById(Long id);
 
     /**
-     * 查询子部门ID列表
-     * @param parentId  上级部门ID
+     * 获取所有部门的id、pid列表
      */
-    List<Long> queryDetpIdList(Long parentId);
+    List<SysDeptEntity> getIdAndPidList();
+
+    /**
+     * 根据部门ID，获取所有子部门ID列表
+     * @param id   部门ID
+     */
+    List<Long> getSubDeptIdList(String id);
 
 }

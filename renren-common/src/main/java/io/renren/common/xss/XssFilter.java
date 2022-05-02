@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -14,7 +14,6 @@ import java.io.IOException;
 
 /**
  * XSS过滤
- *
  * @author Mark sunlightcs@gmail.com
  */
 public class XssFilter implements Filter {

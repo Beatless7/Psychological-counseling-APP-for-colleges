@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,15 +8,14 @@
 
 package io.renren.service.impl;
 
-
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import io.renren.common.exception.RRException;
-import io.renren.common.validator.Assert;
+import io.renren.common.exception.ErrorCode;
+import io.renren.common.exception.RenException;
+import io.renren.common.service.impl.BaseServiceImpl;
+import io.renren.common.validator.AssertUtils;
 import io.renren.dao.UserDao;
 import io.renren.entity.TokenEntity;
 import io.renren.entity.UserEntity;
-import io.renren.form.LoginForm;
+import io.renren.dto.LoginDTO;
 import io.renren.service.TokenService;
 import io.renren.service.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -26,32 +25,37 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service("userService")
-public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements UserService {
+@Service
+public class UserServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implements UserService {
 	@Autowired
 	private TokenService tokenService;
 
 	@Override
-	public UserEntity queryByMobile(String mobile) {
-		return baseMapper.selectOne(new QueryWrapper<UserEntity>().eq("mobile", mobile));
+	public UserEntity getByMobile(String mobile) {
+		return baseDao.getUserByMobile(mobile);
 	}
 
 	@Override
-	public Map<String, Object> login(LoginForm form) {
-		UserEntity user = queryByMobile(form.getMobile());
-		Assert.isNull(user, "手机号或密码错误");
+	public UserEntity getUserByUserId(Long userId) {
+		return baseDao.getUserByUserId(userId);
+	}
+
+	@Override
+	public Map<String, Object> login(LoginDTO dto) {
+		UserEntity user = getByMobile(dto.getMobile());
+		AssertUtils.isNull(user, ErrorCode.ACCOUNT_PASSWORD_ERROR);
 
 		//密码错误
-		if(!user.getPassword().equals(DigestUtils.sha256Hex(form.getPassword()))){
-			throw new RRException("手机号或密码错误");
+		if(!user.getPassword().equals(DigestUtils.sha256Hex(dto.getPassword()))){
+			throw new RenException(ErrorCode.ACCOUNT_PASSWORD_ERROR);
 		}
 
 		//获取登录token
-		TokenEntity tokenEntity = tokenService.createToken(user.getUserId());
+		TokenEntity tokenEntity = tokenService.createToken(user.getId());
 
 		Map<String, Object> map = new HashMap<>(2);
 		map.put("token", tokenEntity.getToken());
-		map.put("expire", tokenEntity.getExpireTime().getTime() - System.currentTimeMillis());
+		map.put("expire", tokenEntity.getExpireDate().getTime() - System.currentTimeMillis());
 
 		return map;
 	}

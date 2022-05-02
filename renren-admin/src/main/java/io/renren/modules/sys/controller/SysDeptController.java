@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,138 +8,91 @@
 
 package io.renren.modules.sys.controller;
 
-import io.renren.common.utils.Constant;
-import io.renren.common.utils.R;
-import io.renren.modules.sys.entity.SysDeptEntity;
+import io.renren.common.annotation.LogOperation;
+import io.renren.common.utils.Result;
+import io.renren.common.validator.AssertUtils;
+import io.renren.common.validator.ValidatorUtils;
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.DefaultGroup;
+import io.renren.common.validator.group.UpdateGroup;
+import io.renren.modules.sys.dto.SysDeptDTO;
 import io.renren.modules.sys.service.SysDeptService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 
-
 /**
  * 部门管理
- *
+ * 
  * @author Mark sunlightcs@gmail.com
  */
 @RestController
 @RequestMapping("/sys/dept")
-public class SysDeptController extends AbstractController {
+@Api(tags="部门管理")
+public class SysDeptController {
 	@Autowired
 	private SysDeptService sysDeptService;
-	
-	/**
-	 * 列表
-	 */
-	@RequestMapping("/list")
+
+	@GetMapping("list")
+	@ApiOperation("列表")
 	@RequiresPermissions("sys:dept:list")
-	public List<SysDeptEntity> list(){
-		List<SysDeptEntity> deptList = sysDeptService.queryList(new HashMap<String, Object>());
+	public Result<List<SysDeptDTO>> list(){
+		List<SysDeptDTO> list = sysDeptService.list(new HashMap<>(1));
 
-		return deptList;
+		return new Result<List<SysDeptDTO>>().ok(list);
 	}
 
-	/**
-	 * 选择部门(添加、修改菜单)
-	 */
-	@RequestMapping("/select")
-	@RequiresPermissions("sys:dept:select")
-	public R select(){
-		List<SysDeptEntity> deptList = sysDeptService.queryList(new HashMap<String, Object>());
-
-		//添加一级部门
-		if(getUserId() == Constant.SUPER_ADMIN){
-			SysDeptEntity root = new SysDeptEntity();
-			root.setDeptId(0L);
-			root.setName("一级部门");
-			root.setParentId(-1L);
-			root.setOpen(true);
-			deptList.add(root);
-		}
-
-		return R.ok().put("deptList", deptList);
-	}
-
-	/**
-	 * 上级部门Id(管理员则为0)
-	 */
-	@RequestMapping("/info")
-	@RequiresPermissions("sys:dept:list")
-	public R info(){
-		long deptId = 0;
-		if(getUserId() != Constant.SUPER_ADMIN){
-			List<SysDeptEntity> deptList = sysDeptService.queryList(new HashMap<String, Object>());
-			Long parentId = null;
-			for(SysDeptEntity sysDeptEntity : deptList){
-				if(parentId == null){
-					parentId = sysDeptEntity.getParentId();
-					continue;
-				}
-
-				if(parentId > sysDeptEntity.getParentId().longValue()){
-					parentId = sysDeptEntity.getParentId();
-				}
-			}
-			deptId = parentId;
-		}
-
-		return R.ok().put("deptId", deptId);
-	}
-	
-	/**
-	 * 信息
-	 */
-	@RequestMapping("/info/{deptId}")
+	@GetMapping("{id}")
+	@ApiOperation("信息")
 	@RequiresPermissions("sys:dept:info")
-	public R info(@PathVariable("deptId") Long deptId){
-		SysDeptEntity dept = sysDeptService.getById(deptId);
-		
-		return R.ok().put("dept", dept);
-	}
-	
-	/**
-	 * 保存
-	 */
-	@RequestMapping("/save")
-	@RequiresPermissions("sys:dept:save")
-	public R save(@RequestBody SysDeptEntity dept){
-		sysDeptService.save(dept);
-		
-		return R.ok();
-	}
-	
-	/**
-	 * 修改
-	 */
-	@RequestMapping("/update")
-	@RequiresPermissions("sys:dept:update")
-	public R update(@RequestBody SysDeptEntity dept){
-		sysDeptService.updateById(dept);
-		
-		return R.ok();
-	}
-	
-	/**
-	 * 删除
-	 */
-	@RequestMapping("/delete")
-	@RequiresPermissions("sys:dept:delete")
-	public R delete(long deptId){
-		//判断是否有子部门
-		List<Long> deptList = sysDeptService.queryDetpIdList(deptId);
-		if(deptList.size() > 0){
-			return R.error("请先删除子部门");
-		}
+	public Result<SysDeptDTO> get(@PathVariable("id") Long id){
+		SysDeptDTO data = sysDeptService.get(id);
 
-		sysDeptService.removeById(deptId);
-		
-		return R.ok();
+		return new Result<SysDeptDTO>().ok(data);
+	}
+
+	@PostMapping
+	@ApiOperation("保存")
+	@LogOperation("保存")
+	@RequiresPermissions("sys:dept:save")
+	public Result save(@RequestBody SysDeptDTO dto){
+		//效验数据
+		ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
+
+		sysDeptService.save(dto);
+
+		return new Result();
+	}
+
+	@PutMapping
+	@ApiOperation("修改")
+	@LogOperation("修改")
+	@RequiresPermissions("sys:dept:update")
+	public Result update(@RequestBody SysDeptDTO dto){
+		//效验数据
+		ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
+
+		sysDeptService.update(dto);
+
+		return new Result();
+	}
+
+	@DeleteMapping("{id}")
+	@ApiOperation("删除")
+	@LogOperation("删除")
+	@RequiresPermissions("sys:dept:delete")
+	public Result delete(@PathVariable("id") Long id){
+		//效验数据
+		AssertUtils.isNull(id, "id");
+
+		sysDeptService.delete(id);
+
+		return new Result();
 	}
 	
 }

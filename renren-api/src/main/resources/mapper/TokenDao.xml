@@ -3,4 +3,12 @@
 
 <mapper namespace="io.renren.dao.TokenDao">
 
+    <select id="getByToken" resultType="io.renren.entity.TokenEntity">
+        select * from tb_token where token = #{value}
+    </select>
+
+    <select id="getByUserId" resultType="io.renren.entity.TokenEntity">
+        select * from tb_token where user_id = #{value}
+    </select>
+
 </mapper>

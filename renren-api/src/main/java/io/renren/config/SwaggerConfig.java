@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -7,7 +7,6 @@
  */
 
 package io.renren.config;
-
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.context.annotation.Bean;
@@ -39,15 +38,16 @@ public class SwaggerConfig {
             //.apis(RequestHandlerSelectors.basePackage("io.renren.controller"))
             .paths(PathSelectors.any())
             .build()
+            .directModelSubstitute(java.util.Date.class, String.class)
             .securitySchemes(security());
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
             .title("人人开源")
-            .description("renren-api文档")
+            .description("renren-api模块接口文档")
             .termsOfServiceUrl("https://www.renren.io")
-            .version("4.0.0")
+            .version("2.0")
             .build();
     }
 

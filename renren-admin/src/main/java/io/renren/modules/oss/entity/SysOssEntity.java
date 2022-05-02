@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,35 +8,25 @@
 
 package io.renren.modules.oss.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import io.renren.common.entity.BaseEntity;
 import lombok.Data;
-
-import java.io.Serializable;
-import java.util.Date;
-
+import lombok.EqualsAndHashCode;
 
 /**
  * 文件上传
- *
+ * 
  * @author Mark sunlightcs@gmail.com
  */
 @Data
+@EqualsAndHashCode(callSuper=false)
 @TableName("sys_oss")
-public class SysOssEntity implements Serializable {
+public class SysOssEntity extends BaseEntity {
 	private static final long serialVersionUID = 1L;
-	
-	@TableId
-	private Long id;
+
 	/**
 	 * URL地址
 	 */
 	private String url;
-	/**
-	 * 创建时间
-	 */
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	private Date createDate;
 
 }

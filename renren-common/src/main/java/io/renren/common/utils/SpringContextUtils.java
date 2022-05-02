@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Spring Context 工具类
- *
+ * 
  * @author Mark sunlightcs@gmail.com
  */
 @Component
@@ -30,6 +30,10 @@ public class SpringContextUtils implements ApplicationContextAware {
 
 	public static Object getBean(String name) {
 		return applicationContext.getBean(name);
+	}
+
+	public static <T> T getBean(Class<T> requiredType) {
+		return applicationContext.getBean(requiredType);
 	}
 
 	public static <T> T getBean(String name, Class<T> requiredType) {

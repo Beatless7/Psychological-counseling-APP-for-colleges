@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -10,7 +10,6 @@ package io.renren.modules.job.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -25,47 +24,39 @@ import java.util.Date;
 @TableName("schedule_job_log")
 public class ScheduleJobLogEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
-	 * 日志id
+	 * id
 	 */
 	@TableId
-	private Long logId;
-	
+	private Long id;
 	/**
 	 * 任务id
 	 */
 	private Long jobId;
-	
 	/**
 	 * spring bean名称
 	 */
 	private String beanName;
-	
 	/**
 	 * 参数
 	 */
 	private String params;
-	
 	/**
-	 * 任务状态    0：成功    1：失败
+	 * 任务状态    0：失败    1：成功
 	 */
 	private Integer status;
-	
 	/**
 	 * 失败信息
 	 */
 	private String error;
-	
 	/**
 	 * 耗时(单位：毫秒)
 	 */
 	private Integer times;
-	
 	/**
 	 * 创建时间
 	 */
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	private Date createTime;
-	
+	private Date createDate;
+
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -9,9 +9,10 @@
 package io.renren.common.validator.group;
 
 /**
- * 更新数据 Group
+ * 修改 Group
  *
  * @author Mark sunlightcs@gmail.com
+ * @since 1.0.0
  */
 public interface UpdateGroup {
 

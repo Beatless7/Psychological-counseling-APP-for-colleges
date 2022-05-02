@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,10 +8,10 @@
 
 package io.renren.controller;
 
-import io.renren.common.utils.R;
+import io.renren.common.utils.Result;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.entity.UserEntity;
-import io.renren.form.RegisterForm;
+import io.renren.dto.RegisterDTO;
 import io.renren.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,17 +38,17 @@ public class ApiRegisterController {
 
     @PostMapping("register")
     @ApiOperation("注册")
-    public R register(@RequestBody RegisterForm form){
+    public Result register(@RequestBody RegisterDTO dto){
         //表单校验
-        ValidatorUtils.validateEntity(form);
+        ValidatorUtils.validateEntity(dto);
 
         UserEntity user = new UserEntity();
-        user.setMobile(form.getMobile());
-        user.setUsername(form.getMobile());
-        user.setPassword(DigestUtils.sha256Hex(form.getPassword()));
-        user.setCreateTime(new Date());
-        userService.save(user);
+        user.setMobile(dto.getMobile());
+        user.setUsername(dto.getMobile());
+        user.setPassword(DigestUtils.sha256Hex(dto.getPassword()));
+        user.setCreateDate(new Date());
+        userService.insert(user);
 
-        return R.ok();
+        return new Result();
     }
 }

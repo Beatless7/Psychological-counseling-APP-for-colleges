@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,12 +8,12 @@
 
 package io.renren.interceptor;
 
-
 import io.renren.annotation.Login;
-import io.renren.common.exception.RRException;
+import io.renren.common.exception.ErrorCode;
+import io.renren.common.exception.RenException;
 import io.renren.entity.TokenEntity;
 import io.renren.service.TokenService;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -56,13 +56,13 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 
         //token为空
         if(StringUtils.isBlank(token)){
-            throw new RRException("token不能为空");
+            throw new RenException(ErrorCode.TOKEN_NOT_EMPTY);
         }
 
         //查询token信息
-        TokenEntity tokenEntity = tokenService.queryByToken(token);
-        if(tokenEntity == null || tokenEntity.getExpireTime().getTime() < System.currentTimeMillis()){
-            throw new RRException("token失效，请重新登录");
+        TokenEntity tokenEntity = tokenService.getByToken(token);
+        if(tokenEntity == null || tokenEntity.getExpireDate().getTime() < System.currentTimeMillis()){
+            throw new RenException(ErrorCode.TOKEN_INVALID);
         }
 
         //设置userId到request里，后续根据userId，获取用户信息

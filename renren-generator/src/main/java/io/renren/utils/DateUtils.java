@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -13,7 +13,7 @@ import java.util.Date;
 
 /**
  * 日期处理
- *
+ * 
  * @author Mark sunlightcs@gmail.com
  */
 public class DateUtils {

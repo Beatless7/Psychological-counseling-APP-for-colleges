@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,15 +8,18 @@
 
 package io.renren.modules.oss.cloud;
 
-
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
-import com.qcloud.cos.request.UploadFileRequest;
-import com.qcloud.cos.sign.Credentials;
-import io.renren.common.exception.RRException;
-import net.sf.json.JSONObject;
-import org.apache.commons.io.IOUtils;
+import com.qcloud.cos.auth.BasicCOSCredentials;
+import com.qcloud.cos.auth.COSCredentials;
+import com.qcloud.cos.model.ObjectMetadata;
+import com.qcloud.cos.model.PutObjectRequest;
+import com.qcloud.cos.model.PutObjectResult;
+import com.qcloud.cos.region.Region;
+import io.renren.common.exception.ErrorCode;
+import io.renren.common.exception.RenException;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -25,8 +28,9 @@ import java.io.InputStream;
  *
  * @author Mark sunlightcs@gmail.com
  */
-public class QcloudCloudStorageService extends CloudStorageService {
-    private COSClient client;
+public class QcloudCloudStorageService extends AbstractCloudStorageService {
+    private COSCredentials credentials;
+    private ClientConfig clientConfig;
 
     public QcloudCloudStorageService(CloudStorageConfig config){
         this.config = config;
@@ -36,44 +40,38 @@ public class QcloudCloudStorageService extends CloudStorageService {
     }
 
     private void init(){
-    	Credentials credentials = new Credentials(config.getQcloudAppId(), config.getQcloudSecretId(),
-                config.getQcloudSecretKey());
+        //1、初始化用户身份信息(secretId, secretKey)
+        credentials = new BasicCOSCredentials(config.getQcloudSecretId(), config.getQcloudSecretKey());
     	
-    	//初始化客户端配置
-        ClientConfig clientConfig = new ClientConfig();
-        //设置bucket所在的区域，华南：gz 华北：tj 华东：sh
-        clientConfig.setRegion(config.getQcloudRegion());
-        
-    	client = new COSClient(clientConfig, credentials);
+    	//2、设置bucket的区域, COS地域的简称请参照 https://cloud.tencent.com/document/product/436/6224
+        clientConfig = new ClientConfig(new Region(config.getQcloudRegion()));
     }
 
     @Override
     public String upload(byte[] data, String path) {
-        //腾讯云必需要以"/"开头
-        if(!path.startsWith("/")) {
-            path = "/" + path;
-        }
-        
-        //上传到腾讯云
-        UploadFileRequest request = new UploadFileRequest(config.getQcloudBucketName(), path, data);
-        String response = client.uploadFile(request);
-
-        JSONObject jsonObject = JSONObject.fromObject(response);
-        if(jsonObject.getInt("code") != 0) {
-            throw new RRException("文件上传失败，" + jsonObject.getString("message"));
-        }
-
-        return config.getQcloudDomain() + path;
+        return upload(new ByteArrayInputStream(data), path);
     }
 
     @Override
     public String upload(InputStream inputStream, String path) {
     	try {
-            byte[] data = IOUtils.toByteArray(inputStream);
-            return this.upload(data, path);
+            COSClient client = new COSClient(credentials, clientConfig);
+
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentLength(inputStream.available());
+            String bucketName = config.getQcloudBucketName() +"-"+ config.getQcloudAppId();
+            PutObjectRequest request = new PutObjectRequest(bucketName, path, inputStream, metadata);
+            PutObjectResult result = client.putObject(request);
+            
+            client.shutdown();
+            if(result.getETag() == null){
+                throw new RenException(ErrorCode.OSS_UPLOAD_FILE_ERROR, "");
+            }
         } catch (IOException e) {
-            throw new RRException("上传文件失败", e);
+            throw new RenException(ErrorCode.OSS_UPLOAD_FILE_ERROR, e, "");
         }
+
+        return config.getQcloudDomain() + "/" + path;
     }
 
     @Override

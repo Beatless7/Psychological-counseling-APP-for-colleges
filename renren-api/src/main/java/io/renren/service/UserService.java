@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,25 +8,27 @@
 
 package io.renren.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import io.renren.common.service.BaseService;
 import io.renren.entity.UserEntity;
-import io.renren.form.LoginForm;
+import io.renren.dto.LoginDTO;
 
 import java.util.Map;
 
 /**
  * 用户
- *
+ * 
  * @author Mark sunlightcs@gmail.com
  */
-public interface UserService extends IService<UserEntity> {
+public interface UserService extends BaseService<UserEntity> {
 
-	UserEntity queryByMobile(String mobile);
+	UserEntity getByMobile(String mobile);
+
+	UserEntity getUserByUserId(Long userId);
 
 	/**
 	 * 用户登录
-	 * @param form    登录表单
+	 * @param dto    登录表单
 	 * @return        返回登录信息
 	 */
-	Map<String, Object> login(LoginForm form);
+	Map<String, Object> login(LoginDTO dto);
 }

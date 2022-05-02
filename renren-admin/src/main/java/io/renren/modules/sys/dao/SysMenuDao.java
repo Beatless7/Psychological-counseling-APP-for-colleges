@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
+ * Copyright (c) 2018 人人开源 All rights reserved.
  *
  * https://www.renren.io
  *
@@ -8,29 +8,53 @@
 
 package io.renren.modules.sys.dao;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.renren.common.dao.BaseDao;
 import io.renren.modules.sys.entity.SysMenuEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
  * 菜单管理
- *
+ * 
  * @author Mark sunlightcs@gmail.com
  */
 @Mapper
-public interface SysMenuDao extends BaseMapper<SysMenuEntity> {
-	
+public interface SysMenuDao extends BaseDao<SysMenuEntity> {
+
+	SysMenuEntity getById(@Param("id") Long id);
+
+	/**
+	 * 查询所有菜单列表
+	 *
+	 * @param type 菜单类型
+	 */
+	List<SysMenuEntity> getMenuList(@Param("type") Integer type);
+
+	/**
+	 * 查询用户菜单列表
+	 *
+	 * @param userId 用户ＩＤ
+	 * @param type 菜单类型
+	 */
+	List<SysMenuEntity> getUserMenuList(@Param("userId") Long userId, @Param("type") Integer type);
+
+	/**
+	 * 查询用户权限列表
+	 * @param userId  用户ID
+	 */
+	List<String> getUserPermissionsList(Long userId);
+
+	/**
+	 * 查询所有权限列表
+	 */
+	List<String> getPermissionsList();
+
 	/**
 	 * 根据父菜单，查询子菜单
-	 * @param parentId 父菜单ID
+	 * @param pid  父菜单ID
 	 */
-	List<SysMenuEntity> queryListParentId(Long parentId);
-	
-	/**
-	 * 获取不包含按钮的菜单列表
-	 */
-	List<SysMenuEntity> queryNotButtonList();
+	List<SysMenuEntity> getListPid(Long pid);
 
 }
