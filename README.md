@@ -103,11 +103,11 @@ renren-security
 - 账号密码：admin/admin
 <br>
 
-![输入图片说明](images/1.png)
+![输入图片说明](renren-admin/src/main/resources/public/1.png)
 
 <br>
 
-![输入图片说明](images/2.png)
+![输入图片说明](renren-admin/src/main/resources/public/2.png)
 
 <br>
 
