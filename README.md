@@ -4,7 +4,6 @@
 - 支持MySQL、Oracle、SQL Server、PostgreSQL等主流数据库
 - 前端地址：https://gitee.com/renrenio/renren-ui
 <br>
-<br>
 
 **具有如下特点**
 - 友好的代码结构及注释，便于阅读及二次开发
@@ -21,12 +20,17 @@
 - 引入云存储服务，已支持：七牛云、阿里云、腾讯云等
 - 引入swagger文档支持，方便编写API接口文档
 <br>
-<br>
 
 **数据权限设计思想**
 - 用户管理、角色管理、部门管理，可操作本部门及子部门数据
 - 菜单管理、定时任务、参数管理、字典管理、系统日志，没有数据权限
 - 业务功能，按照用户数据权限，查询、操作数据【没有本部门数据权限，也能查询本人数据】
+
+<br>
+
+**项目演示**
+- 演示地址：http://demo.open.renren.io/renren-security
+- 账号密码：admin/admin
 
 <br> 
 
@@ -83,7 +87,7 @@ renren-security
 - SQL Server 2012+
 - PostgreSQL 9.4+
 <br>
-<br>
+
 
 **本地部署**
 - 通过git下载源码
@@ -92,35 +96,13 @@ renren-security
 - 执行db/mysql.sql文件，初始化数据
 - 修改application-dev.yml文件，更新MySQL账号和密码
 - 在renren-security目录下，执行mvn clean install
-  <br>
-
 - Eclipse、IDEA运行AdminApplication.java，则可启动项目【renren-admin】
 - renren-admin访问路径：http://localhost:8080/renren-admin
 - swagger文档路径：http://localhost:8080/renren-admin/doc.html
+- 再启动前端项目，前端地址：https://gitee.com/renrenio/renren-ui
 - 账号密码：admin/admin
 
-<br>
 
-- Eclipse、IDEA运行ApiApplication.java，则可启动项目【renren-api】
-- renren-api访问路径：http://localhost:8081/renren-api/doc.html
-
-<br>
-
-- Eclipse、IDEA运行GeneratorApplication.java，则可启动项目【renren-generator】
-- renren-generator访问路径：http://localhost:8082/renren-generator
-
-
-<br>
-
-**集群部署**
-- 集群部署，需要安装redis，并配置redis信息
-- 需要配置【renren.redis.open=true】，表示开启redis缓存
-
-<br>
-
-**项目演示**
-- 演示地址：http://demo.open.renren.io/renren-security
-- 账号密码：admin/admin
 
 <br>
 
@@ -134,7 +116,6 @@ renren-security
 - 技术讨论、二次开发等咨询、问题和建议，请移步到官方社区，我会在第一时间进行解答和回复！
 - 微信扫码并关注【人人开源】，获得项目最新动态及更新提醒<br>
   ![输入图片说明](http://cdn.renren.io/47c26201804031918312618.jpg "在这里输入图片标题")
-  <br>
   <br>
 
 **接口文档效果图：**
