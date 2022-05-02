@@ -101,8 +101,10 @@ renren-security
 - swagger文档路径：http://localhost:8080/renren-admin/doc.html
 - 再启动前端项目，前端地址：https://gitee.com/renrenio/renren-ui
 - 账号密码：admin/admin
-
-
+- 
+![输入图片说明](images/1.png)
+<br>
+![输入图片说明](images/2.png)
 
 <br>
 
@@ -119,7 +121,6 @@ renren-security
   <br>
 
 **接口文档效果图：**
-![输入图片说明](http://cdn.renren.io/img/c8dae596146248d8b4d0639738c2932b "在这里输入图片标题")
 
 <br>
 
