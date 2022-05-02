@@ -46,9 +46,15 @@ public class ShiroServiceImpl implements ShiroService {
         }
 
         //用户权限列表
-        return permissionsList.stream().map(StringUtils::trim)
-                .flatMap(perms -> Arrays.stream(StringUtils.split(",")))
-                .collect(Collectors.toSet());
+        Set<String> permsSet = new HashSet<>();
+        for(String permissions : permissionsList){
+            if(StringUtils.isBlank(permissions)){
+                continue;
+            }
+            permsSet.addAll(Arrays.asList(permissions.trim().split(",")));
+        }
+
+        return permsSet;
     }
 
     @Override
