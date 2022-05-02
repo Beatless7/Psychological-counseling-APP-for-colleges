@@ -166,7 +166,7 @@ public class GenUtils {
 	 */
 	public static String tableToJava(String tableName, String tablePrefix) {
 		if(StringUtils.isNotBlank(tablePrefix)){
-			tableName = tableName.replaceFirst(tablePrefix, "");
+			tableName = tableName.startsWith(tablePrefix) ? tableName.replaceFirst(tablePrefix, "") : tableName;
 		}
 		return columnToJava(tableName);
 	}
