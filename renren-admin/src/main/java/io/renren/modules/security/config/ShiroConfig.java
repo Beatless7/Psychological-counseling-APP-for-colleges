@@ -69,14 +69,8 @@ public class ShiroConfig {
         filterMap.put("/v2/api-docs", "anon");
         filterMap.put("/doc.html", "anon");
         filterMap.put("/swagger-resources/**", "anon");
-        filterMap.put("/service/**", "anon");
-        filterMap.put("/editor-app/**", "anon");
-        filterMap.put("/diagram-viewer/**", "anon");
-        filterMap.put("/modeler.html", "anon");
         filterMap.put("/captcha", "anon");
         filterMap.put("/favicon.ico", "anon");
-        filterMap.put("/websocket","anon");
-        filterMap.put("/websocket/**","anon");
         filterMap.put("/**", "oauth2");
         shiroFilter.setFilterChainDefinitionMap(filterMap);
 
