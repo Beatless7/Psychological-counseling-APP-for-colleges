@@ -366,8 +366,8 @@ CREATE INDEX idx_sys_oss_create_date on sys_oss(create_date);
 COMMENT ON TABLE sys_oss IS '文件上传';
 COMMENT ON COLUMN sys_oss.id IS 'id';
 COMMENT ON COLUMN sys_oss.url IS 'URL地址';
-COMMENT ON COLUMN sys_mail_log.creator IS '创建者';
-COMMENT ON COLUMN sys_mail_log.create_date IS '创建时间';
+COMMENT ON COLUMN sys_oss.creator IS '创建者';
+COMMENT ON COLUMN sys_oss.create_date IS '创建时间';
 
 
 CREATE TABLE schedule_job (
