@@ -73,14 +73,14 @@ public class LoginController {
 	@PostMapping("login")
 	@ApiOperation(value = "登录")
 	public Result login(HttpServletRequest request, @RequestBody LoginDTO login) {
-		/*//效验数据
+		//效验数据
 		ValidatorUtils.validateEntity(login);
 
 		//验证码是否正确
 		boolean flag = captchaService.validate(login.getUuid(), login.getCaptcha());
 		if(!flag){
 			return new Result().error(ErrorCode.CAPTCHA_ERROR);
-		}*/
+		}
 
 		//用户信息
 		SysUserDTO user = sysUserService.getByUsername(login.getUsername());
