@@ -1,9 +1,8 @@
 **项目说明**
-- renren-security是一个轻量级的，前后端分离的Java快速开发平台，能快速开发项目并交付【接私活利器】
-- 采用SpringBoot、MyBatis、Shiro框架，开发的一套权限系统，极低门槛，拿来即用。设计之初，就非常注重安全性，为企业系统保驾护航，让一切都变得如此简单。
-- 提供了代码生成器，只需编写30%左右代码，其余的代码交给系统自动生成，可快速完成开发任务
+- 心理辅导APP是一个轻量级的，前后端分离的Java开发平台
+- 采用SpringBoot、MyBatis、Shiro框架，开发的一套权限系统。设计之初，就非常注重安全性。
 - 支持MySQL、Oracle、SQL Server、PostgreSQL等主流数据库
-- 前端地址：https://gitee.com/renrenio/renren-ui
+- 前端地址：https://tjut.coding.net/p/xinlifuzhu-01/d/xinlifuzhu-02/git
 <br>
 
 **具有如下特点**
@@ -28,10 +27,6 @@
 - 业务功能，按照用户数据权限，查询、操作数据【没有本部门数据权限，也能查询本人数据】
 
 <br>
-
-**项目演示**
-- 演示地址：http://demo.open.renren.io/renren-security
-- 账号密码：admin/admin
 
 <br> 
 
@@ -100,27 +95,10 @@ renren-security
 - Eclipse、IDEA运行AdminApplication.java，则可启动项目【renren-admin】
 - renren-admin访问路径：http://localhost:8080/renren-admin
 - swagger文档路径：http://localhost:8080/renren-admin/doc.html
-- 再启动前端项目，前端地址：https://gitee.com/renrenio/renren-ui
+- 再启动前端项目，前端地址：https://tjut.coding.net/p/xinlifuzhu-01/d/xinlifuzhu-02/git
 - 账号密码：admin/admin
 <br>
 
-![输入图片说明](renren-admin/src/main/resources/public/1.png)
+
 
 <br>
-
-![输入图片说明](renren-admin/src/main/resources/public/2.png)
-
-<br>
-
-**如何交流、反馈、参与贡献？**
-- 开发文档：https://www.renren.io/guide/security
-- 官方社区：https://www.renren.io/community
-- Gitee仓库：https://gitee.com/renrenio/renren-security
-- [人人开源](https://www.renren.io)：https://www.renren.io
-- 官方QQ群：群1：324780204（已满）、群2：145799952（已满）、群3：189969622
-- 如需关注项目最新动态，请Watch、Star项目，同时也是对项目最好的支持
-- 技术讨论、二次开发等咨询、问题和建议，请移步到官方社区，我会在第一时间进行解答和回复！
-
-<br>
-
-![捐赠](http://cdn.renren.io/donate.jpg "捐赠") 
