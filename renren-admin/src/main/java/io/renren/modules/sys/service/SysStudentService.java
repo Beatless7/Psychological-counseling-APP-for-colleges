@@ -19,7 +19,7 @@ import java.util.Map;
 
 
 /**
- * 学生
+ * 学生用户操作
  */
 public interface SysStudentService extends BaseService<SysStudentEntity> {
 
