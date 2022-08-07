@@ -56,6 +56,10 @@ public class SysStudentEntity extends BaseEntity {
 	 */
 	private Long deptId;
 	/**
+	 * 心理状态
+	 */
+	private String psyStates;
+	/**
 	 * 状态  0：停用   1：正常
 	 */
 	private Integer status;

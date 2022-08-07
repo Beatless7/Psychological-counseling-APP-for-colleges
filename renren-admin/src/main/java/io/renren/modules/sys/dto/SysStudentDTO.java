@@ -61,6 +61,9 @@ public class SysStudentDTO implements Serializable {
 	@ApiModelProperty(value = "手机号")
 	private String mobile;
 
+	@ApiModelProperty(value = "心理状态")
+	private String psyStates;
+
 	@ApiModelProperty(value = "部门ID", required = true)
 	@NotNull(message="{sysuser.deptId.require}", groups = DefaultGroup.class)
 	private Long deptId;
