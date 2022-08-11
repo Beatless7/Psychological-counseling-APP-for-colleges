@@ -8,6 +8,7 @@
 
 package io.renren.modules.sys.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.renren.common.entity.BaseEntity;
 import lombok.Data;

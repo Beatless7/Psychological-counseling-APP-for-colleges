@@ -502,3 +502,18 @@ CREATE INDEX IDX_QRTZ_FT_J_G ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,JOB_NAME,JOB_GROU
 CREATE INDEX IDX_QRTZ_FT_JG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,JOB_GROUP);
 CREATE INDEX IDX_QRTZ_FT_T_G ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP);
 CREATE INDEX IDX_QRTZ_FT_TG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_GROUP);
+
+
+drop table if exists sys_mv;
+CREATE TABLE sys_MV(
+                       id int not null primary key AUTO_INCREMENT,
+                       types varchar(5) not null,
+                       addr VARCHAR(200) not null unique key,
+                       creator bigint COMMENT '创建者',
+                       create_date datetime COMMENT '创建时间',
+                       updater bigint COMMENT '更新者',
+                       update_date datetime COMMENT '更新时间',
+                       key idx_create_date (create_date)
+);
+ALTER TABLE sys_mv ADD CONSTRAINT ck_mv_class CHECK
+    (types='m' or types='v');

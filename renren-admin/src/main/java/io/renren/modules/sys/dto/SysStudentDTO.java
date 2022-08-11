@@ -32,7 +32,6 @@ import java.util.List;
 @ApiModel(value = "学生管理")
 public class SysStudentDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-
 	@ApiModelProperty(value = "id")
 	@Null(message="{id.null}", groups = AddGroup.class)
 	@NotNull(message="{id.require}", groups = UpdateGroup.class)
