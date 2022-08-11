@@ -45,7 +45,7 @@ public class SysMvController {
             @ApiImplicitParam(name = "type", value = "类型", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "addr", value = "地址", paramType = "query", dataType = "String")
     })
-    @RequiresPermissions("sys:user:page")
+    @RequiresPermissions("sys:user:info")
     public Result<PageData<SysMvDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params) {
         PageData<SysMvDTO> page = sysMvService.page(params);
         return new Result<PageData<SysMvDTO>>().ok(page);
@@ -53,7 +53,7 @@ public class SysMvController {
 
     @GetMapping("{id}")
     @ApiOperation("信息")
-    @RequiresPermissions("sys:mv:info")
+    @RequiresPermissions("sys:user:page")
     public Result<SysMvDTO> get(@PathVariable("id") Long id) {
         SysMvDTO data = sysMvService.get(id);
         return new Result<SysMvDTO>().ok(data);
@@ -63,7 +63,7 @@ public class SysMvController {
     @PostMapping
     @ApiOperation("保存")
     @LogOperation("保存")
-    @RequiresPermissions("sys:mv:save")
+    @RequiresPermissions("sys:user:save")
     public Result save(@RequestBody SysMvDTO dto) {
         ValidatorUtils.validateEntity(dto, AddGroup.class, DefaultGroup.class);
         sysMvService.save(dto);
@@ -73,7 +73,7 @@ public class SysMvController {
     @PutMapping
     @ApiOperation("修改")
     @LogOperation("修改")
-    @RequiresPermissions("sys:mv:update")
+    @RequiresPermissions("sys:user:update")
     public Result update(@RequestBody SysMvDTO dto) {
         ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
         sysMvService.update(dto);
@@ -83,7 +83,7 @@ public class SysMvController {
     @DeleteMapping
     @ApiOperation("删除")
     @LogOperation("删除")
-    @RequiresPermissions("sys:mv:delete")
+    @RequiresPermissions("sys:user:delete")
     public Result delete(@RequestBody Long[] ids) {
         AssertUtils.isArrayEmpty(ids, "id");
         sysMvService.deleteBatchIds(Arrays.asList(ids));

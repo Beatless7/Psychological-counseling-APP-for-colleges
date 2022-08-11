@@ -19,7 +19,7 @@ import javax.validation.constraints.Null;
 public class SysMvDTO {
     private static final long serialVersionUID = 1L;
     @ApiModelProperty(value = "id")
-    @Null(message="{id.null}", groups = AddGroup.class)
+//    @Null(message="{id.null}", groups = AddGroup.class)
     @NotNull(message="{id.require}", groups = UpdateGroup.class)
     private Long id;
 
