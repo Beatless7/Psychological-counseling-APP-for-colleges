@@ -63,5 +63,9 @@ public class SysStudentEntity extends BaseEntity {
 	 * 状态  0：停用   1：正常
 	 */
 	private Integer status;
-
+	/**
+	 * 部门名称
+	 */
+	@TableField(exist=false)
+	private String deptName;
 }
