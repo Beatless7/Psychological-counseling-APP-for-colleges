@@ -1,14 +1,55 @@
--- 系统用户
+DROP TABLE IF EXISTS `sys_student`;
+CREATE TABLE `sys_student`  (
+  `id` bigint(20) NOT NULL COMMENT 'id',
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '学生姓名',
+  `real_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '姓名',
+  `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '密码',
+  `head_url` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '头像',
+  `gender` tinyint(3) UNSIGNED NULL DEFAULT NULL COMMENT '性别   0：男   1：女    2：保密',
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '邮箱',
+  `mobile` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '手机号',
+  `dept_id` bigint(20) NULL DEFAULT NULL COMMENT '班级ID',
+  `psy_states` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '学生心理状态',
+  `status` tinyint(4) NULL DEFAULT NULL COMMENT '状态  0：停用   1：正常',
+  `create_date` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  `creator` bigint(20) NULL DEFAULT NULL COMMENT '创建人',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_username`(`username`) USING BTREE,
+  INDEX `idx_create_date`(`create_date`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '学生用户' ROW_FORMAT = COMPACT;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- 部门
+CREATE TABLE `sys_dept` (
+  `id` bigint NOT NULL COMMENT 'id',
+  `pid` bigint DEFAULT NULL COMMENT '上级ID',
+  `pids` varchar(500) DEFAULT NULL COMMENT '所有上级ID，用逗号分开',
+  `name` varchar(50) DEFAULT NULL COMMENT '部门名称',
+  `school_addr` varchar(300) DEFAULT NULL COMMENT '学校地址',
+  `school_mobile` varchar(50) DEFAULT NULL COMMENT '学校联系电话',
+  `sort` int unsigned DEFAULT NULL COMMENT '排序',
+  `creator` varchar(100) DEFAULT NULL COMMENT '创建者',
+  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
+  `updater` varchar(100) DEFAULT NULL COMMENT '更新者',
+  `update_date` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_pid` (`pid`),
+  KEY `idx_sort` (`sort`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='部门管理';
+
+
+-- 管理员用户
 CREATE TABLE sys_user (
   id bigint NOT NULL COMMENT 'id',
-  username varchar(50) NOT NULL COMMENT '用户名',
-  password varchar(100) COMMENT '密码',
+  username varchar(50) NOT NULL COMMENT '教师工号',
   real_name varchar(50) COMMENT '姓名',
+	password varchar(100) COMMENT '密码',
   head_url varchar(200) COMMENT '头像',
   gender tinyint unsigned COMMENT '性别   0：男   1：女    2：保密',
   email varchar(100) COMMENT '邮箱',
   mobile varchar(100) COMMENT '手机号',
-  dept_id bigint COMMENT '部门ID',
+  dept_id bigint COMMENT '学校ID', 
   super_admin tinyint unsigned COMMENT '超级管理员   0：否   1：是',
   status tinyint COMMENT '状态  0：停用   1：正常',
   creator bigint COMMENT '创建者',
@@ -16,25 +57,71 @@ CREATE TABLE sys_user (
   updater bigint COMMENT '更新者',
   update_date datetime COMMENT '更新时间',
   primary key (id),
+	foreign key (dept_id)REFERENCES sys_dept(id),
   unique key uk_username (username),
   key idx_create_date (create_date)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统用户';
 
--- 部门
-CREATE TABLE sys_dept (
-  id bigint NOT NULL COMMENT 'id',
-  pid bigint COMMENT '上级ID',
-  pids varchar(500) COMMENT '所有上级ID，用逗号分开',
-  name varchar(50) COMMENT '部门名称',
-  sort int unsigned COMMENT '排序',
-  creator bigint COMMENT '创建者',
-  create_date datetime COMMENT '创建时间',
-  updater bigint COMMENT '更新者',
-  update_date datetime COMMENT '更新时间',
-  primary key (id),
-  key idx_pid (pid),
-  key idx_sort (sort)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='部门管理';
+
+DROP TABLE IF EXISTS `sys_question`;
+CREATE TABLE `sys_question`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `problems` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `yes` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `maybe` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `no` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = DYNAMIC;
+
+
+INSERT INTO `sys_question` VALUES (1, '平时对生活充满信心，乐观面对。', '0', '1', '2');
+INSERT INTO `sys_question` VALUES (2, '上床后，怎么也睡不着，即使睡着也容易惊醒。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (3, '经常做恶梦，惊恐不安，早晨醒来就感到倦怠无力、焦虑烦躁。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (4, '经常醒1-2小时，醒后很难再入睡。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (5, '能够沉迷学习，专心解决问题。', '0', '1', '2');
+INSERT INTO `sys_question` VALUES (6, '遇到不称心的事情便较长时间地沉默少言。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (7, '不会轻易发脾气，能够沉着冷静。', '0', '1', '2');
+INSERT INTO `sys_question` VALUES (8, '哪怕是一件小事情，也总是很放不开，整日思索。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (9, '感到现实生活中没有什么事情能引起自己的乐趣，郁郁寡欢。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (10, '经常与人争吵发火，过后又后悔不已。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (11, '经常追悔自己做过的事，有负疚感。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (12, '能够对考试做到信心十足，没有畏惧心理。', '0', '1', '2');
+INSERT INTO `sys_question` VALUES (13, '不畏惧失败，行动前做好充足准备。', '0', '1', '2');
+INSERT INTO `sys_question` VALUES (14, '感情脆弱，稍不顺心，就暗自流泪。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (15, '自己经常鼓励自己，积极面对困难。', '0', '1', '2');
+INSERT INTO `sys_question` VALUES (16, '感到没有人理解自己，烦闷时别人很难使自己高兴。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (17, '发现别人在窃窃私语，便怀疑是在背后议论自己。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (18, '对别人取得的成绩和荣誉常常表示怀疑，甚至嫉妒。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (19, '缺乏安全感，总觉得别人要加害自己。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (20, '善于和陌生人交往，能够灵活应对。', '0', '1', '2');
+INSERT INTO `sys_question` VALUES (21, '在黑夜行走或独自在家有恐惧感。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (22, '一旦离开父母，心里就不踏实。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (23, '经常怀疑自己接触的东西不干净，反复洗手或换衣服，对清洁极端注意。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (24, '担心是否锁门和东西忘记拿，反复检查，经常躺在床上又起来确认，或刚一出门又返回检查。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (25, '站在沟边、楼顶、阳台上，有摇摇晃晃要掉下去的感觉。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (26, '对他人的疾病非常敏感，经常打听，深怕自己也身患相同的病。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (27, '怀疑自己患了严重不治之症，反复看医书或去医院检查。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (28, '有依赖止痛或镇静药的习惯。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (29, '经常有离家出走或脱离集体的想法。', '2', '1', '0');
+INSERT INTO `sys_question` VALUES (30, '感到内心痛苦无法解脱，只能自伤或自杀。 ', '2', '1', '0');
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+drop table if exists sys_mv;
+CREATE TABLE sys_MV(
+                       id int not null primary key AUTO_INCREMENT,
+                       types varchar(5) not null,
+                       addr VARCHAR(200) not null unique key,
+                       creator bigint COMMENT '创建者',
+                       create_date datetime COMMENT '创建时间',
+                       updater bigint COMMENT '更新者',
+                       update_date datetime COMMENT '更新时间',
+                       key idx_create_date (create_date)
+);
+ALTER TABLE sys_mv ADD CONSTRAINT ck_mv_class CHECK
+    (types='m' or types='v');
+    
 
 -- 角色管理
 create table sys_role
@@ -310,7 +397,7 @@ INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator
 INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000048, 1067246875800000046, '登录日志', 'sys/log-login', 'sys:log:login', 0, 'icon-filedone', 0, 1067246875800000001, now(), 1067246875800000001, now());
 INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000049, 1067246875800000046, '操作日志', 'sys/log-operation', 'sys:log:operation', 0, 'icon-solution', 1, 1067246875800000001, now(), 1067246875800000001, now());
 INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000050, 1067246875800000046, '异常日志', 'sys/log-error', 'sys:log:error', 0, 'icon-file-exception', 2, 1067246875800000001, now(), 1067246875800000001, now());
-INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000051, 1067246875800000053, 'SQL监控', '{{ window.SITE_CONFIG[\"apiURL\"] }}/druid/sql.html', NULL, 0, 'icon-database', 0, 1067246875800000001, now(), 1067246875800000001, now());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000051, 1067246875800000053, 'SQL监控', '{{ window.SITE_CONFIG["apiURL"] }}/druid/sql.html', NULL, 0, 'icon-database', 0, 1067246875800000001, now(), 1067246875800000001, now());
 INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000053, 0, '系统监控', NULL, NULL, 0, 'icon-desktop', 3, 1067246875800000001, now(), 1067246875800000001, now());
 INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000055, 1067246875800000002, '用户管理', 'sys/user', NULL, 0, 'icon-user', 0, 1067246875800000001, now(), 1067246875800000001, now());
 INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000056, 1067246875800000055, '查看', NULL, 'sys:user:page,sys:user:info', 1, NULL, 0, 1067246875800000001, now(), 1067246875800000001, now());
@@ -319,7 +406,7 @@ INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator
 INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000059, 1067246875800000040, '查看', '', 'sys:params:page,sys:params:info', 1, NULL, 0, 1067246875800000001, now(), 1067246875800000001, now());
 INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000060, 1067246875800000040, '修改', NULL, 'sys:params:update', 1, NULL, 2, 1067246875800000001, now(), 1067246875800000001, now());
 INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1067246875800000061, 1067246875800000040, '删除', '', 'sys:params:delete', 1, '', 3, 1067246875800000001, now(), 1067246875800000001, now());
-INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1156748733921165314, 1067246875800000053, '接口文档', '{{ window.SITE_CONFIG[\"apiURL\"] }}/doc.html', '', 0, 'icon-file-word', 1, 1067246875800000001, now(), 1067246875800000001, now());
+INSERT INTO sys_menu (id, pid, name, url, permissions, type, icon, sort, creator, create_date, updater, update_date) VALUES (1156748733921165314, 1067246875800000053, '接口文档', '{{ window.SITE_CONFIG["apiURL"] }}/doc.html', '', 0, 'icon-file-word', 1, 1067246875800000001, now(), 1067246875800000001, now());
 
 
 INSERT INTO sys_dept(id, pid, pids, name, sort, creator, create_date, updater, update_date) VALUES (1067246875800000062, 1067246875800000063, '1067246875800000066,1067246875800000063', '技术部', 2, 1067246875800000001, now(), 1067246875800000001, now());
@@ -504,16 +591,5 @@ CREATE INDEX IDX_QRTZ_FT_T_G ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIG
 CREATE INDEX IDX_QRTZ_FT_TG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_GROUP);
 
 
-drop table if exists sys_mv;
-CREATE TABLE sys_MV(
-                       id int not null primary key AUTO_INCREMENT,
-                       types varchar(5) not null,
-                       addr VARCHAR(200) not null unique key,
-                       creator bigint COMMENT '创建者',
-                       create_date datetime COMMENT '创建时间',
-                       updater bigint COMMENT '更新者',
-                       update_date datetime COMMENT '更新时间',
-                       key idx_create_date (create_date)
-);
-ALTER TABLE sys_mv ADD CONSTRAINT ck_mv_class CHECK
-    (types='m' or types='v');
+
+
