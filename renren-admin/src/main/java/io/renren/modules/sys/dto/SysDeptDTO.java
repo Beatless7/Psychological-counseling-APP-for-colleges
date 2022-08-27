@@ -29,9 +29,9 @@ import java.util.Date;
  * @author Mark sunlightcs@gmail.com
  * @since 1.0.0
  */
-@ApiModel(value = "部门管理")
+@ApiModel(value = "高校管理")
 public class SysDeptDTO extends TreeNode implements Serializable {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "id")
 	@Null(message="{id.null}", groups = AddGroup.class)
@@ -42,13 +42,21 @@ public class SysDeptDTO extends TreeNode implements Serializable {
 	@NotNull(message="{sysdept.pid.require}", groups = DefaultGroup.class)
 	private Long pid;
 
-	@ApiModelProperty(value = "部门名称")
+	@ApiModelProperty(value = "高校名称")
 	@NotBlank(message="{sysdept.name.require}", groups = DefaultGroup.class)
 	private String name;
 
 	@ApiModelProperty(value = "排序")
 	@Min(value = 0, message = "{sort.number}", groups = DefaultGroup.class)
 	private Integer sort;
+
+	@ApiModelProperty(value = "学校地址")
+	@NotBlank(message="{sysdept.school_addr.require}", groups = DefaultGroup.class)
+	private String schoolAddr;
+
+	@ApiModelProperty(value = "学校联系电话")
+	@NotBlank(message="{sysdept.school_mobile.require}", groups = DefaultGroup.class)
+	private String schoolMobile;
 
 	@ApiModelProperty(value = "创建时间")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -83,6 +91,22 @@ public class SysDeptDTO extends TreeNode implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getSchoolAddr() {
+		return schoolAddr;
+	}
+
+	public void setSchoolAddr(String schoolAddr) {
+		this.schoolAddr = schoolAddr;
+	}
+
+	public String getSchoolMobile() {
+		return schoolMobile;
+	}
+
+	public void setSchoolMobile(String schoolMobile) {
+		this.schoolMobile = schoolMobile;
 	}
 
 	public Integer getSort() {

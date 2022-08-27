@@ -43,6 +43,14 @@ public class SysDeptEntity extends BaseEntity {
 	 */
 	private Integer sort;
 	/**
+	 * 学校地址
+	 */
+	private String schoolAddr;
+	/**
+	 * 学校联系电话
+	 */
+	private String schoolMobile;
+	/**
 	 * 更新者
 	 */
 	@TableField(fill = FieldFill.INSERT_UPDATE)

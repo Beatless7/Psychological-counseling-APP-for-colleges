@@ -23,6 +23,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,7 +34,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/sys/dept")
-@Api(tags="部门管理")
+@Api(tags="高校管理")
 public class SysDeptController {
 	@Autowired
 	private SysDeptService sysDeptService;
@@ -82,17 +83,17 @@ public class SysDeptController {
 		return new Result();
 	}
 
-	@DeleteMapping("{id}")
+	@DeleteMapping
 	@ApiOperation("删除")
 	@LogOperation("删除")
 	@RequiresPermissions("sys:dept:delete")
-	public Result delete(@PathVariable("id") Long id){
+	public Result delete(@RequestBody Long[] ids){
 		//效验数据
-		AssertUtils.isNull(id, "id");
+		AssertUtils.isNull(ids, "id");
 
-		sysDeptService.delete(id);
+		sysDeptService.deleteBatchIds(Arrays.asList(ids));
 
 		return new Result();
 	}
-	
+
 }
