@@ -1,10 +1,4 @@
-/**
- * Copyright (c) 2018 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
+// powered by 天津理工大学心理辅导团队
 
 package io.renren.modules.security.controller;
 
@@ -45,7 +39,7 @@ import java.util.Date;
 /**
  * 登录
  * 
- * @author Mark sunlightcs@gmail.com
+ * @author Tjut team
  */
 @RestController
 @Api(tags="登录管理")
@@ -73,14 +67,14 @@ public class LoginController {
 	@PostMapping("login")
 	@ApiOperation(value = "登录")
 	public Result login(HttpServletRequest request, @RequestBody LoginDTO login) {
-		//效验数据
+		/*//效验数据
 		ValidatorUtils.validateEntity(login);
 
 		//验证码是否正确
 		boolean flag = captchaService.validate(login.getUuid(), login.getCaptcha());
 		if(!flag){
 			return new Result().error(ErrorCode.CAPTCHA_ERROR);
-		}
+		}*/
 
 		//用户信息
 		SysUserDTO user = sysUserService.getByUsername(login.getUsername());

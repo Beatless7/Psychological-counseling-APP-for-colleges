@@ -1,10 +1,4 @@
-/**
- * Copyright (c) 2018 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
+// powered by 天津理工大学心理辅导团队
 
 package io.renren.modules.log.controller;
 
@@ -36,7 +30,7 @@ import java.util.Map;
 /**
  * 异常日志
  *
- * @author Mark sunlightcs@gmail.com
+ * @author Tjut team
  * @since 1.0.0
  */
 @RestController

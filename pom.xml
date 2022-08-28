@@ -7,8 +7,8 @@
     <packaging>pom</packaging>
 
     <name>renren-security</name>
-    <description>人人权限系统</description>
-    <url>https://www.renren.io</url>
+    <description>心理辅导团队</description>
+    <url>https://tjut.coding.net/p/xinlifuzhu-01/</url>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

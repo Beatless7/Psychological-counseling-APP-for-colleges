@@ -1,10 +1,4 @@
-/**
- * Copyright (c) 2018 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
+// powered by 天津理工大学心理辅导团队
 
 package io.renren.interceptor;
 
@@ -25,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 权限(Token)验证
  *
- * @author Mark sunlightcs@gmail.com
+ * @author Tjut team
  */
 @Component
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {

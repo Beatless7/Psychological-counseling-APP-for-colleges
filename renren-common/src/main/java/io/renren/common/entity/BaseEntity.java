@@ -1,10 +1,4 @@
-/**
- * Copyright (c) 2018 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
+// powered by 天津理工大学心理辅导团队
 
 package io.renren.common.entity;
 
@@ -19,7 +13,7 @@ import java.util.Date;
 /**
  * 基础实体类，所有实体都需要继承
  *
- * @author Mark sunlightcs@gmail.com
+ * @author Tjut team
  */
 @Data
 public abstract class BaseEntity implements Serializable {

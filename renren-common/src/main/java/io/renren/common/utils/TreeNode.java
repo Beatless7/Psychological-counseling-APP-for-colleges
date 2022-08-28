@@ -1,10 +1,4 @@
-/**
- * Copyright (c) 2018 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
+// powered by 天津理工大学心理辅导团队
 
 package io.renren.common.utils;
 
@@ -15,7 +9,7 @@ import java.util.List;
 /**
  * 树节点，所有需要实现树节点的，都需要继承该类
  *
- * @author Mark sunlightcs@gmail.com
+ * @author Tjut team
  * @since 1.0.0
  */
 public class TreeNode<T> implements Serializable {
