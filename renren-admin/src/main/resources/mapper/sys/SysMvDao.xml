@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.sys.dao.SysMvDao">
+
+    <select id="getList" resultType="io.renren.modules.sys.entity.SysMvEntity">
+        select *  from sys_mv
+</select>
+
+    <select id="getById" resultType="io.renren.modules.sys.entity.SysMvEntity">
+        select *
+        from sys_mv
+        where id = #{value}
+    </select>
+</mapper>
