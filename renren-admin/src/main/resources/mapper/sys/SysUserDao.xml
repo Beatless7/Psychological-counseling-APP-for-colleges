@@ -5,22 +5,7 @@
 
 	<select id="getList" resultType="io.renren.modules.sys.entity.SysUserEntity">
 		select t1.*, (select t2.name from sys_dept t2 where t2.id=t1.dept_id) deptName from sys_user t1
-		where t1.super_admin = 0
-		<if test="username != null and username.trim() != ''">
-			and t1.username like #{username}
-		</if>
-		<if test="deptId != null and deptId.trim() != ''">
-			and t1.dept_id = #{deptId}
-		</if>
-		<if test="gender != null and gender.trim() != ''">
-			and t1.gender = #{gender}
-		</if>
-		<if test="deptIdList != null">
-			and t1.dept_id in
-			<foreach item="id" collection="deptIdList" open="(" separator="," close=")">
-				#{id}
-			</foreach>
-		</if>
+
 	</select>
 
 	<select id="getById" resultType="io.renren.modules.sys.entity.SysUserEntity">

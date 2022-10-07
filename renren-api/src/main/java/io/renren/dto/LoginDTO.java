@@ -1,3 +1,11 @@
+package io.renren.dto;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
+
 /**
  // powered by 天津理工大学心理辅导团队
 

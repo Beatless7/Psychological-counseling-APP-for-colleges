@@ -4,10 +4,10 @@
 <mapper namespace="io.renren.dao.UserDao">
 
     <select id="getUserByMobile" resultType="io.renren.entity.UserEntity">
-        select * from tb_user where mobile = #{value}
+        select * from sys_user where mobile = #{value}
     </select>
 
     <select id="getUserByUserId" resultType="io.renren.entity.UserEntity">
-        select * from tb_user where id = #{value}
+        select * from sys_user where id = #{value}
     </select>
 </mapper>

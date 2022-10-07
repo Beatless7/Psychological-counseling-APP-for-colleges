@@ -13,7 +13,6 @@ import io.renren.modules.log.enums.LoginOperationEnum;
 import io.renren.modules.log.enums.LoginStatusEnum;
 import io.renren.modules.log.service.SysLogLoginService;
 import io.renren.modules.security.dto.LoginDTO;
-import io.renren.modules.security.password.PasswordUtils;
 import io.renren.modules.security.service.CaptchaService;
 import io.renren.modules.security.service.SysUserTokenService;
 import io.renren.modules.security.user.SecurityUser;
@@ -96,7 +95,7 @@ public class LoginController {
 		}
 
 		//密码错误
-		if(!PasswordUtils.matches(login.getPassword(), user.getPassword())){
+		if(!user.getPassword().equals(login.getPassword())){
 			log.setStatus(LoginStatusEnum.FAIL.value());
 			log.setCreator(user.getId());
 			log.setCreatorName(user.getUsername());

@@ -19,7 +19,6 @@ import io.renren.modules.security.user.UserDetail;
 import io.renren.modules.sys.dto.PasswordDTO;
 import io.renren.modules.sys.dto.SysUserDTO;
 import io.renren.modules.sys.excel.SysUserExcel;
-import io.renren.modules.security.password.PasswordUtils;
 import io.renren.modules.sys.service.SysRoleUserService;
 import io.renren.modules.sys.service.SysUserService;
 import io.swagger.annotations.Api;
@@ -98,7 +97,7 @@ public class SysUserController {
 		UserDetail user = SecurityUser.getUser();
 
 		//原密码不正确
-		if(!PasswordUtils.matches(dto.getPassword(), user.getPassword())){
+		if(!user.getPassword().equals(dto.getPassword())){
 			return new Result().error(ErrorCode.PASSWORD_ERROR);
 		}
 

@@ -40,7 +40,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implem
 		AssertUtils.isNull(user, ErrorCode.ACCOUNT_PASSWORD_ERROR);
 
 		//密码错误
-		if(!user.getPassword().equals(DigestUtils.sha256Hex(dto.getPassword()))){
+		if(!user.getPassword().equals(dto.getPassword())){
 			throw new RenException(ErrorCode.ACCOUNT_PASSWORD_ERROR);
 		}
 

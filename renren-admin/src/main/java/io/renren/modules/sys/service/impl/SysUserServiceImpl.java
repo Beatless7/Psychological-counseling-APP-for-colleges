@@ -12,7 +12,6 @@ import io.renren.modules.security.user.UserDetail;
 import io.renren.modules.sys.dao.SysUserDao;
 import io.renren.modules.sys.dto.SysUserDTO;
 import io.renren.modules.sys.entity.SysUserEntity;
-import io.renren.modules.security.password.PasswordUtils;
 import io.renren.modules.sys.enums.SuperAdminEnum;
 import io.renren.modules.sys.service.SysDeptService;
 import io.renren.modules.sys.service.SysRoleUserService;
@@ -91,7 +90,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserDao, SysUserEntit
 		SysUserEntity entity = ConvertUtils.sourceToTarget(dto, SysUserEntity.class);
 
 		//密码加密
-		String password = PasswordUtils.encode(entity.getPassword());
+		String password = entity.getPassword();
 		entity.setPassword(password);
 
 		//保存用户
@@ -111,7 +110,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserDao, SysUserEntit
 		if(StringUtils.isBlank(dto.getPassword())){
 			entity.setPassword(null);
 		}else{
-			String password = PasswordUtils.encode(entity.getPassword());
+			String password = entity.getPassword();
 			entity.setPassword(password);
 		}
 
@@ -134,7 +133,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserDao, SysUserEntit
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public void updatePassword(Long id, String newPassword) {
-		newPassword = PasswordUtils.encode(newPassword);
+
 
 		baseDao.updatePassword(id, newPassword);
 	}
