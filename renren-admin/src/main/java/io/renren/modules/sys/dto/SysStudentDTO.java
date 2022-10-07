@@ -37,7 +37,7 @@ public class SysStudentDTO implements Serializable {
 
 
 	@ApiModelProperty(value = "姓名", required = true)
-	@NotBlank(message="{sysuser.realname.require}", groups = DefaultGroup.class)
+	@NotBlank(message="{真实姓名不能为空}", groups = DefaultGroup.class)
 	private String realName;
 
 	@ApiModelProperty(value = "头像")

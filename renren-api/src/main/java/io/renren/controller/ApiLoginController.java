@@ -49,9 +49,9 @@ public class ApiLoginController {
         return new Result().ok(map);
     }
 
-    @PostMapping("loginstudent")
+    @PostMapping("loginStudent")
     @ApiOperation("登录")
-    public Result<Map<String, Object>> loginstudent(@RequestBody LoginDTO dto){
+    public Result<Map<String, Object>> loginStudent(@RequestBody LoginDTO dto){
         //表单校验
         ValidatorUtils.validateEntity(dto);
 

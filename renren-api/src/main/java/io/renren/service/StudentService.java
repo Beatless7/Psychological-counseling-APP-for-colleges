@@ -13,7 +13,7 @@ import java.util.Map;
  * @author Tjut team
  */
 
-public interface StudentService {
+public interface StudentService extends BaseService<StudentEntity>{
 
     StudentEntity getByMobile(String mobile);
 

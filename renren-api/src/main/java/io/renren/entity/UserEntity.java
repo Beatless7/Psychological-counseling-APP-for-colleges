@@ -45,6 +45,9 @@ public class UserEntity implements Serializable {
 	private Integer status;
 
 	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private Date createDate;
+
+	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private Long updater;
 
 	@TableField(fill = FieldFill.INSERT_UPDATE)

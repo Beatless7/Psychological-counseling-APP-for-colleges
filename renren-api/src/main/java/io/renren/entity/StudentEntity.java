@@ -45,10 +45,10 @@ public class StudentEntity implements Serializable {
     private Integer status;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Long updater;
+    private Long createDate;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date updateDate;
+    private Date creator;
 
     @TableField(exist=false)
     private String deptName;
