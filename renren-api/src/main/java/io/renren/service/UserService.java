@@ -9,7 +9,7 @@ import io.renren.dto.LoginDTO;
 import java.util.Map;
 
 /**
- * 用户
+ * 教师管理员
  * 
  * @author Tjut team
  */
@@ -20,7 +20,7 @@ public interface UserService extends BaseService<UserEntity> {
 	UserEntity getUserByUserId(Long userId);
 
 	/**
-	 * 用户登录
+	 * 教师管理员登录
 	 * @param dto    登录表单
 	 * @return        返回登录信息
 	 */

@@ -12,8 +12,8 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
-/*
- * 用户
+/**
+ * 教师管理员
  *
  * @author Tjut team
  */
