@@ -51,4 +51,10 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentDao, StudentEntit
 
         return map;
     }
+
+    @Override
+    public StudentEntity getStudentByScore(int score) {
+        return baseDao.getStudentByScore(score);
+    }
+
 }

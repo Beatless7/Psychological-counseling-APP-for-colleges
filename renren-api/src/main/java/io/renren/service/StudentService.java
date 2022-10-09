@@ -5,6 +5,7 @@ import io.renren.entity.StudentEntity;
 import io.renren.dto.LoginDTO;
 
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -25,4 +26,7 @@ public interface StudentService extends BaseService<StudentEntity>{
      * @return        返回登录信息
      */
     Map<String, Object> login(LoginDTO dto);
+
+    StudentEntity getStudentByScore(int score);
+
 }

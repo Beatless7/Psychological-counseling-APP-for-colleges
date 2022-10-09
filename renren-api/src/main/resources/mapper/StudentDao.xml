@@ -10,4 +10,8 @@
     <select id="getStudentByStudentId" resultType="io.renren.entity.StudentEntity">
         select * from sys_student where id = #{value}
     </select>
+
+    <select id="getStudentByScore" resultType="io.renren.entity.StudentEntity">
+        select * from sys_student where score = #{value}
+    </select>
 </mapper>

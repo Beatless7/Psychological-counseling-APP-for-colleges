@@ -9,4 +9,6 @@ public interface StudentDao extends BaseDao<StudentEntity> {
     StudentEntity getStudentByMobile(String mobile);
 
     StudentEntity getStudentByStudentId(Long userId);
+
+    StudentEntity getStudentByScore(int score);
 }

@@ -1,6 +1,5 @@
 package io.renren.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -43,6 +42,8 @@ public class StudentEntity implements Serializable {
     private String psyStates;
 
     private Integer status;
+
+    private int score;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long createDate;
