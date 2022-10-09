@@ -4,9 +4,13 @@ package io.renren.service.impl;
 import io.renren.common.exception.ErrorCode;
 import io.renren.common.exception.RenException;
 import io.renren.common.service.impl.BaseServiceImpl;
+import io.renren.common.utils.ConvertUtils;
 import io.renren.common.validator.AssertUtils;
 import io.renren.dao.StudentDao;
 import io.renren.dto.LoginDTO;
+import io.renren.dto.QuestionDTO;
+import io.renren.dto.Student_Score_DTO;
+import io.renren.entity.QuestionEntity;
 import io.renren.entity.TokenEntity;
 import io.renren.entity.StudentEntity;
 import io.renren.service.StudentService;
@@ -55,6 +59,12 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentDao, StudentEntit
     @Override
     public StudentEntity getStudentByScore(int score) {
         return baseDao.getStudentByScore(score);
+    }
+
+    @Override
+    public void update(Student_Score_DTO dto) {
+        StudentEntity entity = ConvertUtils.sourceToTarget(dto, StudentEntity.class);
+        updateById(entity);
     }
 
 }

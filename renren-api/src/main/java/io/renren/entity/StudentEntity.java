@@ -43,7 +43,7 @@ public class StudentEntity implements Serializable {
 
     private Integer status;
 
-    private int score;
+    //private int score;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long createDate;

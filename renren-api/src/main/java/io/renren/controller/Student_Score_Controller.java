@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Wrapper;
+
 /**
  * 注册接口
  *
@@ -25,7 +27,7 @@ public class Student_Score_Controller {
     @Autowired
     private StudentService studentService;
 
-    @PostMapping("Student_Score")
+    @PostMapping("StudentScore")
     @ApiOperation("学生分数")
     public Result getStudentByScore(@RequestBody Student_Score_DTO dto){
         ValidatorUtils.validateEntity(dto);
@@ -42,7 +44,8 @@ public class Student_Score_Controller {
             str = "重度抑郁";
         }
         student.setPsyStates(str);
-        studentService.insert(student);
+        dto.setPsyStates(str);
+        studentService.update(dto);
         return new Result();
     }
 

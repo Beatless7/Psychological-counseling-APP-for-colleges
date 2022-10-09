@@ -21,4 +21,7 @@ public class Student_Score_DTO {
     @ApiModelProperty(value = "分数")
     private int score;
 
+    @ApiModelProperty(value = "心理状态")
+    private String psyStates;
+
 }

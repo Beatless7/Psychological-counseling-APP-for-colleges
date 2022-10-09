@@ -1,6 +1,8 @@
 package io.renren.service;
 
 import io.renren.common.service.BaseService;
+import io.renren.dto.QuestionDTO;
+import io.renren.dto.Student_Score_DTO;
 import io.renren.entity.StudentEntity;
 import io.renren.dto.LoginDTO;
 
@@ -29,4 +31,5 @@ public interface StudentService extends BaseService<StudentEntity>{
 
     StudentEntity getStudentByScore(int score);
 
+    void update(Student_Score_DTO dto);
 }

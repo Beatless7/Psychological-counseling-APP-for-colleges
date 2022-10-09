@@ -24,7 +24,7 @@ public class QuestionController {
 
     @GetMapping("{id}")
     @ApiOperation("信息")
-    @RequiresPermissions("user:info")
+    //@RequiresPermissions("user:info")
     public Result<QuestionDTO> get(@PathVariable("id") Long id){
         QuestionDTO data = questionService.get(id);
         return new Result<QuestionDTO>().ok(data);
