@@ -15,6 +15,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +26,7 @@ import java.util.List;
  */
 @Data
 @ApiModel(value = "教师管理员注册表单")
-public class RegisterDTO {
+public class RegisterDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

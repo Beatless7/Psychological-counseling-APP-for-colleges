@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.renren.common.entity.BaseEntity;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,9 +18,9 @@ import java.util.Date;
 
 @Data
 @TableName("sys_student")
-public class StudentEntity implements Serializable {
+public class StudentEntity extends BaseEntity {
     @TableId
-    private  long id = 1L;
+    private static final long serialVersionUID = 1L;
 
     private String username;
 
@@ -46,10 +47,10 @@ public class StudentEntity implements Serializable {
     //private int score;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Long createDate;
+    private Date createDate;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date creator;
+    private Long creator;
 
     @TableField(exist=false)
     private String deptName;

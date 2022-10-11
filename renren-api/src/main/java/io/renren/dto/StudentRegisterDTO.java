@@ -12,6 +12,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.io.Serializable;
 
 /**
  * 学生注册表单
@@ -21,12 +22,12 @@ import javax.validation.constraints.Null;
 
 @Data
 @ApiModel(value = "学生注册表单")
-public class StudentRegisterDTO {
+public class StudentRegisterDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @ApiModelProperty(value = "id")
-    @Null(message="{id.null}", groups = AddGroup.class)
-    @NotNull(message="{id不能为空}", groups = UpdateGroup.class)
+    //@Null(message="{id.null}", groups = AddGroup.class)
+    //@NotNull(message="{id不能为空}", groups = UpdateGroup.class)
     private Long id;
 
     @ApiModelProperty(value = "用户名")
