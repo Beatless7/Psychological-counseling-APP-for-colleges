@@ -12,7 +12,6 @@ import io.renren.entity.UserEntity;
 import io.renren.dto.LoginDTO;
 import io.renren.service.TokenService;
 import io.renren.service.UserService;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

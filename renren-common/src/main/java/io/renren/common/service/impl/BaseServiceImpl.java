@@ -47,9 +47,10 @@ public abstract class BaseServiceImpl<M extends BaseMapper<T>, T>  implements Ba
      */
     protected IPage<T> getPage(Map<String, Object> params, String defaultOrderField, boolean isAsc) {
         //分页参数
+        //curpage用于记录当前页码
+        //limit每页记录数
         long curPage = 1;
         long limit = 10;
-
         if(params.get(Constant.PAGE) != null){
             curPage = Long.parseLong((String)params.get(Constant.PAGE));
         }

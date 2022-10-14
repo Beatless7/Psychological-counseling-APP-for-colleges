@@ -7,7 +7,6 @@ import io.renren.common.exception.RenException;
 import io.renren.common.utils.IpUtils;
 import io.renren.common.utils.Result;
 import io.renren.common.validator.AssertUtils;
-import io.renren.common.validator.ValidatorUtils;
 import io.renren.modules.log.entity.SysLogLoginEntity;
 import io.renren.modules.log.enums.LoginOperationEnum;
 import io.renren.modules.log.enums.LoginStatusEnum;

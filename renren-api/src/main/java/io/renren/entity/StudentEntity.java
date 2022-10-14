@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.renren.common.entity.BaseEntity;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**

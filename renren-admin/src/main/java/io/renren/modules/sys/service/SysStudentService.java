@@ -5,7 +5,6 @@ package io.renren.modules.sys.service;
 import io.renren.common.page.PageData;
 import io.renren.common.service.BaseService;
 import io.renren.modules.sys.dto.SysStudentDTO;
-import io.renren.modules.sys.dto.SysUserDTO;
 import io.renren.modules.sys.entity.SysStudentEntity;
 
 import java.util.List;
