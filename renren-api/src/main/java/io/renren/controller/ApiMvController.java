@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("app/mv")
+@RequestMapping("app")
 @Api(tags = "音视频管理")
-public class AppMvController {
+public class ApiMvController {
     @Autowired
     private SysMvService sysMvService;
     @GetMapping("mv")
