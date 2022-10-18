@@ -8,6 +8,7 @@ import io.renren.annotation.LoginUser;
 import io.renren.common.utils.Result;
 import io.renren.entity.StudentEntity;
 import io.renren.entity.UserEntity;
+import io.renren.service.StudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.List;
 
 /**
  * 测试接口
@@ -26,11 +29,12 @@ import springfox.documentation.annotations.ApiIgnore;
 @Api(tags="测试接口")
 public class ApiTestController {
 
+    StudentService studentService;
+
     @Login
     @GetMapping("/user/userInfo")
     @ApiOperation(value="获取教师管理员信息", response=UserEntity.class)
     public Result<UserEntity> userInfo(@ApiIgnore @LoginUser UserEntity user){
-
         return new Result<UserEntity>().ok(user);
     }
 
@@ -47,6 +51,18 @@ public class ApiTestController {
     @ApiOperation(value="获取学生信息", response=StudentEntity.class)
     public Result<StudentEntity> studentInfo(@ApiIgnore @LoginStudent StudentEntity student){
         return new Result<StudentEntity>().ok(student);
+    }
+
+    @Login
+    @GetMapping("/stu/studentDept")
+    @ApiOperation(value = "获取与当前登录学生院系id相同的所有学生",response = StudentEntity.class)
+    public Result<List<StudentEntity>> samedeptidstudent(@ApiIgnore @LoginStudent StudentEntity student){
+        Long deptId=student.getDeptId();
+
+        List<StudentEntity> aa=studentService.getSameDeptStudent(deptId);
+
+        return new Result<List<StudentEntity>>().ok(aa);
+        //return new Result<StudentEntity>().ok(student);
     }
 
     @Login

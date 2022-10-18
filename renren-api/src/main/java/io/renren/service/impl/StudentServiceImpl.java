@@ -1,6 +1,8 @@
 package io.renren.service.impl;
 
 
+import io.renren.annotation.Login;
+import io.renren.annotation.LoginStudent;
 import io.renren.common.exception.ErrorCode;
 import io.renren.common.exception.RenException;
 import io.renren.common.service.impl.BaseServiceImpl;
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -59,10 +62,18 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentDao, StudentEntit
         return baseDao.getStudentByScore(score);
     }
 
+
+
     @Override
     public void update(Student_Score_DTO dto) {
         StudentEntity entity = ConvertUtils.sourceToTarget(dto, StudentEntity.class);
         updateById(entity);
     }
 
+    @Login
+    @Override
+    public List<StudentEntity> getSameDeptStudent(Long deptId) {
+        List<StudentEntity> list=baseDao.getSameDeptStudent(deptId);
+        return list;
+    }
 }

@@ -1,11 +1,13 @@
 package io.renren.service;
 
+import io.renren.annotation.LoginStudent;
 import io.renren.common.service.BaseService;
 import io.renren.dto.Student_Score_DTO;
 import io.renren.entity.StudentEntity;
 import io.renren.dto.LoginDTO;
 
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,4 +32,6 @@ public interface StudentService extends BaseService<StudentEntity>{
     StudentEntity getStudentByScore(int score);
 
     void update(Student_Score_DTO dto);
+
+    List<StudentEntity> getSameDeptStudent(Long deptId);
 }

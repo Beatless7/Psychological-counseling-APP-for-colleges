@@ -14,4 +14,8 @@
     <select id="getStudentByScore" resultType="io.renren.entity.StudentEntity">
         select * from sys_student where psy_states = #{value}
     </select>
+
+    <select id="getSameDeptStudent" resultType="io.renren.entity.StudentEntity">
+        select * from sys_student where dept_id = #{value}
+    </select>
 </mapper>
