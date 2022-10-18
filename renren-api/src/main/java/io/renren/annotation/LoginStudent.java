@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 登录教师管理员信息
+ * 登录学生信息
  *
  * @author Tjut team
  */

@@ -6,7 +6,7 @@ import io.renren.common.service.BaseService;
 import io.renren.entity.TokenEntity;
 
 /**
- * 用户Token
+ * 教师管理员Token
  * 
  * @author Tjut team
  */

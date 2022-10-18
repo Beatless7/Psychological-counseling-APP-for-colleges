@@ -9,10 +9,10 @@ import io.renren.common.validator.AssertUtils;
 import io.renren.dao.StudentDao;
 import io.renren.dto.LoginDTO;
 import io.renren.dto.Student_Score_DTO;
-import io.renren.entity.TokenEntity;
 import io.renren.entity.StudentEntity;
+import io.renren.entity.StudentTokenEntity;
 import io.renren.service.StudentService;
-import io.renren.service.TokenService;
+import io.renren.service.StudentTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ import java.util.Map;
 @Service
 public class StudentServiceImpl extends BaseServiceImpl<StudentDao, StudentEntity> implements StudentService {
     @Autowired
-    private TokenService tokenService;
+    private StudentTokenService tokenService;
 
     @Override
     public StudentEntity getByMobile(String mobile) {
@@ -45,7 +45,7 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentDao, StudentEntit
         }
 
         //获取登录token
-        TokenEntity tokenEntity = tokenService.createToken(Student.getId());
+        StudentTokenEntity tokenEntity = tokenService.createToken(Student.getId());
 
         Map<String, Object> map = new HashMap<>(2);
         map.put("token", tokenEntity.getToken());

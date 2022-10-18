@@ -4,6 +4,7 @@ package io.renren.controller;
 
 
 import io.renren.annotation.Login;
+import io.renren.annotation.LoginStudent;
 import io.renren.common.utils.Result;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.dto.LoginDTO;

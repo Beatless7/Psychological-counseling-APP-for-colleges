@@ -3,8 +3,10 @@
 package io.renren.controller;
 
 import io.renren.annotation.Login;
+import io.renren.annotation.LoginStudent;
 import io.renren.annotation.LoginUser;
 import io.renren.common.utils.Result;
+import io.renren.entity.StudentEntity;
 import io.renren.entity.UserEntity;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,17 +27,40 @@ import springfox.documentation.annotations.ApiIgnore;
 public class ApiTestController {
 
     @Login
-    @GetMapping("userInfo")
-    @ApiOperation(value="获取用户信息", response=UserEntity.class)
+    @GetMapping("/user/userInfo")
+    @ApiOperation(value="获取教师管理员信息", response=UserEntity.class)
     public Result<UserEntity> userInfo(@ApiIgnore @LoginUser UserEntity user){
+
         return new Result<UserEntity>().ok(user);
     }
 
+    /*@Login
+    @GetMapping("/user/userInfo")
+    @ApiOperation(value="获取教师管理员信息", response=UserEntity.class)
+    public Result<String> userInfo(@ApiIgnore @LoginUser UserEntity user){
+
+        return new Result<String>().ok(user.getUsername());
+    }*/
+
     @Login
-    @GetMapping("userId")
+    @GetMapping("/stu/studentInfo")
+    @ApiOperation(value="获取学生信息", response=StudentEntity.class)
+    public Result<StudentEntity> studentInfo(@ApiIgnore @LoginStudent StudentEntity student){
+        return new Result<StudentEntity>().ok(student);
+    }
+
+    @Login
+    @GetMapping("/user/userId")
     @ApiOperation("获取用户ID")
     public Result<Long> userInfo(@ApiIgnore @RequestAttribute("userId") Long userId){
         return new Result<Long>().ok(userId);
+    }
+
+    @Login
+    @GetMapping("/stu/studentId")
+    @ApiOperation("获取学生ID")
+    public Result<Long> studentInfo(@ApiIgnore @RequestAttribute("studentId") Long studentId){
+        return new Result<Long>().ok(studentId);
     }
 
     @GetMapping("notToken")

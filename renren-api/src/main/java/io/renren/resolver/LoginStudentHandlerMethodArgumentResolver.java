@@ -1,7 +1,9 @@
 package io.renren.resolver;
 
+import io.renren.annotation.Login;
+import io.renren.annotation.LoginStudent;
 import io.renren.entity.StudentEntity;
-import io.renren.interceptor.AuthorizationInterceptor;
+import io.renren.interceptor.StudentAuthorizationInterceptor;
 import io.renren.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
@@ -11,10 +13,9 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import io.renren.annotation.LoginUser;
 
 /**
- * 有@LoginUser注解的方法参数，注入当前登录用户
+ * 有@LoginStudent注解的方法参数，注入当前登录用户
  *
  * @author Tjut team
  */
@@ -26,14 +27,14 @@ public class LoginStudentHandlerMethodArgumentResolver implements HandlerMethodA
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterType().isAssignableFrom(StudentEntity.class) && parameter.hasParameterAnnotation(LoginUser.class);
+        return parameter.getParameterType().isAssignableFrom(StudentEntity.class) && parameter.hasParameterAnnotation(LoginStudent.class);
     }
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer container,
                                   NativeWebRequest request, WebDataBinderFactory factory) throws Exception {
         //获取用户ID
-        Object object = request.getAttribute(AuthorizationInterceptor.USER_KEY, RequestAttributes.SCOPE_REQUEST);
+        Object object = request.getAttribute(StudentAuthorizationInterceptor.STUDENT_KEY, RequestAttributes.SCOPE_REQUEST);
         if(object == null){
             return null;
         }

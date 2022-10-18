@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.renren.common.utils.DateUtils;
 import io.renren.interceptor.AuthorizationInterceptor;
+import io.renren.interceptor.StudentAuthorizationInterceptor;
+import io.renren.resolver.LoginStudentHandlerMethodArgumentResolver;
 import io.renren.resolver.LoginUserHandlerMethodArgumentResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -35,17 +37,25 @@ import java.util.TimeZone;
 public class WebMvcConfig implements WebMvcConfigurer {
     @Autowired
     private AuthorizationInterceptor authorizationInterceptor;
+
+    @Autowired
+    private StudentAuthorizationInterceptor studentAuthorizationInterceptor;
     @Autowired
     private LoginUserHandlerMethodArgumentResolver loginUserHandlerMethodArgumentResolver;
 
+    @Autowired
+    private LoginStudentHandlerMethodArgumentResolver loginStudentHandlerMethodArgumentResolver;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authorizationInterceptor).addPathPatterns("/api/**");
+        registry.addInterceptor(authorizationInterceptor).addPathPatterns("/api/user/**");
+        registry.addInterceptor(studentAuthorizationInterceptor).addPathPatterns("/api/stu/**");
     }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(loginUserHandlerMethodArgumentResolver);
+        argumentResolvers.add(loginStudentHandlerMethodArgumentResolver);
     }
 
     @Override

@@ -1,12 +1,11 @@
-// powered by 天津理工大学心理辅导团队
-
 package io.renren.interceptor;
 
 import io.renren.annotation.Login;
+import io.renren.annotation.LoginStudent;
 import io.renren.common.exception.ErrorCode;
 import io.renren.common.exception.RenException;
-import io.renren.entity.TokenEntity;
-import io.renren.service.TokenService;
+import io.renren.entity.StudentTokenEntity;
+import io.renren.service.StudentTokenService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,16 +16,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * 教师管理员权限(Token)验证
+ * 学生权限(Token)验证
  *
  * @author Tjut team
  */
-@Component
-public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
-    @Autowired
-    private TokenService tokenService;
 
-    public static final String USER_KEY = "userId";
+@Component
+public class StudentAuthorizationInterceptor extends HandlerInterceptorAdapter {
+
+    @Autowired
+    private StudentTokenService tokenService;
+
+    public static final String STUDENT_KEY = "studentId";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -54,14 +55,15 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
         }
 
         //查询token信息
-        TokenEntity tokenEntity = tokenService.getByToken(token);
+        StudentTokenEntity tokenEntity = tokenService.getByToken(token);
         if(tokenEntity == null || tokenEntity.getExpireDate().getTime() < System.currentTimeMillis()){
             throw new RenException(ErrorCode.TOKEN_INVALID);
         }
 
-        //设置userId到request里，后续根据userId，获取用户信息
-        request.setAttribute(USER_KEY, tokenEntity.getUserId());
+        //设置studentId到request里，后续根据studentId，获取学生信息
+        request.setAttribute(STUDENT_KEY, tokenEntity.getStudentId());
 
         return true;
     }
+
 }

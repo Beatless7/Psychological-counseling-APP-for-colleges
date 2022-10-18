@@ -22,11 +22,11 @@ public class TokenEntity implements Serializable {
 	@TableId
 	private Long id;
 	/**
-	 * 用户ID
+	 * 教师管理员ID
 	 */
 	private Long userId;
 	/**
-	 * 用户token
+	 * 教师管理员token
 	 */
 	private String token;
 	/**
