@@ -43,6 +43,14 @@ public class UserEntity extends BaseEntity {
 
 	private Integer status;
 
+	private Date orderTime;
+
+	private Integer orderStatus;
+
+	private Long orderStudentId;
+
+	private Date freeTime;
+
 	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private Date createDate;
 
