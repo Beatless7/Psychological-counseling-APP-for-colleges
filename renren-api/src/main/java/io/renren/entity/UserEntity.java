@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.renren.common.entity.BaseEntity;
 import lombok.Data;
 
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -43,13 +44,15 @@ public class UserEntity extends BaseEntity {
 
 	private Integer status;
 
-	private Date orderTime;
+	private Time orderTime;
 
 	private Integer orderStatus;
 
 	private Long orderStudentId;
 
-	private Date freeTime;
+	private Time freeTimeBegin;
+	
+	private Time freeTimeEnd;
 
 	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private Date createDate;

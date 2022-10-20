@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.Date;
 
 @Data
@@ -24,7 +25,7 @@ public class UserListDTO implements Serializable {
     private String realName;
 
     @ApiModelProperty(value = "预约时间")
-    private Date orderTime;
+    private Time orderTime;
 
     @ApiModelProperty(value = "预约学生的ID")
     private Long orderStudentId;
