@@ -12,7 +12,7 @@ public interface StudentDao extends BaseDao<StudentEntity> {
 
     StudentEntity getStudentByStudentId(Long userId);
 
-    StudentEntity getStudentByScore(int score);
+    StudentEntity setStudentByPsy(Long id,String psyStates);
 
     List<StudentEntity> getSameDeptStudent(Long deptId);
 }

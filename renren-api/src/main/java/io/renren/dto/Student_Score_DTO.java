@@ -19,7 +19,7 @@ public class Student_Score_DTO {
     private Long id;
 
     @ApiModelProperty(value = "分数")
-    private int score;
+    private Integer score;
 
     @ApiModelProperty(value = "心理状态")
     private String psyStates;

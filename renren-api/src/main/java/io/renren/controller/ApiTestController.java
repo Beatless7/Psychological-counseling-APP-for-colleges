@@ -52,6 +52,7 @@ public class ApiTestController {
     @GetMapping("/stu/studentInfo")
     @ApiOperation(value="获取学生信息", response=StudentEntity.class)
     public Result<StudentEntity> studentInfo(@ApiIgnore @LoginStudent StudentEntity student){
+        Long id=student.getId();
         return new Result<StudentEntity>().ok(student);
     }
 
