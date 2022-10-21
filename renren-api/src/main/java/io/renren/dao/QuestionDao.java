@@ -13,6 +13,8 @@ public interface QuestionDao extends BaseDao<QuestionEntity> {
 
     List<QuestionEntity> getList(Map<String, Object> params);
 
+    List<QuestionEntity> getList();
+
     QuestionEntity getById(Long id);
 
 }
