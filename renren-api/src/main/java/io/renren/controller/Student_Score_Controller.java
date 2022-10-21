@@ -39,7 +39,7 @@ public class Student_Score_Controller {
             str = "重度抑郁";
         }
         studentService.setStudentByPsy(studentId,str);
-        return new Result();
+        return new Result().ok(str);
     }
 
 }
