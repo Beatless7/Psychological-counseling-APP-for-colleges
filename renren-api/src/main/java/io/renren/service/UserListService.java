@@ -9,5 +9,5 @@ import java.util.List;
 public interface UserListService extends BaseService<UserEntity> {
     List<UserListDTO> list();
 
-    void update(UserListDTO dto);
+    UserEntity setUserPsy(Long id, Integer orderStatus);
 }

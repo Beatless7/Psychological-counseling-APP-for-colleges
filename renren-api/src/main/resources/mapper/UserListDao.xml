@@ -11,4 +11,9 @@
             select t1.*, (select t2.name from sys_dept t2 where t2.id=t1.dept_id) deptName from sys_user t1
             where t1.id = #{value}
         </select>
+
+    <select id="setUserPsy" resultType="io.renren.entity.UserEntity">
+        update sys_user set order_status = #{orderStatus}
+        where id = #{id}
+    </select>
 </mapper>

@@ -75,6 +75,13 @@ public class ApiTestController {
         return new Result<Long>().ok(userId);
     }
 
+//    @Login
+//    @GetMapping("/user/orderStatus")
+//    @ApiOperation("获取用户预约状态")
+//    public Result<Integer> userOrderStatus(@ApiIgnore @RequestAttribute("orderStatus") Integer orderStatus){
+//        return new Result<Integer>().ok(orderStatus);
+//    }
+
     @Login
     @GetMapping("/stu/studentId")
     @ApiOperation("获取学生ID")

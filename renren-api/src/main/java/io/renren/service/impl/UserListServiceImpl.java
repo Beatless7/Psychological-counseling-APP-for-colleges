@@ -20,8 +20,7 @@ public class UserListServiceImpl extends BaseServiceImpl<UserListDao, UserEntity
     }
 
     @Override
-    public void update(UserListDTO dto) {
-        UserEntity entity = ConvertUtils.sourceToTarget(dto, UserEntity.class);
-        updateById(entity);
+    public UserEntity setUserPsy(Long id, Integer orderStatus) {
+        return baseDao.setUserPsy(id,orderStatus);
     }
 }

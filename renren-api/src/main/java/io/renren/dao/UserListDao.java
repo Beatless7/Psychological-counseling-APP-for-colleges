@@ -12,4 +12,6 @@ public interface UserListDao extends BaseDao<UserEntity> {
     List<UserEntity> getList();
 
     UserEntity getById(Long id);
+
+    UserEntity setUserPsy(Long id,Integer orderStatus);
 }

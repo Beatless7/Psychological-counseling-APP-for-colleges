@@ -3,9 +3,6 @@ package io.renren.controller;
 import io.renren.annotation.Login;
 import io.renren.annotation.LoginUser;
 import io.renren.common.utils.Result;
-import io.renren.common.validator.ValidatorUtils;
-import io.renren.common.validator.group.DefaultGroup;
-import io.renren.common.validator.group.UpdateGroup;
 import io.renren.dto.UserListDTO;
 import io.renren.entity.UserEntity;
 import io.renren.service.UserListService;
@@ -29,13 +26,20 @@ public class UserListController {
         return new Result<UserEntity>().ok(user);
     }
 
-    @PutMapping("/user/update")
-    @ApiOperation("修改")
-    public Result update(@RequestBody UserListDTO dto){
-        ValidatorUtils.validateEntity(dto, UpdateGroup.class, DefaultGroup.class);
-        userListService.update(dto);
+    @Login
+    @PostMapping("/user/OrderStatus")
+    @ApiOperation("获取用户ID")
+    public Result getUserPsy(@ApiIgnore @RequestAttribute("userId") Long userId,@RequestBody UserListDTO dto){
+        Integer number = dto.getOrderStatus();
+        if(number == 0){
+            number = 1;
+        }else{
+            number = 0;
+        }
+        userListService.setUserPsy(userId,number);
         return new Result();
     }
+
 //
 //    @GetMapping("page")
 //    @RequiresPermissions("sys:user:info")

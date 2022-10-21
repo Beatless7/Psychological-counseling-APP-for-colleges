@@ -25,7 +25,6 @@ public class Student_Score_Controller {
     @Autowired
     private StudentService studentService;
 
-
     @Login
     @PostMapping("/stu/StudentScore")
     @ApiOperation("学生分数")
