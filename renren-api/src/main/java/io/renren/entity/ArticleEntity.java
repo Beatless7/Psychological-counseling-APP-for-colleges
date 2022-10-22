@@ -13,7 +13,7 @@ import java.util.Date;
 public class ArticleEntity {
     private static final long serialVersionUID = 1L;
 
-    private int id;
+    private Long id;
 
     private String title;
 
@@ -22,7 +22,6 @@ public class ArticleEntity {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date createDate;
 
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Long creator;
+    private String creator;
 
 }

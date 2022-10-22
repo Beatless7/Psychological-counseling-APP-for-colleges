@@ -26,8 +26,7 @@ public class ArticleDTO {
     @ApiModelProperty(value = "创建时间")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Date createDate;
-
-    @ApiModelProperty(value = "更新时间")
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Date updateDate;
+    @ApiModelProperty(value ="title")
+    @NotNull(message="创建者不允许为空",groups =UpdateGroup.class)
+    private String creator;
 }

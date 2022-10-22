@@ -1,11 +1,12 @@
 package io.renren.controller;
+import io.renren.common.page.PageData2;
 import io.renren.common.utils.Result;
 import io.renren.dto.SysMvDTO;
 import io.renren.service.SysMvService;
 import io.swagger.annotations.Api;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 import java.util.Map;
@@ -17,10 +18,8 @@ public class ApiMvController {
     @Autowired
     private SysMvService sysMvService;
     @GetMapping("mv")
-    @RequiresPermissions("sys:user:info")
-    public Result<List<SysMvDTO>> list() {
-        List<SysMvDTO> data = sysMvService.list();
-        return new Result<List<SysMvDTO>>().ok(data);
+    public Result<PageData2<SysMvDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params) {
+        PageData2<SysMvDTO> page = sysMvService.page(params);
+        return new Result<PageData2<SysMvDTO>>().ok(page);
     }
-
 }

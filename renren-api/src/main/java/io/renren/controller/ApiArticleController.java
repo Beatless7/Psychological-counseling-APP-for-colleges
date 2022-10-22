@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@RequestMapping("app")
-@Api(tags = "音视频管理")
+@RequestMapping("api")
+@Api(tags = "文章管理")
 public class ApiArticleController {
     @Autowired
     private ArticleService ArticleService;
     @GetMapping("article")
-    @RequiresPermissions("sys:user:info")
     public Result<List<ArticleDTO>> list() {
         List<ArticleDTO> data = ArticleService.list();
         return new Result<List<ArticleDTO>>().ok(data);

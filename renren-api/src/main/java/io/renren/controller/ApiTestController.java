@@ -9,8 +9,10 @@ import io.renren.common.utils.Result;
 import io.renren.entity.StudentEntity;
 import io.renren.entity.UserEntity;
 import io.renren.service.StudentService;
+import io.renren.service.impl.StudentServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +30,8 @@ import java.util.List;
 @RequestMapping("/api")
 @Api(tags="测试接口")
 public class ApiTestController {
-
-    StudentService studentService;
+    @Autowired
+     protected StudentService studentService ;
 
     @Login
     @GetMapping("/user/userInfo")
