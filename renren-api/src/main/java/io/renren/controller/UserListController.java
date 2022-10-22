@@ -19,6 +19,7 @@ public class UserListController {
     @Autowired
     private UserListService userListService;
 
+    //获取教师列表（当前登录教师的信息）
     @Login
     @GetMapping("/user/userInfo")
     @ApiOperation(value="获取教师管理员信息", response= UserEntity.class)
