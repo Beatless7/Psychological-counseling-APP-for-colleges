@@ -66,4 +66,5 @@ public class UserEntity extends BaseEntity {
 	@TableField(exist=false)
 	private String deptName;
 
+
 }

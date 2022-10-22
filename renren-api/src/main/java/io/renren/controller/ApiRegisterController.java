@@ -53,6 +53,8 @@ public class ApiRegisterController {
         user.setPassword(dto.getPassword());
         user.setDeptId(dto.getDeptId());
         user.setCreateDate(new Date());
+        user.setFreeTimeBegin(dto.getFreeTimeBegin());
+        user.setFreeTimeEnd(dto.getFreeTimeEnd());
         userService.insert(user);
 
         return new Result();

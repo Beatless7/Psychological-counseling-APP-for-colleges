@@ -21,14 +21,14 @@ public class UserListController {
 
     //获取教师列表（当前登录教师的信息）
     @Login
-    @GetMapping("/user/userInfo")
+    @GetMapping("user/userInfo")
     @ApiOperation(value="获取教师管理员信息", response= UserEntity.class)
     public Result<UserEntity> userInfo(@ApiIgnore @LoginUser UserEntity user){
         return new Result<UserEntity>().ok(user);
     }
 
     @Login
-    @PostMapping("/user/OrderStatus")
+    @PostMapping("user/OrderStatus")
     @ApiOperation("获取用户ID")
     public Result getUserPsy(@ApiIgnore @RequestAttribute("userId") Long userId,@RequestBody UserListDTO dto){
         Integer number = dto.getOrderStatus();

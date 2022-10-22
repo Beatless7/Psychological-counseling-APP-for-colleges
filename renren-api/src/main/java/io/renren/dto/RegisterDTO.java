@@ -16,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -74,10 +75,18 @@ public class RegisterDTO implements Serializable {
     private Date createDate;
 
     @ApiModelProperty(value = "超级管理员   0：否   1：是")
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer superAdmin;
 
     @ApiModelProperty(value = "部门名称")
     private String deptName;
+
+    @ApiModelProperty(value = "可预约时间起始")
+    private Time freeTimeBegin;
+
+    @ApiModelProperty(value = "可预约时间结束")
+    private Time freeTimeEnd;
+
+
 
 }
