@@ -40,12 +40,12 @@ public class Student_Score_Controller {
         }
         studentService.setStudentByPsy(studentId,str);
         if(str == "正常"){
-            return new Result().ok(str+"建议你保持良好心态，感谢你对该产品的支持");
+            return new Result().ok(str+",建议你保持良好心态，感谢你对该产品的支持");
         }else if(str == "轻度抑郁"){
-            return new Result().ok(str+"轻度抑郁症长期表现为有情绪低落、不合群、离群、躯体不适、食欲不振及睡眠障碍。" +
+            return new Result().ok(str+",轻度抑郁症长期表现为有情绪低落、不合群、离群、躯体不适、食欲不振及睡眠障碍。" +
                     "        自我缓解方法有：平时多学习技术坚持锻炼、努力多外出交际：多观察多了解、平时整理好自己的想法写出来、多阅读书籍。部分患者可恢复工作能力。");
         }else{
-            return new Result().ok(str+"重度抑郁症是由于患者个体内遗传系统（基因）存在异常，或后天环境的巨变所引起的一种情绪性功能障碍，以持久自发性的情绪低落为主的一系列抑郁症状。建议使用该产品，能够有效解决心理疾病");
+            return new Result().ok(str+",重度抑郁症是由于患者个体内遗传系统（基因）存在异常，或后天环境的巨变所引起的一种情绪性功能障碍，以持久自发性的情绪低落为主的一系列抑郁症状。建议使用该产品，能够有效解决心理疾病");
         }
     }
 
