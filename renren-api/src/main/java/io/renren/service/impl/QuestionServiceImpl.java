@@ -6,7 +6,9 @@ import io.renren.common.page.PageData;
 import io.renren.common.service.impl.BaseServiceImpl;
 import io.renren.common.utils.ConvertUtils;
 import io.renren.dao.QuestionDao;
+import io.renren.dto.ArticleDTO;
 import io.renren.dto.QuestionDTO;
+import io.renren.entity.ArticleEntity;
 import io.renren.entity.QuestionEntity;
 import io.renren.service.QuestionService;
 import org.springframework.stereotype.Service;
@@ -18,16 +20,9 @@ import java.util.Map;
 public class QuestionServiceImpl extends BaseServiceImpl<QuestionDao, QuestionEntity> implements QuestionService {
 
     @Override
-    public PageData<QuestionDTO> page(Map<String, Object> params) {
-        paramsToLike(params, "id");
-
-        //分页
-        IPage<QuestionEntity> page = getPage(params, String.valueOf(1), false);
-
-        //查询
-        List<QuestionEntity> list = baseDao.getList(params);
-
-        return getPageData(list, page.getTotal(), QuestionDTO.class);
+    public List<QuestionDTO> list() {
+        List<QuestionEntity> entityList = baseDao.getList();
+        return ConvertUtils.sourceToTarget(entityList, QuestionDTO.class);
     }
 
     @Override

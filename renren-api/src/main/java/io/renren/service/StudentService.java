@@ -29,7 +29,7 @@ public interface StudentService extends BaseService<StudentEntity>{
      */
     Map<String, Object> login(LoginDTO dto);
 
-    StudentEntity getStudentByScore(int score);
+    StudentEntity setStudentByPsy(Long id,String psyStates);
 
     void update(Student_Score_DTO dto);
 

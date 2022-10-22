@@ -11,8 +11,9 @@
         select * from sys_student where id = #{value}
     </select>
 
-    <select id="getStudentByScore" resultType="io.renren.entity.StudentEntity">
-        select * from sys_student where psy_states = #{value}
+    <select id="setStudentByPsy" resultType="io.renren.entity.StudentEntity">
+        update sys_student set psy_states = #{psyStates}
+        where id = #{id}
     </select>
 
     <select id="getSameDeptStudent" resultType="io.renren.entity.StudentEntity">

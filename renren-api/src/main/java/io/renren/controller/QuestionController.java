@@ -9,6 +9,7 @@ import io.renren.common.validator.ValidatorUtils;
 import io.renren.common.validator.group.AddGroup;
 import io.renren.common.validator.group.DefaultGroup;
 import io.renren.common.validator.group.UpdateGroup;
+import io.renren.dto.ArticleDTO;
 import io.renren.dto.QuestionDTO;
 import io.renren.service.QuestionService;
 import io.swagger.annotations.Api;
@@ -20,34 +21,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/question")
+@RequestMapping("/app")
 @Api(tags = "问卷管理")
 public class QuestionController {
     @Autowired
     private QuestionService questionService;
 
-    @GetMapping("page")
-    @ApiOperation("分页")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = Constant.PAGE, value = "当前页码，从1开始", paramType = "query", required = true, dataType="int") ,
-            @ApiImplicitParam(name = Constant.LIMIT, value = "每页显示记录数", paramType = "query",required = true, dataType="int") ,
-            @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "排序字段", paramType = "query", dataType="String") ,
-            @ApiImplicitParam(name = Constant.ORDER, value = "排序方式，可选值(asc、desc)", paramType = "query", dataType="String") ,
-            @ApiImplicitParam(name = "id", value = "编号", paramType = "query", dataType="int"),
-            @ApiImplicitParam(name = "problems", value = "题目", paramType = "query", dataType="String"),
-            @ApiImplicitParam(name = "yes", value = "yes", paramType = "query", dataType="String"),
-            @ApiImplicitParam(name = "maybe", value = "maybe", paramType = "query", dataType="String"),
-            @ApiImplicitParam(name = "no", value = "no", paramType = "query", dataType="String")
-    })
-    @RequiresPermissions("user:page")
-    public Result<PageData<QuestionDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params){
-        PageData<QuestionDTO> page = questionService.page(params);
-        return new Result<PageData<QuestionDTO>>().ok(page);
+    @GetMapping("question")
+    @RequiresPermissions("sys:user:info")
+    public Result<List<QuestionDTO>> list() {
+        List<QuestionDTO> data = questionService.list();
+        return new Result<List<QuestionDTO>>().ok(data);
     }
-
 
     @GetMapping("{id}")
     @ApiOperation("信息")

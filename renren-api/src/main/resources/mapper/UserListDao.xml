@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.dao.UserListDao">
+    <select id="getList" resultType="io.renren.entity.UserEntity">
+        select t1.*, (select t2.name from sys_dept t2 where t2.id=t1.dept_id) deptName from sys_user t1
+
+    </select>
+
+        <select id="getById" resultType="io.renren.entity.UserEntity">
+            select t1.*, (select t2.name from sys_dept t2 where t2.id=t1.dept_id) deptName from sys_user t1
+            where t1.id = #{value}
+        </select>
+
+    <select id="setUserPsy" resultType="io.renren.entity.UserEntity">
+        update sys_user set order_status = #{orderStatus}
+        where id = #{id}
+    </select>
+</mapper>

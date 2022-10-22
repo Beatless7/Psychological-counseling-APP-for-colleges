@@ -58,8 +58,8 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentDao, StudentEntit
     }
 
     @Override
-    public StudentEntity getStudentByScore(int score) {
-        return baseDao.getStudentByScore(score);
+    public StudentEntity setStudentByPsy(Long id,String psyStates) {
+        return baseDao.setStudentByPsy(id,psyStates);
     }
 
 
