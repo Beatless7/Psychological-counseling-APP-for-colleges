@@ -34,7 +34,7 @@ public class SysArticleEntity extends BaseEntity {
      * 创建者
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private String creator;
+    private Long creator;
     /**
      * 创建时间
      */

@@ -29,4 +29,7 @@ public class QuestionDTO implements Serializable {
 
     @ApiModelProperty(value = "no")
     private String no;
+
+    @ApiModelProperty(value = "创建时间")
+    private String createDate;
 }

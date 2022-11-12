@@ -5,5 +5,4 @@ import io.renren.entity.ArticleEntity;
 import java.util.List;
 public interface ArticleService extends BaseService<ArticleEntity>{
     List<ArticleDTO> list();
-
 }
