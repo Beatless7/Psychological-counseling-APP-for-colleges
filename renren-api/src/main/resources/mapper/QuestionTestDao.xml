@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.dao.QuestionTestDao">
+
+    <!--    <select id="getList" resultType="io.renren.entity.QuestionEntity">-->
+    <!--        select t1.*from sys_question t1-->
+    <!--        <where>-->
+    <!--            <if test="problems!=null and problems.size()>0">-->
+    <!--                <foreach item="id" collection="problems" open="(" separator="," close=")">-->
+    <!--                    #{id}-->
+    <!--                </foreach>-->
+    <!--            </if>-->
+    <!--        </where>-->
+    <!--        order by t1.id asc-->
+    <!--    </select>-->
+
+    <select id="getById" resultType="io.renren.entity.QuestionTestEntity">
+        select t1.* from sys_question t1
+        where t1.id = #{value}
+    </select>
+
+    <select id="getList" resultType="io.renren.entity.QuestionTestEntity">
+        select * from sys_question
+    </select>
+
+</mapper>
