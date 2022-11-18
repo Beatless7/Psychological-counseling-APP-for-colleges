@@ -1,10 +1,12 @@
 package io.renren.controller;
 
 import io.renren.annotation.Login;
+import io.renren.annotation.LoginStudent;
 import io.renren.common.page.PageData2;
 import io.renren.common.utils.Result;
 import io.renren.dto.QuestionDTO;
 import io.renren.dto.Student_Score_DTO;
+import io.renren.entity.StudentEntity;
 import io.renren.service.StudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,16 +23,17 @@ import java.util.Map;
  * @author Tjut team
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/stu")
 @Api(tags="分数接口")
 public class Student_Score_Controller {
     @Autowired
     private StudentService studentService;
 
     @Login
-    @PostMapping("/stu/StudentScore")
+    @PostMapping("/student/StudentScore")
     @ApiOperation("学生分数")
-    public Result getStudentByScore(@ApiIgnore @RequestAttribute("studentId") Long studentId, @RequestBody Student_Score_DTO dto){
+    public Result getStudentByScore(@ApiIgnore  @LoginStudent StudentEntity student, @RequestBody Student_Score_DTO dto){
+        Long id = student.getId();
         Integer number = dto.getScore();
         String str;
         if(number>=0&&number<=19){
@@ -40,7 +43,7 @@ public class Student_Score_Controller {
         }else{
             str = "重度抑郁";
         }
-        studentService.setStudentByPsy(studentId,str);
+        studentService.setStudentByPsy(id,str);
         return new Result().ok(work(str));
     }
     public Map work(String str){
