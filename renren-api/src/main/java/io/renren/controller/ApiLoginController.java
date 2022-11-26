@@ -25,7 +25,7 @@ import java.util.Map;
  * @author Tjut team
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/")
 @Api(tags="登录接口")
 public class ApiLoginController {
     @Autowired
@@ -38,7 +38,7 @@ public class ApiLoginController {
     private TokenService tokenService;
 
 
-    @PostMapping("login")
+    @PostMapping("teacher/user/login")
     @ApiOperation("登录")
     public Result<Map<String, Object>> login(@RequestBody LoginDTO dto){
         //表单校验
@@ -50,7 +50,7 @@ public class ApiLoginController {
         return new Result().ok(map);
     }
 
-    @PostMapping("loginStudent")
+    @PostMapping("stu/student/loginStudent")
     @ApiOperation("登录")
     public Result<Map<String, Object>> loginStudent(@RequestBody LoginDTO dto){
         //表单校验
