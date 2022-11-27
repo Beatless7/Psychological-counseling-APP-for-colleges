@@ -2,9 +2,8 @@ package io.renren.controller;
 
 import io.renren.annotation.Login;
 import io.renren.annotation.LoginStudent;
-import io.renren.common.page.PageData2;
 import io.renren.common.utils.Result;
-import io.renren.dto.QuestionDTO;
+import io.renren.dao.QuestionMoreDao;
 import io.renren.dto.Student_Score_DTO;
 import io.renren.entity.StudentEntity;
 import io.renren.service.StudentService;
@@ -29,11 +28,14 @@ public class Student_Score_Controller {
     @Autowired
     private StudentService studentService;
 
+    @Autowired
+    private QuestionMoreDao questionMoreDao;
     @Login
     @PostMapping("/student/StudentScore")
     @ApiOperation("学生分数")
     public Result getStudentByScore(@ApiIgnore  @LoginStudent StudentEntity student, @RequestBody Student_Score_DTO dto){
         Long id = student.getId();
+        String name = student.getRealName();
         Integer number = dto.getScore();
         String str;
         if(number>=0&&number<=19){
@@ -43,6 +45,7 @@ public class Student_Score_Controller {
         }else{
             str = "重度抑郁";
         }
+        questionMoreDao.setByPsy(id,name,str);
         studentService.setStudentByPsy(id,str);
         return new Result().ok(work(str));
     }

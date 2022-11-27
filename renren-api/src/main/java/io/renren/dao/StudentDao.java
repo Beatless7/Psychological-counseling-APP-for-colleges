@@ -1,6 +1,7 @@
 package io.renren.dao;
 
 import io.renren.common.dao.BaseDao;
+import io.renren.entity.QuestionMoreEntity;
 import io.renren.entity.StudentEntity;
 import org.apache.ibatis.annotations.Mapper;
 
