@@ -2,6 +2,7 @@ package io.renren.dto;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.renren.common.validator.group.AddGroup;
 import io.renren.common.validator.group.UpdateGroup;
 import io.swagger.annotations.ApiModel;
@@ -11,6 +12,7 @@ import org.joda.time.DateTime;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.util.Date;
 
 @Data
 @ApiModel(value = "多次测试")
@@ -27,4 +29,8 @@ public class QuestionMoreDTO {
 
     @ApiModelProperty(value = "心理状态")
     private String psyStates;
+
+    @ApiModelProperty(value = "创建时间")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Date workTime;
 }

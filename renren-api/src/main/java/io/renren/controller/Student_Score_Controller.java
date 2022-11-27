@@ -56,7 +56,7 @@ public class Student_Score_Controller{
         questionMoreEntity.setId(id);
         questionMoreEntity.setName(name);
         questionMoreEntity.setPsyStates(str);
-        questionMoreEntity.setWorkTime(new DateTime());
+        questionMoreEntity.setWorkTime(new Date());
         questionMoreService.insert(questionMoreEntity);
         studentService.setStudentByPsy(id,str);
         return new Result().ok(work(str));

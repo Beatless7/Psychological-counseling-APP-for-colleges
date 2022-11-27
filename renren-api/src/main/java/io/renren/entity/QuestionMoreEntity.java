@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.joda.time.DateTime;
 
+import java.util.Date;
+
 @Data
 @EqualsAndHashCode(callSuper=false)
 @TableName("more_question")
@@ -15,6 +17,6 @@ public class QuestionMoreEntity {
     private Long id;
     private String name;
     private String psyStates;
-    @TableField(fill = FieldFill.INSERT)
-    private DateTime workTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Date workTime;
 }
