@@ -8,6 +8,6 @@ import org.joda.time.DateTime;
 @Mapper
 public interface QuestionMoreDao extends BaseDao<QuestionMoreEntity> {
 
-    QuestionMoreEntity setByPsy(Long id, String name, String psyStates, DateTime workTime);
+//    QuestionMoreEntity setByPsy(Long id, String name, String psyStates, DateTime workTime);
 
 }

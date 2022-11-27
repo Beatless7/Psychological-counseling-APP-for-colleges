@@ -27,7 +27,4 @@ public class QuestionMoreDTO {
 
     @ApiModelProperty(value = "心理状态")
     private String psyStates;
-
-    @ApiModelProperty(value = "时间")
-    private DateTime workTime;
 }

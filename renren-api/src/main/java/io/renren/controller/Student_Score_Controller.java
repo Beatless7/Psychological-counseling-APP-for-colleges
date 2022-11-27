@@ -2,10 +2,14 @@ package io.renren.controller;
 
 import io.renren.annotation.Login;
 import io.renren.annotation.LoginStudent;
+import io.renren.common.service.BaseService;
 import io.renren.common.utils.Result;
+import io.renren.common.validator.ValidatorUtils;
 import io.renren.dao.QuestionMoreDao;
 import io.renren.dto.Student_Score_DTO;
+import io.renren.entity.QuestionMoreEntity;
 import io.renren.entity.StudentEntity;
+import io.renren.service.QuestionMoreService;
 import io.renren.service.StudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,12 +30,12 @@ import java.util.Map;
 @RestController
 @RequestMapping("/stu")
 @Api(tags="分数接口")
-public class Student_Score_Controller {
+public class Student_Score_Controller{
     @Autowired
     private StudentService studentService;
 
     @Autowired
-    private QuestionMoreDao questionMoreDao;
+    private QuestionMoreService questionMoreService;
     @Login
     @PostMapping("/student/StudentScore")
     @ApiOperation("学生分数")
@@ -46,7 +51,13 @@ public class Student_Score_Controller {
         }else{
             str = "重度抑郁";
         }
-        questionMoreDao.setByPsy(id,name,str,new DateTime());
+        ValidatorUtils.validateEntity(dto);
+        QuestionMoreEntity questionMoreEntity = new QuestionMoreEntity();
+        questionMoreEntity.setId(id);
+        questionMoreEntity.setName(name);
+        questionMoreEntity.setPsyStates(str);
+        questionMoreEntity.setWorkTime(new DateTime());
+        questionMoreService.insert(questionMoreEntity);
         studentService.setStudentByPsy(id,str);
         return new Result().ok(work(str));
     }
