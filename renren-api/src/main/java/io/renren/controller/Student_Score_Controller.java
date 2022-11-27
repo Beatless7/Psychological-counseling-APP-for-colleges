@@ -9,6 +9,7 @@ import io.renren.entity.StudentEntity;
 import io.renren.service.StudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -35,7 +36,7 @@ public class Student_Score_Controller {
     @ApiOperation("学生分数")
     public Result getStudentByScore(@ApiIgnore  @LoginStudent StudentEntity student, @RequestBody Student_Score_DTO dto){
         Long id = student.getId();
-        String name = student.getRealName();
+        String name = student.getUsername();
         Integer number = dto.getScore();
         String str;
         if(number>=0&&number<=19){
@@ -45,7 +46,7 @@ public class Student_Score_Controller {
         }else{
             str = "重度抑郁";
         }
-        questionMoreDao.setByPsy(id,name,str);
+        questionMoreDao.setByPsy(id,name,str,new DateTime());
         studentService.setStudentByPsy(id,str);
         return new Result().ok(work(str));
     }

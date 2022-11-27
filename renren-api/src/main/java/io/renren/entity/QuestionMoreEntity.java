@@ -1,5 +1,7 @@
 package io.renren.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,5 +15,6 @@ public class QuestionMoreEntity {
     private Long id;
     private String name;
     private String psyStates;
+    @TableField(fill = FieldFill.INSERT)
     private DateTime workTime;
 }

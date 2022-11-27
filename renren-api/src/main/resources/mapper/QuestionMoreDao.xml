@@ -4,7 +4,7 @@
 <mapper namespace="io.renren.dao.QuestionMoreDao">
 
     <insert id="setByPsy">
-       insert into more_question values (#{id},#{name},#{psyStates});
+       insert into more_question values (#{id},#{name},#{psyStates},#{workTime});
     </insert>
 
 </mapper>
