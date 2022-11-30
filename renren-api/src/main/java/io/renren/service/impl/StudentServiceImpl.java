@@ -11,12 +11,15 @@ import io.renren.common.validator.AssertUtils;
 import io.renren.dao.StudentDao;
 import io.renren.dto.LoginDTO;
 import io.renren.dto.Student_Score_DTO;
+import io.renren.dto.TestResultDTO;
+import io.renren.entity.QuestionMoreEntity;
 import io.renren.entity.StudentEntity;
 import io.renren.entity.StudentTokenEntity;
 import io.renren.service.StudentService;
 import io.renren.service.StudentTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -76,4 +79,21 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentDao, StudentEntit
         List<StudentEntity> list=baseDao.getSameDeptStudent(deptId);
         return list;
     }
+
+    @Login
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updatePassword(Long id, String newPassword) {
+        baseDao.updatePassword(id, newPassword);
+    }
+
+
+    @Override
+    public List<TestResultDTO> getTestResultById(Long id) {
+        List<QuestionMoreEntity> entitys = baseDao.getTestResultById(id);
+        return ConvertUtils.sourceToTarget(entitys,TestResultDTO.class);
+    }
+
+
+
 }

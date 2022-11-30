@@ -5,8 +5,11 @@ package io.renren.service.impl;
 import io.renren.common.exception.ErrorCode;
 import io.renren.common.exception.RenException;
 import io.renren.common.service.impl.BaseServiceImpl;
+import io.renren.common.utils.ConvertUtils;
 import io.renren.common.validator.AssertUtils;
 import io.renren.dao.UserDao;
+import io.renren.dto.StudentDTO;
+import io.renren.entity.StudentEntity;
 import io.renren.entity.TokenEntity;
 import io.renren.entity.UserEntity;
 import io.renren.dto.LoginDTO;
@@ -51,6 +54,12 @@ public class UserServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implem
 		map.put("expire", tokenEntity.getExpireDate().getTime() - System.currentTimeMillis());
 
 		return map;
+	}
+
+	@Override
+	public StudentDTO getStuById(Long id) {
+		StudentEntity entity = baseDao.getStuById(id);
+		return ConvertUtils.sourceToTarget(entity,StudentDTO.class);
 	}
 
 }

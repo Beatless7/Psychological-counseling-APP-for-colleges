@@ -10,4 +10,10 @@
     <select id="getUserByUserId" resultType="io.renren.entity.UserEntity">
         select * from sys_user where id = #{value}
     </select>
+
+
+    <select id="getStuById" resultType="io.renren.entity.StudentEntity">
+        select t1.* ,(select t2.name from sys_dept t2 where t2.id = t1.dept_id) deptName from sys_student t1
+        where t1.id = #{value}
+    </select>
 </mapper>

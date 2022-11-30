@@ -2,6 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="io.renren.dao.StudentDao">
+    <update id="updatePassword">
+        update sys_student set password = #{newPassword} where id = #{id}
+    </update>
 
     <select id="getStudentByMobile" resultType="io.renren.entity.StudentEntity">
         select * from sys_student where mobile = #{value}
@@ -18,5 +21,10 @@
 
     <select id="getSameDeptStudent" resultType="io.renren.entity.StudentEntity">
         select * from sys_student where dept_id = #{value}
+    </select>
+
+
+    <select id="getTestResultById" resultType="io.renren.entity.QuestionMoreEntity">
+        select t.psy_states ,t.work_time from more_question t where t.name = (select username from sys_student where id = #{value});
     </select>
 </mapper>

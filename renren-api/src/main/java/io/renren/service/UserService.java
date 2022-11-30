@@ -3,6 +3,7 @@
 package io.renren.service;
 
 import io.renren.common.service.BaseService;
+import io.renren.dto.StudentDTO;
 import io.renren.entity.UserEntity;
 import io.renren.dto.LoginDTO;
 
@@ -25,4 +26,6 @@ public interface UserService extends BaseService<UserEntity> {
 	 * @return        返回登录信息
 	 */
 	Map<String, Object> login(LoginDTO dto);
+
+	StudentDTO getStuById(Long id);
 }
