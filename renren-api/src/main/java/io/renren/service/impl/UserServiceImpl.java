@@ -8,7 +8,7 @@ import io.renren.common.service.impl.BaseServiceImpl;
 import io.renren.common.utils.ConvertUtils;
 import io.renren.common.validator.AssertUtils;
 import io.renren.dao.UserDao;
-import io.renren.dto.StudentDTO;
+import io.renren.dto.UserStuDTO;
 import io.renren.entity.StudentEntity;
 import io.renren.entity.TokenEntity;
 import io.renren.entity.UserEntity;
@@ -57,9 +57,9 @@ public class UserServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implem
 	}
 
 	@Override
-	public StudentDTO getStuById(Long id) {
+	public UserStuDTO getStuById(Long id) {
 		StudentEntity entity = baseDao.getStuById(id);
-		return ConvertUtils.sourceToTarget(entity,StudentDTO.class);
+		return ConvertUtils.sourceToTarget(entity, UserStuDTO.class);
 	}
 
 }

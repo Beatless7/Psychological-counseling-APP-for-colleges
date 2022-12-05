@@ -30,9 +30,6 @@ public class StudentListController {
     @Autowired
     private StudentListService studentListService;
 
-    @Autowired
-    private StudentService studentService;
-
     @Login
     @GetMapping("/student/studentInfo")
     @ApiOperation(value = "获取学生信息", response = StudentEntity.class)
@@ -60,24 +57,7 @@ public class StudentListController {
     }
 
 
-    @Login
-    @PutMapping("/student/password")
-    @ApiOperation("修改密码")
-    public Result password(@ApiIgnore @LoginStudent StudentEntity student,@RequestBody PasswordDTO dto){
-        ValidatorUtils.validateEntity(dto);
-
-        studentService.updatePassword(student.getId(), dto.getNewPassword());
-
-        return new Result();
-    }
 
 
-    @Login
-    @GetMapping("/student/{id}")
-    @ApiOperation("测评结果")
-    public Result<List<TestResultDTO>> testResult(@PathVariable("id") Long id){
-        List<TestResultDTO> data=studentService.getTestResultById(id);
 
-        return new Result<List<TestResultDTO>>().ok(data);
-    }
 }
