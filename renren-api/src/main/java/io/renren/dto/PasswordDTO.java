@@ -22,7 +22,7 @@ public class PasswordDTO implements Serializable {
     private String password;
 
     @ApiModelProperty(value = "新密码")
-    @NotBlank(message="密码不能为空")
+    @NotBlank(message="新密码不能为空")
     private String newPassword;
 
 }
