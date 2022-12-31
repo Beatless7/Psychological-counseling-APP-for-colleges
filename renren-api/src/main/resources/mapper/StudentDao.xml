@@ -25,6 +25,6 @@
 
 
     <select id="getTestResultById" resultType="io.renren.entity.QuestionMoreEntity">
-        select t.psy_states ,t.work_time from more_question t where t.name = (select username from sys_student where id = #{value});
+        select t.psy_states ,t.work_time from more_question t where t.id=#{value};
     </select>
 </mapper>

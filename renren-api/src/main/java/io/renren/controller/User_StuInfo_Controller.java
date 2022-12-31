@@ -41,7 +41,7 @@ public class User_StuInfo_Controller {
 
     @Login
     @GetMapping("stu/result/{id}")
-    @ApiOperation("获取学生信息")
+    @ApiOperation("获取学生测评结果")
     public Result<List<TestResultDTO>> getStudentResult(@PathVariable("id") Long id){
         List<TestResultDTO> data = studentService.getTestResultById(id);
         return new Result<List<TestResultDTO>>().ok(data);

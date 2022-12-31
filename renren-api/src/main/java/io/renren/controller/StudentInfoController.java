@@ -39,20 +39,20 @@ public class StudentInfoController {
 
 
     @Login
-    @GetMapping("/student/testResult/{id}")
+    @GetMapping("/student/testResult")
     @ApiOperation("测评结果")
-    public Result<List<TestResultDTO>> testResult(@PathVariable("id") Long id){
-        List<TestResultDTO> data=studentService.getTestResultById(id);
+    public Result<List<TestResultDTO>> testResult(@ApiIgnore @LoginStudent StudentEntity student){
+        List<TestResultDTO> data=studentService.getTestResultById(student.getId());
 
         return new Result<List<TestResultDTO>>().ok(data);
     }
 
 
     @Login
-    @GetMapping("/student/{id}")
+    @GetMapping("/student")
     @ApiOperation("基本信息")
-    public Result<StudentEntity> getById(@PathVariable Long id){
-        StudentEntity data = studentService.getStudentByStudentId(id);
+    public Result<StudentEntity> getById(@ApiIgnore @LoginStudent StudentEntity student){
+        StudentEntity data = studentService.getStudentByStudentId(student.getId());
 
         return new Result<StudentEntity>().ok(data);
     }
