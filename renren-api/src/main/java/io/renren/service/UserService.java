@@ -3,10 +3,11 @@
 package io.renren.service;
 
 import io.renren.common.service.BaseService;
-import io.renren.dto.UserStuDTO;
+import io.renren.dto.StuRetDto;
 import io.renren.entity.UserEntity;
 import io.renren.dto.LoginDTO;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,5 +28,5 @@ public interface UserService extends BaseService<UserEntity> {
 	 */
 	Map<String, Object> login(LoginDTO dto);
 
-	UserStuDTO getStuById(Long id);
+	List<StuRetDto> getStuAll(Long id);
 }

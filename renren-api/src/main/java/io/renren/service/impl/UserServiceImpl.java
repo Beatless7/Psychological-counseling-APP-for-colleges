@@ -8,7 +8,7 @@ import io.renren.common.service.impl.BaseServiceImpl;
 import io.renren.common.utils.ConvertUtils;
 import io.renren.common.validator.AssertUtils;
 import io.renren.dao.UserDao;
-import io.renren.dto.UserStuDTO;
+import io.renren.dto.StuRetDto;
 import io.renren.entity.StudentEntity;
 import io.renren.entity.TokenEntity;
 import io.renren.entity.UserEntity;
@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -57,9 +58,8 @@ public class UserServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implem
 	}
 
 	@Override
-	public UserStuDTO getStuById(Long id) {
-		StudentEntity entity = baseDao.getStuById(id);
-		return ConvertUtils.sourceToTarget(entity, UserStuDTO.class);
+	public List<StuRetDto> getStuAll(Long id) {
+		List<StudentEntity> all = baseDao.getStuAll(id);
+		return ConvertUtils.sourceToTarget(all,StuRetDto.class);
 	}
-
 }

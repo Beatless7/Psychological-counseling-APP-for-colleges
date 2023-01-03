@@ -3,9 +3,13 @@
 package io.renren.dao;
 
 import io.renren.common.dao.BaseDao;
+import io.renren.entity.QuestionMoreEntity;
 import io.renren.entity.StudentEntity;
 import io.renren.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 用户
@@ -18,5 +22,5 @@ public interface UserDao extends BaseDao<UserEntity> {
 
     UserEntity getUserByUserId(Long userId);
 
-    StudentEntity getStuById(Long stuId);
+    List<StudentEntity> getStuAll(Long id);
 }

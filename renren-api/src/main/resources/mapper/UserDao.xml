@@ -12,8 +12,22 @@
     </select>
 
 
-    <select id="getStuById" resultType="io.renren.entity.StudentEntity">
-        select t1.* ,(select t2.name from sys_dept t2 where t2.id = t1.dept_id) deptName from sys_student t1
-        where t1.id = #{value}
+    <resultMap id="stuResultMap" type="io.renren.entity.StudentEntity">
+<!--        <id property="id" column="id"/>-->
+        <result property="username" column="username"/>
+        <result property="realName" column="real_name"/>
+        <collection property="resultList" ofType="io.renren.entity.QuestionMoreEntity">
+            <id property="id" column="id"/>
+            <result property="psyStates" column="psy_states"/>
+            <result property="workTime" column="work_time"/>
+        </collection>
+    </resultMap>
+<!--    resultType="io.renren.entity.StudentEntity"-->
+    <select id="getStuAll" resultMap="stuResultMap" parameterType="Long">
+        select s.username ,s.real_name,mq.psy_states,mq.work_time
+        from sys_student s
+        left join more_question mq on mq.id=s.id
+        where s.dept_id = (select dept_id from sys_user u where u.id=#{id})
     </select>
+
 </mapper>

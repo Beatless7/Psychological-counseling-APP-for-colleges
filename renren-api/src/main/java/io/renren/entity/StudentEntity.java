@@ -8,6 +8,7 @@ import io.renren.common.entity.BaseEntity;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 学生
@@ -53,4 +54,7 @@ public class StudentEntity extends BaseEntity {
 
     @TableField(exist=false)
     private String deptName;
+
+    @TableField(exist = false)
+    private List<QuestionMoreEntity> resultList;//评测记录集合
 }
