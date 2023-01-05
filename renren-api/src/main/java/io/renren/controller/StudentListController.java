@@ -9,7 +9,9 @@ import io.renren.common.validator.ValidatorUtils;
 import io.renren.dto.PasswordDTO;
 import io.renren.dto.StudentListDTO;
 import io.renren.dto.TestResultDTO;
+import io.renren.dto.UserDTO;
 import io.renren.entity.StudentEntity;
+import io.renren.entity.UserEntity;
 import io.renren.service.StudentListService;
 import io.renren.service.StudentService;
 import io.swagger.annotations.Api;
@@ -30,15 +32,14 @@ public class StudentListController {
     @Autowired
     private StudentListService studentListService;
 
+
+
     @Login
     @GetMapping("/student/studentInfo")
     @ApiOperation(value = "获取学生信息", response = StudentEntity.class)
     public Result<StudentEntity> studentInfo(@ApiIgnore @LoginStudent StudentEntity student) {
         return new Result<StudentEntity>().ok(student);
     }
-
-
-
 
     /*@Login
     @GetMapping("/student/page")
@@ -57,7 +58,30 @@ public class StudentListController {
     }
 
 
+    //预约按钮
+    @Login
+    @PostMapping("/student/order")
+    public Result<String> order(@ApiIgnore @LoginStudent StudentEntity student, @RequestBody UserDTO user){
+        Long userid=user.getId();
+        int teacherorderstatus=user.getOrderStatus();
+        Long studentid=student.getId();
+        if(teacherorderstatus==1){
+            return new Result<String>().ok("该教师已经被其他同学预约,请稍后再试!");
+        }
+        else {
+            String orderresult=studentListService.studentOrder(studentid,userid);
+            return new Result<String>().ok("success!");
+        }
+    }
 
 
+    //展示学生当前预约情况
+    @Login
+    @GetMapping("/student/status")
+    public Result<StudentListDTO> orderstatus(@ApiIgnore @LoginStudent StudentEntity student){
+        Long orderid=student.getOrderTeacherId();
+        StudentListDTO orderstatus=studentListService.status(orderid);
+        return new Result<StudentListDTO>().ok(orderstatus);
+    }
 
 }

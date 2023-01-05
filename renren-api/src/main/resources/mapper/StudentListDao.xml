@@ -7,4 +7,20 @@
         where dept_id= #{deptId}
     </select>
 
+    <select id="order" resultType="String">
+        update sys_student set order_teacher_id = #{teacherid}
+        where id= #{studentid};
+
+    </select>
+
+    <select id="order1" resultType="String">
+        update sys_user set order_status=1,order_studentId = #{studentid}
+        where id= #{teacherid};
+    </select>
+
+    <select id="orderstatus" resultType="io.renren.dto.StudentListDTO">
+        select username,real_name,mobile from sys_user
+        where id= #{orderid};
+    </select>
+
 </mapper>

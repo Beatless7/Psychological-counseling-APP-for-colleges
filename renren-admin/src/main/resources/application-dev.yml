@@ -4,7 +4,7 @@ spring:
       #MySQL
       driver-class-name: com.mysql.cj.jdbc.Driver
       #心理辅导数据库url
-      url: jdbc:mysql://82.156.126.42:3306/renren_security?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
+      url: jdbc:mysql://82.156.126.42:3306/renren_security?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true&allowMultiQueries=true
       username: root
       password: TUT!xlfdAPP666
       #      #Oracle

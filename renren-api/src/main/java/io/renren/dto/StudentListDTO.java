@@ -18,10 +18,10 @@ import java.sql.Time;
 public class StudentListDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /*@ApiModelProperty(value = "id")
+    @ApiModelProperty(value = "id")
     @NotNull(message="{id.require}", groups = UpdateGroup.class)
     private Long id;
-   */
+
     @ApiModelProperty(value = "用户名")
     private String username;
 

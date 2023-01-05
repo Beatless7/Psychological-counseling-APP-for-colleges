@@ -14,5 +14,10 @@ public interface StudentListDao extends BaseDao<StudentListDTO> {
 
     List<StudentListDTO> getList(Map<String, Object> params,Long deptId);
 
+    String order(Long studentid,Long teacherid);
+
+    String order1(Long studentid,Long teacherid);
+
+    StudentListDTO orderstatus(Long orderid);
 
 }

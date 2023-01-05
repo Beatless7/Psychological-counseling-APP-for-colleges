@@ -42,6 +42,8 @@ public class StudentEntity extends BaseEntity {
 
     private String psyStates;
 
+    private Long orderTeacherId;
+
     private Integer status;
 
     //private int score;

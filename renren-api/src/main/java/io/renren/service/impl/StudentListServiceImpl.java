@@ -6,6 +6,7 @@ import io.renren.common.page.PageData2;
 import io.renren.common.service.impl.BaseServiceImpl;
 import io.renren.common.service.impl.BaseServiceImpl2;
 import io.renren.common.utils.ConvertUtils;
+import io.renren.common.utils.Result;
 import io.renren.dao.StudentListDao;
 import io.renren.dto.StudentListDTO;
 import io.renren.service.StudentListService;
@@ -26,5 +27,19 @@ public class StudentListServiceImpl extends BaseServiceImpl2<StudentListDao,Stud
         //return ConvertUtils.sourceToTarget(list,StudentListDTO.class);
         return getPageData(list, list.size(), StudentListDTO.class);
 
+    }
+
+    @Override
+    public String studentOrder(Long studentid, Long teacherid) {
+        String studentorder=baseDao.order(studentid,teacherid);
+        String teacherorder=baseDao.order1(studentid,teacherid);
+        return "";
+
+    }
+
+    @Override
+    public StudentListDTO status(Long orderid) {
+        StudentListDTO a=baseDao.orderstatus(orderid);
+        return a;
     }
 }
