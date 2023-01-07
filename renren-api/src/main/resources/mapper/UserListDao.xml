@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="io.renren.dao.UserListDao">
+
     <select id="getList" resultType="io.renren.entity.UserEntity">
         select t1.*, (select t2.name from sys_dept t2 where t2.id=t1.dept_id) deptName from sys_user t1
 
@@ -16,4 +17,19 @@
         update sys_user set order_status = #{orderStatus}
         where id = #{id}
     </select>
+
+    <select id="getAll" resultType="io.renren.entity.StudentEntity">
+        select * from sys_student where id = #{id}
+    </select>
+
+    <select id="order2" resultType="String">
+        update sys_student set order_teacher_id = null
+        where id= #{studentid};
+    </select>
+
+    <select id="order3" resultType="String">
+        update sys_user set order_studentId = null
+        where id= #{teacherid};
+    </select>
+
 </mapper>

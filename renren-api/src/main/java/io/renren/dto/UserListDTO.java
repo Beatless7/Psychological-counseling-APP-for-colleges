@@ -1,6 +1,8 @@
 package io.renren.dto;
 
 import io.renren.common.validator.group.UpdateGroup;
+import io.renren.entity.QuestionMoreEntity;
+import io.renren.entity.StudentEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -8,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @ApiModel(value = "教师列表")
@@ -32,4 +35,7 @@ public class UserListDTO implements Serializable {
 
     @ApiModelProperty(value = "预约状态")
     private Integer orderStatus;
+
+    @ApiModelProperty(value = "学生信息")
+    private List<StudentEntity> resultList;
 }
