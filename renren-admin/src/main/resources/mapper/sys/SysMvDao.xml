@@ -4,12 +4,12 @@
 <mapper namespace="io.renren.modules.sys.dao.SysMvDao">
 
     <select id="getList" resultType="io.renren.modules.sys.entity.SysMvEntity">
-        select *  from sys_mv
+        select *  from sys_MV
 </select>
 
     <select id="getById" resultType="io.renren.modules.sys.entity.SysMvEntity">
         select *
-        from sys_mv
+        from sys_MV
         where id = #{value}
     </select>
 </mapper>

@@ -42,7 +42,9 @@ public class SysMvController {
             @ApiImplicitParam(name = Constant.ORDER_FIELD, value = "排序字段", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = Constant.ORDER, value = "排序方式，可选值(asc、desc)", paramType = "query", dataType = "String"),
             @ApiImplicitParam(name = "type", value = "类型", paramType = "query", dataType = "String"),
-            @ApiImplicitParam(name = "addr", value = "地址", paramType = "query", dataType = "String")
+            @ApiImplicitParam(name = "addr", value = "地址", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "addr2", value = "封面地址", paramType = "query", dataType = "char"),
+            @ApiImplicitParam(name = "title", value = "标题", paramType = "query", dataType = "char")
     })
     @RequiresPermissions("sys:user:info")
     public Result<PageData<SysMvDTO>> page(@ApiIgnore @RequestParam Map<String, Object> params) {

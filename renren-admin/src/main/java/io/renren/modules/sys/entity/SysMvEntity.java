@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper=false)
-@TableName("sys_mv")
+@TableName("sys_MV")
 public class SysMvEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
     /**
@@ -20,4 +20,12 @@ public class SysMvEntity extends BaseEntity {
      * 地址
      */
     private String addr;
+    /*
+        封面地址
+    * */
+    private String addr2;
+    /*
+    *  标题
+    * */
+    private String title;
 }
