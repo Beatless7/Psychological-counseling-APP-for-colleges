@@ -20,4 +20,8 @@ public class SysMvEntity extends BaseEntity {
      * 地址
      */
     private String addr;
+
+    private char title;
+
+    private char addr2;
 }
