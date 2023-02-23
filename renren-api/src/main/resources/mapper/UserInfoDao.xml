@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.dao.UserInfoDao">
+    <update id="updateUserInfo">
+        update
+            sys_user s
+        join
+            sys_dept d
+        on
+            s.dept_id=d.id
+        <set>
+            <if test="dto.realName !=null">
+                s.real_name=#{dto.realName},
+            </if>
+            <if test="dto.headUrl != null">
+                s.head_url=#{dto.headUrl},
+            </if>
+            <if test="dto.freeTimeBegin !=null">
+                s.free_time_begin=#{dto.freeTimeBegin},
+            </if>
+            <if test="dto.freeTimeEnd != null">
+                s.free_time_end=#{dto.freeTimeEnd},
+            </if>
+            <if test="dto.schoolAddr != null">
+                d.school_addr=#{dto.schoolAddr},
+            </if>
+        </set>
+        where s.id = #{id}
+    </update>
+
+    <select id="getUserInfo" resultType="io.renren.entity.UserEntity">
+        select s.head_url,s.real_name,s.free_time_begin,s.free_time_end,d.school_addr from sys_user s join sys_dept d on s.dept_id=d.id where s.id=#{value}
+    </select>
+</mapper>

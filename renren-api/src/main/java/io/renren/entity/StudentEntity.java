@@ -59,4 +59,10 @@ public class StudentEntity extends BaseEntity {
 
     @TableField(exist = false)
     private List<QuestionMoreEntity> resultList;//评测记录集合
+
+    @TableField(exist = false)
+    private String name;
+
+    @TableField(exist = false)
+    private String schoolAddr;
 }

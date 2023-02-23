@@ -27,4 +27,32 @@
     <select id="getTestResultById" resultType="io.renren.entity.QuestionMoreEntity">
         select t.psy_states ,t.work_time from more_question t where t.id=#{value};
     </select>
+
+    <select id="getStudentInfo" resultType="io.renren.entity.StudentEntity">
+        select s.head_url,s.real_name,d.name,d.school_addr from sys_student s join sys_dept d on s.dept_id=d.id where s.id=#{value}
+    </select>
+
+    <update id="UpdateStuInfo">
+        update
+            sys_student s
+        join
+            sys_dept d
+        on
+            s.dept_id=d.id
+        <set>
+            <if test="dto.realName !=null">
+                s.real_name=#{dto.realName},
+            </if>
+            <if test="dto.headUrl != null">
+                s.head_url=#{dto.headUrl},
+            </if>
+            <if test="dto.name != null">
+                d.name=#{dto.name},
+            </if>
+            <if test="dto.schoolAddr != null">
+                d.school_addr=#{dto.schoolAddr},
+            </if>
+        </set>
+        where s.id = #{id}
+    </update>
 </mapper>

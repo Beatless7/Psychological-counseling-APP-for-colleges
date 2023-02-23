@@ -1,7 +1,7 @@
 package io.renren.service;
 
-import io.renren.annotation.LoginStudent;
 import io.renren.common.service.BaseService;
+import io.renren.dto.StuInfoDTO;
 import io.renren.dto.Student_Score_DTO;
 import io.renren.dto.TestResultDTO;
 import io.renren.entity.StudentEntity;
@@ -39,4 +39,8 @@ public interface StudentService extends BaseService<StudentEntity>{
     void updatePassword(Long id,String newPassword);
 
     List<TestResultDTO> getTestResultById(Long id);
+
+    StuInfoDTO getStudentByStudentInfo(Long id);
+
+    void UpdateStuInfo(Long id,StuInfoDTO dto);
 }

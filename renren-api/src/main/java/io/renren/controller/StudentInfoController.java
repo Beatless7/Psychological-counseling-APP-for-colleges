@@ -5,6 +5,7 @@ import io.renren.annotation.LoginStudent;
 import io.renren.common.utils.Result;
 import io.renren.common.validator.ValidatorUtils;
 import io.renren.dto.PasswordDTO;
+import io.renren.dto.StuInfoDTO;
 import io.renren.dto.TestResultDTO;
 import io.renren.entity.StudentEntity;
 import io.renren.service.StudentService;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -51,11 +53,21 @@ public class StudentInfoController {
     @Login
     @GetMapping("/student")
     @ApiOperation("基本信息")
-    public Result<StudentEntity> getById(@ApiIgnore @LoginStudent StudentEntity student){
-        StudentEntity data = studentService.getStudentByStudentId(student.getId());
+    public Result<StuInfoDTO> getById(@ApiIgnore @LoginStudent StudentEntity student){
+        StuInfoDTO data = studentService.getStudentByStudentInfo(student.getId());
 
-        return new Result<StudentEntity>().ok(data);
+        return new Result<StuInfoDTO>().ok(data);
     }
 
 
+    @Login
+    @PutMapping("/student/info")
+    @ApiOperation("修改基本信息")
+    public Result updateStuInfo(@ApiIgnore @LoginStudent StudentEntity student,@RequestBody StuInfoDTO dto){
+        ValidatorUtils.validateEntity(dto);
+
+        studentService.UpdateStuInfo(student.getId(),dto);
+
+        return new Result();
+    }
 }

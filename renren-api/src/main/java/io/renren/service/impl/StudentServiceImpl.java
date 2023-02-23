@@ -2,16 +2,13 @@ package io.renren.service.impl;
 
 
 import io.renren.annotation.Login;
-import io.renren.annotation.LoginStudent;
 import io.renren.common.exception.ErrorCode;
 import io.renren.common.exception.RenException;
 import io.renren.common.service.impl.BaseServiceImpl;
 import io.renren.common.utils.ConvertUtils;
 import io.renren.common.validator.AssertUtils;
 import io.renren.dao.StudentDao;
-import io.renren.dto.LoginDTO;
-import io.renren.dto.Student_Score_DTO;
-import io.renren.dto.TestResultDTO;
+import io.renren.dto.*;
 import io.renren.entity.QuestionMoreEntity;
 import io.renren.entity.StudentEntity;
 import io.renren.entity.StudentTokenEntity;
@@ -94,6 +91,16 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentDao, StudentEntit
         return ConvertUtils.sourceToTarget(entitys,TestResultDTO.class);
     }
 
+    @Override
+    public StuInfoDTO getStudentByStudentInfo(Long id) {
+        StudentEntity entity = baseDao.getStudentInfo(id);
+        return ConvertUtils.sourceToTarget(entity,StuInfoDTO.class);
+    }
 
-
+    @Login
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void UpdateStuInfo(Long id,StuInfoDTO dto) {
+        baseDao.UpdateStuInfo(id,dto);
+    }
 }
