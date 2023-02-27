@@ -27,4 +27,6 @@ public interface StudentDao extends BaseDao<StudentEntity> {
     StudentEntity getStudentInfo(Long id);
 
     int UpdateStuInfo(@Param("id") Long id,@Param("dto") StuInfoDTO dto);
+
+    String getPassword(Long id);
 }

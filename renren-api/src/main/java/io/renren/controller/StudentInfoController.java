@@ -28,6 +28,15 @@ public class StudentInfoController {
     private StudentService studentService;
 
     @Login
+    @GetMapping("/student/getpassword")
+    @ApiOperation("修改密码")
+    public Result<String> getPassword(@ApiIgnore @LoginStudent StudentEntity student){
+        String password=studentService.getPassword(student.getId());
+
+        return new Result().ok(password);
+    }
+
+    @Login
     @PutMapping("/student/password")
     @ApiOperation("修改密码")
     public Result password(@ApiIgnore @LoginStudent StudentEntity student, @RequestBody PasswordDTO dto){
@@ -37,7 +46,6 @@ public class StudentInfoController {
 
         return new Result();
     }
-
 
 
     @Login

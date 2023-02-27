@@ -43,4 +43,6 @@ public interface StudentService extends BaseService<StudentEntity>{
     StuInfoDTO getStudentByStudentInfo(Long id);
 
     void UpdateStuInfo(Long id,StuInfoDTO dto);
+
+    String getPassword(Long id);
 }

@@ -77,6 +77,11 @@ public class StudentServiceImpl extends BaseServiceImpl<StudentDao, StudentEntit
         return list;
     }
 
+    @Override
+    public String getPassword(Long id) {
+        return baseDao.getPassword(id);
+    }
+
     @Login
     @Override
     @Transactional(rollbackFor = Exception.class)
