@@ -30,6 +30,6 @@
     </update>
 
     <select id="getUserInfo" resultType="io.renren.entity.UserEntity">
-        select s.head_url,s.real_name,s.free_time_begin,s.free_time_end,d.school_addr from sys_user s join sys_dept d on s.dept_id=d.id where s.id=#{value}
+        select s.id, s.head_url,s.real_name,s.free_time_begin,s.free_time_end,d.school_addr from sys_user s join sys_dept d on s.dept_id=d.id where s.id=#{value}
     </select>
 </mapper>
