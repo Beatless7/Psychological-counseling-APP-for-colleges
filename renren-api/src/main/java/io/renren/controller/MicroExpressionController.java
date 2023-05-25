@@ -21,9 +21,9 @@ public class MicroExpressionController {
 
     @GetMapping("/result")
     @ApiOperation(value = "传递用户微表情信息",response = MicroExpressionEntity.class)
-    public Result<List<MicroExpressionEntity>> expressionResult(){
+    public List<MicroExpressionEntity> expressionResult(){
          List<MicroExpressionEntity> ExpResult=microExpressionService.showExpressionResult();
-         return new Result<List<MicroExpressionEntity>>().ok(ExpResult);
+         return ExpResult;
     }
 
 }

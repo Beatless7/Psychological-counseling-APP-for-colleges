@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="io.renren.dao.MicroExpressionDao">
-    <select id="getResult" resultType="io.renren.entity.MicroExpressionEntity">
-        select * from Expression
+    <select id="getResult" resultType="map">
+        select avg(angry),avg(disgusted),avg(fearful),avg(happy),avg(sad),avg(surprised),avg(neutral) from Expression
     </select>
 </mapper>
