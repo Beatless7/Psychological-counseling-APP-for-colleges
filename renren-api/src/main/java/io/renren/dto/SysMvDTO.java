@@ -38,4 +38,25 @@ public class SysMvDTO {
     @ApiModelProperty(value = "标题", required = true)
     @NotBlank(message="标题不为空", groups = DefaultGroup.class)
     private char title;
+
+    @ApiModelProperty(value = "害怕", required = true)
+    private int fear;
+
+    @ApiModelProperty(value = "开心", required = true)
+    private int happy;
+
+    @ApiModelProperty(value = "悲伤", required = true)
+    private int sad;
+
+    @ApiModelProperty(value = "生气", required = true)
+    private int angry;
+
+    @ApiModelProperty(value = "反感", required = true)
+    private int disgust;
+
+    @ApiModelProperty(value = "惊喜", required = true)
+    private int surprise;
+
+    @ApiModelProperty(value = "标题", required = true)
+    private int netural;
 }

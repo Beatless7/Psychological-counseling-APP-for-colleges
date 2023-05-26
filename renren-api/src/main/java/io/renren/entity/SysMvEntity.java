@@ -24,4 +24,18 @@ public class SysMvEntity extends BaseEntity {
     private char title;
 
     private char addr2;
+
+    private int fear;
+
+    private int happy;
+
+    private int sad;
+
+    private int angry;
+
+    private int disgust;
+
+    private int surprise;
+
+    private int netural;
 }
