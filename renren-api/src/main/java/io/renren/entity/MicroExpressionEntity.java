@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @TableName("Expression")
-public class MicroExpressionEntity extends BaseEntity {
+public class MicroExpressionEntity {
 
     private float angry;
 
