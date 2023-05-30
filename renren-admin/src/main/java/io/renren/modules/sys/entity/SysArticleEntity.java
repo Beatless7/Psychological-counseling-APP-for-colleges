@@ -14,7 +14,7 @@ import java.sql.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper=false)
-@TableName("sys_mv")
+@TableName("sys_article")
 public class SysArticleEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
     /**
