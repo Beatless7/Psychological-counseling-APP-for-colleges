@@ -33,11 +33,11 @@ public class SysMvDTO {
 
     @ApiModelProperty(value = "封面地址", required = true)
     @NotBlank(message="封面地址不为空", groups = DefaultGroup.class)
-    private char addr2;
+    private String addr2;
 
     @ApiModelProperty(value = "标题", required = true)
     @NotBlank(message="标题不为空", groups = DefaultGroup.class)
-    private char title;
+    private String title;
 
     @ApiModelProperty(value = "害怕", required = true)
     private int fear;
