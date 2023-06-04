@@ -21,9 +21,9 @@ public class SysMvEntity extends BaseEntity {
      */
     private String addr;
 
-    private char title;
+    private String title;
 
-    private char addr2;
+    private String addr2;
 
     private int fear;
 
