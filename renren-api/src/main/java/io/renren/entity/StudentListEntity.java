@@ -10,7 +10,7 @@ import lombok.Data;
 @TableName("sys_user")
 public class StudentListEntity extends BaseEntity {
     @TableId
-    private static final long serialVersionUID = 1L;
+    private Long id;
 
     private String realName;
 

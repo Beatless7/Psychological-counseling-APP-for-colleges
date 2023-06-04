@@ -3,7 +3,7 @@
 
 <mapper namespace="io.renren.dao.StudentListDao">
     <select id="getList" resultType="io.renren.dto.StudentListDTO">
-        select t1.username,t1.real_name,t1.gender,t1.email,t1.mobile,t1.order_status,t1.free_time_begin,t1.free_time_end ,(select t2.name from sys_dept t2 where t2.id=t1.dept_id) deptName from sys_user t1
+        select t1.id,t1.username,t1.real_name,t1.gender,t1.email,t1.mobile,t1.order_status,t1.free_time_begin,t1.free_time_end ,(select t2.name from sys_dept t2 where t2.id=t1.dept_id) deptName from sys_user t1
         where dept_id= #{deptId}
     </select>
 
