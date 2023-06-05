@@ -1,5 +1,5 @@
 package io.renren.controller;
-import io.renren.common.utils.Result;
+
 import io.renren.entity.MicroExpressionEntity;
 import io.renren.service.MicroExpressionService;
 import io.swagger.annotations.Api;
@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @RestController
@@ -20,10 +22,16 @@ public class MicroExpressionController {
     private MicroExpressionService microExpressionService;
 
     @GetMapping("/result")
-    @ApiOperation(value = "传递用户微表情信息",response = MicroExpressionEntity.class)
-    public List<MicroExpressionEntity> expressionResult(){
-         List<MicroExpressionEntity> ExpResult=microExpressionService.showExpressionResult();
-         return ExpResult;
+    @ApiOperation(value = "传递用户微表情信息", response = MicroExpressionEntity.class)
+    public List<MicroExpressionEntity> expressionResult() {
+        List<MicroExpressionEntity> ExpResult = microExpressionService.showExpressionResult();
+        if (ExpResult.size()==1) {
+            List EmptyResult = new ArrayList();
+            EmptyResult.add("0");
+            return EmptyResult;
+        } else {
+            return ExpResult;
+        }
     }
 
 }
