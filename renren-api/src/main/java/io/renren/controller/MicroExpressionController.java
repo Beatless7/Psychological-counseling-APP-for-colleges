@@ -27,7 +27,7 @@ public class MicroExpressionController {
         List<MicroExpressionEntity> ExpResult = microExpressionService.showExpressionResult();
         if (ExpResult.size()==1) {
             List EmptyResult = new ArrayList();
-            EmptyResult.add("0");
+
             return EmptyResult;
         } else {
             return ExpResult;
