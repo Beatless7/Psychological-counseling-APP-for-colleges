@@ -20,5 +20,6 @@ public class QuestionMoreEntity {
     private String name;
     private String psyStates;
     @TableField(fill = FieldFill.INSERT_UPDATE)
+    //Date类型即包含小时分钟秒数
     private Date workTime;
 }
