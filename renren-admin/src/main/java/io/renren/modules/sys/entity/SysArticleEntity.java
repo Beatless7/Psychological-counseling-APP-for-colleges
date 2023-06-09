@@ -39,5 +39,5 @@ public class SysArticleEntity extends BaseEntity {
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date creator_date;
+    private Date create_date;
 }
