@@ -25,7 +25,7 @@ public class MicroExpressionController {
     @ApiOperation(value = "传递用户微表情信息", response = MicroExpressionEntity.class)
     public List<MicroExpressionEntity> expressionResult() {
         List<MicroExpressionEntity> ExpResult = microExpressionService.showExpressionResult();
-        if (ExpResult.size()==1) {
+        if (ExpResult.size()==0) {
             List EmptyResult = new ArrayList();
 
             return EmptyResult;
